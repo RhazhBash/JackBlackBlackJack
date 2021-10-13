@@ -1,4 +1,4 @@
-package java.com.revature.controllers;
+package com.revature.controllers;
 
 public class LoginController {
 

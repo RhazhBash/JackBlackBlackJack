@@ -1,4 +1,4 @@
-package java.com.revature.daos;
+package com.revature.daos;
 
 public class userDAO {
 

@@ -1,4 +1,4 @@
-package java.com.revature.models;
+package com.revature.models;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
