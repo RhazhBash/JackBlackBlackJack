@@ -1,6 +1,7 @@
 package java.com.revature.models;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,23 +31,14 @@ public class User {
 	@Column(name = "credit_card_number")
 	private int cardnumber;
 	
-	@Column(name = "expiration_month")
-	private int expirationmonth;
-	
-	@Column(name = "expiration_year")
-	private int expirationyear;
+	@Column(name = "expiration_date")
+	private Calendar expirationdate;
 	
 	@Column(name = "security_code")
 	private int securitycode;
 	
-	@Column(name = "birthday_day")
-	private int birthday;
-	
-	@Column(name = "birthday_month")
-	private int birthmonth;
-	
-	@Column(name = "birthday_year")
-	private int birthyear;
+	@Column(name = "birthday")
+	private Calendar DOB;
 	
 	@Column(name = "email")
 	private String email;
@@ -55,14 +47,11 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((DOB == null) ? 0 : DOB.hashCode());
 		result = prime * result + ID;
-		result = prime * result + birthday;
-		result = prime * result + birthmonth;
-		result = prime * result + birthyear;
 		result = prime * result + cardnumber;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + expirationmonth;
-		result = prime * result + expirationyear;
+		result = prime * result + ((expirationdate == null) ? 0 : expirationdate.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((registered == null) ? 0 : registered.hashCode());
 		result = prime * result + securitycode;
@@ -79,13 +68,12 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (DOB == null) {
+			if (other.DOB != null)
+				return false;
+		} else if (!DOB.equals(other.DOB))
+			return false;
 		if (ID != other.ID)
-			return false;
-		if (birthday != other.birthday)
-			return false;
-		if (birthmonth != other.birthmonth)
-			return false;
-		if (birthyear != other.birthyear)
 			return false;
 		if (cardnumber != other.cardnumber)
 			return false;
@@ -94,9 +82,10 @@ public class User {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (expirationmonth != other.expirationmonth)
-			return false;
-		if (expirationyear != other.expirationyear)
+		if (expirationdate == null) {
+			if (other.expirationdate != null)
+				return false;
+		} else if (!expirationdate.equals(other.expirationdate))
 			return false;
 		if (password == null) {
 			if (other.password != null)
@@ -121,9 +110,8 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [ID=" + ID + ", registered=" + registered + ", username=" + username + ", password=" + password
-				+ ", cardnumber=" + cardnumber + ", expirationmonth=" + expirationmonth + ", expirationyear="
-				+ expirationyear + ", securitycode=" + securitycode + ", birthday=" + birthday + ", birthmonth="
-				+ birthmonth + ", birthyear=" + birthyear + ", email=" + email + "]";
+				+ ", cardnumber=" + cardnumber + ", expirationdate=" + expirationdate + ", securitycode=" + securitycode
+				+ ", DOB=" + DOB + ", email=" + email + "]";
 	}
 
 	public int getID() {
@@ -166,20 +154,12 @@ public class User {
 		this.cardnumber = cardnumber;
 	}
 
-	public int getExpirationmonth() {
-		return expirationmonth;
+	public Calendar getExpirationdate() {
+		return expirationdate;
 	}
 
-	public void setExpirationmonth(int expirationmonth) {
-		this.expirationmonth = expirationmonth;
-	}
-
-	public int getExpirationyear() {
-		return expirationyear;
-	}
-
-	public void setExpirationyear(int expirationyear) {
-		this.expirationyear = expirationyear;
+	public void setExpirationdate(Calendar expirationdate) {
+		this.expirationdate = expirationdate;
 	}
 
 	public int getSecuritycode() {
@@ -190,28 +170,12 @@ public class User {
 		this.securitycode = securitycode;
 	}
 
-	public int getBirthday() {
-		return birthday;
+	public Calendar getDOB() {
+		return DOB;
 	}
 
-	public void setBirthday(int birthday) {
-		this.birthday = birthday;
-	}
-
-	public int getBirthmonth() {
-		return birthmonth;
-	}
-
-	public void setBirthmonth(int birthmonth) {
-		this.birthmonth = birthmonth;
-	}
-
-	public int getBirthyear() {
-		return birthyear;
-	}
-
-	public void setBirthyear(int birthyear) {
-		this.birthyear = birthyear;
+	public void setDOB(Calendar dOB) {
+		DOB = dOB;
 	}
 
 	public String getEmail() {
@@ -221,5 +185,6 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	
 }
