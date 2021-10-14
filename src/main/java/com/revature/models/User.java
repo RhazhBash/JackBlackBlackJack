@@ -19,6 +19,9 @@ public class User {
 	@Column(name = "user_id")
 	private int ID; 
 	
+	@Column(name = "name")
+	private String name;
+	
 	@Column(name = "registration_timestamp")
 	private Timestamp registered;
 	
@@ -42,6 +45,17 @@ public class User {
 	
 	@Column(name = "email")
 	private String email;
+	
+	@Column(name = "chipcount")
+	private int chipCount;
+
+	@Override
+	public String toString() {
+		return "User [ID=" + ID + ", name=" + name + ", registered=" + registered + ", username=" + username
+				+ ", password=" + password + ", cardnumber=" + cardnumber + ", expirationdate=" + expirationdate
+				+ ", securitycode=" + securitycode + ", DOB=" + DOB + ", email=" + email + ", chipCount=" + chipCount
+				+ "]";
+	}
 
 	@Override
 	public int hashCode() {
@@ -50,8 +64,10 @@ public class User {
 		result = prime * result + ((DOB == null) ? 0 : DOB.hashCode());
 		result = prime * result + ID;
 		result = prime * result + cardnumber;
+		result = prime * result + chipCount;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((expirationdate == null) ? 0 : expirationdate.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((registered == null) ? 0 : registered.hashCode());
 		result = prime * result + securitycode;
@@ -77,6 +93,8 @@ public class User {
 			return false;
 		if (cardnumber != other.cardnumber)
 			return false;
+		if (chipCount != other.chipCount)
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -86,6 +104,11 @@ public class User {
 			if (other.expirationdate != null)
 				return false;
 		} else if (!expirationdate.equals(other.expirationdate))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
 			return false;
 		if (password == null) {
 			if (other.password != null)
@@ -107,19 +130,20 @@ public class User {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "User [ID=" + ID + ", registered=" + registered + ", username=" + username + ", password=" + password
-				+ ", cardnumber=" + cardnumber + ", expirationdate=" + expirationdate + ", securitycode=" + securitycode
-				+ ", DOB=" + DOB + ", email=" + email + "]";
-	}
-
 	public int getID() {
 		return ID;
 	}
 
 	public void setID(int iD) {
 		ID = iD;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Timestamp getRegistered() {
@@ -186,5 +210,14 @@ public class User {
 		this.email = email;
 	}
 
+	public int getChipCount() {
+		return chipCount;
+	}
+
+	public void setChipCount(int chipCount) {
+		this.chipCount = chipCount;
+	}
+
+	
 	
 }
