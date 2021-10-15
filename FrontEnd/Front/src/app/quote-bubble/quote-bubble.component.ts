@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuoteBubbleComponent implements OnInit {
 
+  visible = false;
+  quote = "";
+
   constructor() { }
 
   ngOnInit(): void {
