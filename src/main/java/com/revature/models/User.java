@@ -57,6 +57,26 @@ public class User {
 				+ "]";
 	}
 
+	public User(int iD, String name, Timestamp registered, String username, String password, int cardnumber,
+			Calendar expirationdate, int securitycode, Calendar dOB, String email, int chipCount) {
+		super();
+		ID = iD;
+		this.name = name;
+		this.registered = registered;
+		this.username = username;
+		this.password = password;
+		this.cardnumber = cardnumber;
+		this.expirationdate = expirationdate;
+		this.securitycode = securitycode;
+		DOB = dOB;
+		this.email = email;
+		this.chipCount = chipCount;
+	}
+
+	public User() {
+		super();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
