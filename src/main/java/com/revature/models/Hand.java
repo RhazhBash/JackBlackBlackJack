@@ -53,9 +53,12 @@ public class Hand {
 
 	private int aceCount() {
 		int aceCount = 0;
-		for (String isAce : cards) {
-			if (isAce.equals("ACE"))
-			aceCount++;
+		for (String card : cards) {
+			if (card.equals("ACE"))
+				aceCount++;
+			if (card.equals("ace")) {
+				aceCount++;
+			}
 		}
 		return aceCount;
 	}
