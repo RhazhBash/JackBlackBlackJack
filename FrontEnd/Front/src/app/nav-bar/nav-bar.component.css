@@ -1,0 +1,39 @@
+.RulesButton{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15pt;
+    height: 15cm;
+    width:25cm;
+}
+    
+
+.LeaderboardSpan{
+    background-color: darkkhaki;
+    margin-left: 20px;
+}
+span.LeaderboardSpan{
+    margin-left: 10%;
+    position: relative  
+    
+}
+span.RulesSpan{
+    margin-left: 15%;
+}
+
+button{
+    background-color: green;
+    border-radius: 33%;
+    padding: 15px 32px;
+    text-align: center + 10px;
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+div{
+    background-color:rgb(190, 151, 100);
+    opacity: .90;
+    z-index: 0;
+}
+
+
+
+
