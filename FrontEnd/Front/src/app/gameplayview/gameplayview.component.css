@@ -1,0 +1,34 @@
+.play-background{
+    background-image: url("../../assets/green-felt-background.jpg");
+    background-color: #cccccc;
+    height: 500px;
+     background-position: center;
+     background-repeat: repeat;
+    background-size: cover;
+    position: relative;
+    
+}
+.deal{
+    background-color: darkgrey;
+    padding: 15px, 32px;
+    font-size: 45px;
+    position: relative;
+    top:60%;
+    left: 8%;
+    border-radius: 15px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+}
+.bank{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+    background-color: crimson;
+    position: relative;
+    top: 80%;
+    left: 2%;
+
+
+}
+.bank-bets{
+    position: relative;
+    top: 80%;
+    left: 13%;
+}
