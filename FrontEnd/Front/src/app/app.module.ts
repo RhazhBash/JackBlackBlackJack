@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { QuoteBubbleComponent } from './quote-bubble/quote-bubble.component';
 import { RulesPopUpComponent } from './rules-pop-up/rules-pop-up.component';
+import { BsDropdownModule} from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { RulesPopUpComponent } from './rules-pop-up/rules-pop-up.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    BsDropdownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
