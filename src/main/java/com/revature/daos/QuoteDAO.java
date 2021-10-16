@@ -5,21 +5,22 @@ import java.util.Random;
 
 import org.hibernate.Session;
 
+import com.revature.models.Quote;
 import com.revature.utils.HibernateUtil;
 
 public class QuoteDAO implements QuoteDAOInterface {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getQuote(int type) {
+	public Quote getQuote(int type) {
 		
 		Session ses = HibernateUtil.getSession();
-		List<String> quoteList = ses.createQuery("FROM Ticket WHERE type=" + type).list();
+		List<Quote> quoteList = ses.createQuery("FROM com.revature.models.Quote WHERE type='" + type + "'").list();
 		
 		Random rand = new Random();
 		int randomInt = rand.nextInt(quoteList.size()-1);
 		
-		String quote = quoteList.get(randomInt);
+		Quote quote = quoteList.get(randomInt);
 		HibernateUtil.closeSession();
 		
 		return quote;

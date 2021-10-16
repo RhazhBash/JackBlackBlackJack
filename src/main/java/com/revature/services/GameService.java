@@ -21,7 +21,7 @@ public class GameService {
 		//Returns the game state of a given game ID
 	}
 	
-	public Hand draw(String card) {
+	public String[] draw(String card) {
 		//Add a card to a player's hand and return their new hand
 	}
 	

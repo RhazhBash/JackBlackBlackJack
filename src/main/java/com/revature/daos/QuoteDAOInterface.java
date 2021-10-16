@@ -1,5 +1,7 @@
 package com.revature.daos;
 
+import com.revature.models.Quote;
+
 public interface QuoteDAOInterface {
-	public String getQuote(int type);
+	public Quote getQuote(int type);
 }
