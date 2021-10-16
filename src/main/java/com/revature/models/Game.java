@@ -1,21 +1,19 @@
 package com.revature.models;
 
-import java.util.List;
+import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "GameSession")
 public class Game {
 
-	//Make this the primary key and serail
+	//Make this the primary key and serial
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "game_id")
@@ -122,6 +120,52 @@ public class Game {
 		//Eventually this is gonna have all the logic for ending the game and starting a new one
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(dealerHand);
+		result = prime * result + dealerTotal;
+		result = prime * result + gameState;
+		result = prime * result + id;
+		result = prime * result + playerBet;
+		result = prime * result + playerChips;
+		result = prime * result + Arrays.hashCode(playerHand);
+		result = prime * result + playerTotal;
+		result = prime * result + (turn ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Game other = (Game) obj;
+		if (!Arrays.equals(dealerHand, other.dealerHand))
+			return false;
+		if (dealerTotal != other.dealerTotal)
+			return false;
+		if (gameState != other.gameState)
+			return false;
+		if (id != other.id)
+			return false;
+		if (playerBet != other.playerBet)
+			return false;
+		if (playerChips != other.playerChips)
+			return false;
+		if (!Arrays.equals(playerHand, other.playerHand))
+			return false;
+		if (playerTotal != other.playerTotal)
+			return false;
+		if (turn != other.turn)
+			return false;
+		return true;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -138,20 +182,44 @@ public class Game {
 		this.playerBet = playerBet;
 	}
 
-	public Hand getPlayerHand() {
+	public int getPlayerChips() {
+		return playerChips;
+	}
+
+	public void setPlayerChips(int playerChips) {
+		this.playerChips = playerChips;
+	}
+
+	public String[] getPlayerHand() {
 		return playerHand;
 	}
 
-	public void setPlayerHand(Hand playerHand) {
+	public void setPlayerHand(String[] playerHand) {
 		this.playerHand = playerHand;
 	}
 
-	public Hand getDealerHand() {
+	public int getPlayerTotal() {
+		return playerTotal;
+	}
+
+	public void setPlayerTotal(int playerTotal) {
+		this.playerTotal = playerTotal;
+	}
+
+	public String[] getDealerHand() {
 		return dealerHand;
 	}
 
-	public void setDealerHand(Hand dealerHand) {
+	public void setDealerHand(String[] dealerHand) {
 		this.dealerHand = dealerHand;
+	}
+
+	public int getDealerTotal() {
+		return dealerTotal;
+	}
+
+	public void setDealerTotal(int dealerTotal) {
+		this.dealerTotal = dealerTotal;
 	}
 
 	public boolean isTurn() {
@@ -161,87 +229,55 @@ public class Game {
 	public void setTurn(boolean turn) {
 		this.turn = turn;
 	}
-	
+
 	public int getGameState() {
 		return gameState;
 	}
 
-	public void setGameState(int i) {
-		this.gameState = i;
-	}
-	
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dealerHand == null) ? 0 : dealerHand.hashCode());
-		result = prime * result + gameState;
-		result = prime * result + id;
-		result = prime * result + playerBet;
-		result = prime * result + ((playerHand == null) ? 0 : playerHand.hashCode());
-		result = prime * result + (turn ? 1231 : 1237);
-		return result;
+	public void setGameState(int gameState) {
+		this.gameState = gameState;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Game other = (Game) obj;
-		if (dealerHand == null) {
-			if (other.dealerHand != null)
-				return false;
-		} else if (!dealerHand.equals(other.dealerHand))
-			return false;
-		if (gameState != other.gameState)
-			return false;
-		if (id != other.id)
-			return false;
-		if (playerBet != other.playerBet)
-			return false;
-		if (playerHand == null) {
-			if (other.playerHand != null)
-				return false;
-		} else if (!playerHand.equals(other.playerHand))
-			return false;
-		if (turn != other.turn)
-			return false;
-		return true;
+	public String toString() {
+		return "Game [id=" + id + ", playerBet=" + playerBet + ", playerChips=" + playerChips + ", playerHand="
+				+ Arrays.toString(playerHand) + ", playerTotal=" + playerTotal + ", dealerHand="
+				+ Arrays.toString(dealerHand) + ", dealerTotal=" + dealerTotal + ", turn=" + turn + ", gameState="
+				+ gameState + "]";
+	}
+
+	public Game(int id, int playerBet, int playerChips, String[] playerHand, int playerTotal, String[] dealerHand,
+			int dealerTotal, boolean turn, int gameState) {
+		super();
+		this.id = id;
+		this.playerBet = playerBet;
+		this.playerChips = playerChips;
+		this.playerHand = playerHand;
+		this.playerTotal = playerTotal;
+		this.dealerHand = dealerHand;
+		this.dealerTotal = dealerTotal;
+		this.turn = turn;
+		this.gameState = gameState;
+	}
+
+	public Game(int playerBet, int playerChips, String[] playerHand, int playerTotal, String[] dealerHand,
+			int dealerTotal, boolean turn, int gameState) {
+		super();
+		this.playerBet = playerBet;
+		this.playerChips = playerChips;
+		this.playerHand = playerHand;
+		this.playerTotal = playerTotal;
+		this.dealerHand = dealerHand;
+		this.dealerTotal = dealerTotal;
+		this.turn = turn;
+		this.gameState = gameState;
 	}
 
 	public Game() {
 		super();
 	}
 
-	public Game(int id, int playerBet, Hand playerHand, Hand dealerHand, boolean turn, int gameState) {
-		super();
-		this.id = id;
-		this.playerBet = playerBet;
-		this.playerHand = playerHand;
-		this.dealerHand = dealerHand;
-		this.turn = turn;
-		this.gameState = gameState;
-	}
-
-	public Game(int playerBet, Hand playerHand, Hand dealerHand, boolean turn, int gameState) {
-		super();
-		this.playerBet = playerBet;
-		this.playerHand = playerHand;
-		this.dealerHand = dealerHand;
-		this.turn = turn;
-		this.gameState = gameState;
-	}
-
-	@Override
-	public String toString() {
-		return "Game [id=" + id + ", playerBet=" + playerBet + ", playerHand=" + playerHand + ", dealerHand="
-				+ dealerHand + ", turn=" + turn + ", gameState=" + gameState + "]";
-	}
+	
 
 	
 

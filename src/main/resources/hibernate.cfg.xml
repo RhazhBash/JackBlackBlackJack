@@ -9,13 +9,13 @@
  	
  		<!-- JDBC -->
 		<property name="hibernate.connection.username">postgres</property>
-		<property name="hibernate.connection.password">Sparky2014!!</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://34.139.172.41:5432/postgres?currentSchema=hibernate</property>
+		<property name="hibernate.connection.password">password</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://34.139.172.41:5432/postgres</property>
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 		
 		<!-- Hibernate Properties -->
 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-		<property name="hibernate.default_schema">hibernate</property>
+		<property name="hibernate.default_schema">p2</property>
 		
 		<!-- Hibernate console output -->
 		<property name="hibernate.show_sql">true</property>
@@ -27,7 +27,9 @@
 		
 		
 		<!-- We need to map our Classes in order for them to be recognized by Hibernate -->
-		<mapping class="com.revature.models.User/>
+		<mapping class="com.revature.models.User"/>
+		<mapping class="com.revature.models.Game"/>
+		<mapping class="com.revature.models.Quote"/>
  	
  	</session-factory>
  </hibernate-configuration>
