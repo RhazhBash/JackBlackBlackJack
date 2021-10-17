@@ -11,21 +11,8 @@ import com.revature.models.User;
 import com.revature.utils.HibernateUtil;
 
 public class userDAO{
-
-	public int chipCount(int id) { 
-		
-		Session ses = HibernateUtil.getSession();
-		
-		User user = ses.get(User.class, id); 
-		int chipcount = user.getChipCount();
-		System.out.println(chipcount);
-		
-		HibernateUtil.closeSession();
-		
-		return chipcount;
-	}
 	
-public User getUserByID(int id) { 
+	public User getUserByID(int id) { 
 		
 		Session ses = HibernateUtil.getSession();
 		
@@ -45,7 +32,7 @@ public User getUserByID(int id) {
 	}
 	
 
-	public void updateChipCount(String username, int chips) {
+	public void updateChipCount(int id, int chips) {
 		Session ses = HibernateUtil.getSession();
 		Transaction tran = ses.beginTransaction();
 		
