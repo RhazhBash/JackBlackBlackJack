@@ -1,3 +1,6 @@
+
+
+
 .play-background{
     background-image: url("../../assets/green-felt-background.jpg");
     background-color: #cccccc;
@@ -12,18 +15,20 @@
     background-color: darkgrey;
     padding: 15px, 32px;
     font-size: 45px;
-    position: relative;
+    position: absolute;
     top:60%;
     left: 8%;
     border-radius: 15px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
 }
 .bank{
+    font-size: 45px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
     background-color: crimson;
     position: relative;
     top: 80%;
-    left: 2%;
+    left: 0%;
+    float: left;
 
 
 }
@@ -32,3 +37,150 @@
     top: 80%;
     left: 13%;
 }
+.Stay{
+    background-color: darkgrey;
+    padding: 15px, 32px;
+    font-size: 45px;
+    position: absolute;
+    top:60%;
+    left:  33%;
+    border-radius: 15px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+}
+.dd{
+    background-color: darkgrey;
+    padding: 15px, 32px;
+    font-size: 45px;
+    position: absolute;
+    top:60%;
+    left: 15%;
+    border-radius: 45%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+}
+.pot{
+    font-size: 45px;
+    top: 30%;
+    left: 85%;
+    position: relative;
+    background-color: darkgrey;
+    padding:15px, 32px;
+    margin-right: 10px;
+    border-radius: 15px;
+    border-color: burlywood;
+    border-width: 10px;
+    float: left;
+
+}
+.JBhead{
+    max-block-size: 50%;
+    margin: 0,0,0,0;
+    position: absolute;
+    left: 32%;
+    top: 10%;
+}
+.card1{
+    max-block-size: 30%;
+    transform: rotate(-10deg);
+    z-index: 1;
+    position: absolute;
+    top: 80%;
+    left: 1%;
+}
+.card2{
+    max-block-size: 30%;
+    transform: rotate(-5deg);
+    position: absolute;
+    top: 2%;
+    z-index: 2;
+    top: 80%;
+    left: 2%;
+}
+.card3{
+    max-block-size: 30%;
+    transform: rotate(0deg);
+    position: absolute;
+    top: 2%;
+    z-index: 3;
+    top: 80%;
+    left: 3%;
+}
+.card4{
+    max-block-size: 30%;
+    transform: rotate(5deg);
+    position: absolute;
+    top: 2%;
+    z-index: 4;
+    top: 80%;
+    left: 4%;
+}
+.card5{
+    max-block-size: 30%;
+    transform: rotate(10deg);
+    z-index: 5;
+    position: absolute;
+    top: 80%;
+    left: 5%;
+}
+.card6{
+    max-block-size: 30%;
+    transform: rotate(15deg);
+    z-index: 6;
+    position: absolute;
+    top: 81%;
+    left: 6%;
+}
+
+
+/*the cards below are the stacked ones on left*/
+.card7{
+    max-block-size: 30%;
+    transform: rotate(-10deg);
+    z-index: 1;
+    position: absolute;
+    top: 80%;
+    left: 88%;
+}
+.card8{
+    max-block-size: 30%;
+    transform: rotate(-5deg);
+    position: absolute;
+    top: 2%;
+    z-index: 2;
+    top: 80%;
+    left: 89%;
+}
+.card9{
+    max-block-size: 30%;
+    transform: rotate(0deg);
+    position: absolute;
+    top: 2%;
+    z-index: 3;
+    top: 80%;
+    left: 90%;
+}
+.card10{
+    max-block-size: 30%;
+    transform: rotate(5deg);
+    position: absolute;
+    top: 2%;
+    z-index: 4;
+    top: 80%;
+    left: 91%;
+}
+.card11{
+    max-block-size: 30%;
+    transform: rotate(10deg);
+    z-index: 5;
+    position: absolute;
+    top: 80%;
+    left: 92%;
+}
+.card12{
+    max-block-size: 30%;
+    transform: rotate(15deg);
+    z-index: 6;
+    position: absolute;
+    top: 81%;
+    left: 93%;
+}
+
