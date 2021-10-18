@@ -23,7 +23,7 @@ public class UserService {
 	}
 	
 	public void addUser(User user) {
-		ud.addUser(user);
+			ud.addUser(user);
 	}
 	
 }

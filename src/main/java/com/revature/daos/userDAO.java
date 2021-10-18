@@ -13,16 +13,25 @@ import com.revature.utils.HibernateUtil;
 public class userDAO{
 	
 	public User getUserByID(int id) { 
-		
 		Session ses = HibernateUtil.getSession();
 		
 		User user = ses.get(User.class, id); //gets user by ID
-
 		HibernateUtil.closeSession();
 		
 		return user;
 	}	
 
+	@SuppressWarnings("unchecked")
+	public User getUserByCredentials(String username) {
+		Session ses = HibernateUtil.getSession();
+		
+		List<User> userList = ses.createQuery("FROM com.revature.models.User WHERE username='" + username + "'").list();
+		User user = userList.get(1); 
+		HibernateUtil.closeSession();
+		
+		return user;
+	}
+	
 	public void addUser(User user) {
 		
 		Session ses = HibernateUtil.getSession();
