@@ -32,6 +32,18 @@ public class userDAO{
 		return user;
 	}
 	
+	public void deleteUser(String username, String password) {
+		Session ses = HibernateUtil.getSession();
+		Transaction tran = ses.beginTransaction();
+		
+		String hql = "delete from User where username='" + username + "' AND password='" + password + "'";
+		Query query = ses.createQuery(hql);
+		query.executeUpdate();
+		
+		tran.commit();
+		HibernateUtil.closeSession();
+	}
+	
 	public void addUser(User user) {
 		
 		Session ses = HibernateUtil.getSession();

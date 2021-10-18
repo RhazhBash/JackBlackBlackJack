@@ -15,11 +15,13 @@ import org.junit.jupiter.api.RepeatedTest;
 public class userDAOTest {
 
 	UserService us;
+	userDAO ud;
 	int id = 2;
 	
 	@Before
 	public void setup() {
 		us = new UserService();
+		ud = new userDAO();
 	}
 	
 	@Test
@@ -36,6 +38,8 @@ public class userDAOTest {
 		courage.setChipCount(420);
 		courage.setPassword("murial");
 		
+		ud.deleteUser(courage.getUsername(), courage.getPassword());
 		us.addUser(courage);
+		
 	}
 }
