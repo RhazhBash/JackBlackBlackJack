@@ -10,6 +10,8 @@ import { RulesPopUpComponent } from './rules-pop-up/rules-pop-up.component';
 import { GameplayviewComponent } from './gameplayview/gameplayview.component';
 import { BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { HttpClientModule } from '@angular/common/http'
+import { PileService } from './pile.service';
+import { CardComponent } from './card/card/card.component';
 
 
 
@@ -19,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http'
     NavBarComponent,
     QuoteBubbleComponent,
     RulesPopUpComponent,
-    GameplayviewComponent
+    GameplayviewComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,9 @@ import { HttpClientModule } from '@angular/common/http'
     HttpClientModule
     
   ],
-  providers: [],
+  providers: [
+    PileService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
