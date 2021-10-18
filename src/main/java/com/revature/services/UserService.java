@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.daos.userDAO;
+import com.revature.models.User;
 
 public class UserService {
 	
@@ -8,8 +9,21 @@ public class UserService {
 	
 	public int getChipCount(int id) {
 		
-		
-		
-		return 5;
+		User user = ud.getUserByID(id);
+		int chips = user.getChipCount();
+		return chips;
 	}
+	
+	public void updateChipCount(int id, int chips) {
+		
+		User user = ud.getUserByID(id); //get user
+		int updatedChipCount = user.getChipCount() + chips; //update chip count
+		ud.updateChipCount(id, updatedChipCount); //merge changes to db
+		
+	}
+	
+	public void addUser(User user) {
+			ud.addUser(user);
+	}
+	
 }

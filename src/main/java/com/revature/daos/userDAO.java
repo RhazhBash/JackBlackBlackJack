@@ -11,31 +11,39 @@ import com.revature.models.User;
 import com.revature.utils.HibernateUtil;
 
 public class userDAO{
-
-	public int chipCount(int id) { 
-		
-		Session ses = HibernateUtil.getSession();
-		
-		User user = ses.get(User.class, id); 
-		int chipcount = user.getChipCount();
-		System.out.println(chipcount);
-		
-		HibernateUtil.closeSession();
-		
-		return chipcount;
-	}
 	
-public User getUserByID(int id) { 
-		
+	public User getUserByID(int id) { 
 		Session ses = HibernateUtil.getSession();
 		
 		User user = ses.get(User.class, id); //gets user by ID
-
 		HibernateUtil.closeSession();
 		
 		return user;
 	}	
 
+	@SuppressWarnings("unchecked")
+	public User getUserByCredentials(String username) {
+		Session ses = HibernateUtil.getSession();
+		
+		List<User> userList = ses.createQuery("FROM com.revature.models.User WHERE username='" + username + "'").list();
+		User user = userList.get(1); 
+		HibernateUtil.closeSession();
+		
+		return user;
+	}
+	
+	public void deleteUser(String username, String password) {
+		Session ses = HibernateUtil.getSession();
+		Transaction tran = ses.beginTransaction();
+		
+		String hql = "delete from User where username='" + username + "' AND password='" + password + "'";
+		Query query = ses.createQuery(hql);
+		query.executeUpdate();
+		
+		tran.commit();
+		HibernateUtil.closeSession();
+	}
+	
 	public void addUser(User user) {
 		
 		Session ses = HibernateUtil.getSession();
@@ -45,7 +53,7 @@ public User getUserByID(int id) {
 	}
 	
 
-	public void updateChipCount(String username, int chips) {
+	public void updateChipCount(int id, int chips) {
 		Session ses = HibernateUtil.getSession();
 		Transaction tran = ses.beginTransaction();
 		
