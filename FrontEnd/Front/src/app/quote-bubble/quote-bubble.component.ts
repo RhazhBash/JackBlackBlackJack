@@ -7,12 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuoteBubbleComponent implements OnInit {
 
-  visible = false;
-  quote = "";
+  private quote:string = "Maybe I should just quit and go back to making noodles.";
+  public show:boolean = true;
 
-  constructor() { }
+  constructor() {
 
+   }
+  
   ngOnInit(): void {
+  }
+
+  getQuote():string{
+    return this.quote;
+  }
+
+  setQuote(quote:string):void{
+    this.quote= quote;
   }
 
 }

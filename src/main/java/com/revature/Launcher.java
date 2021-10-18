@@ -1,10 +1,73 @@
 package com.revature;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import com.revature.models.Card;
+import com.revature.models.Deck;
+
+import io.javalin.Javalin;
+
+
 public class Launcher {
 
 	public static void main(String[] args) {
-		// Changing this comment so Andre can pull
-
+		String jsonString = "{\r\n"
+				+ "    \"success\": true,\r\n"
+				+ "    \"deck_id\": \"x8xzusw5w5qj\",\r\n"
+				+ "    \"cards\": [\r\n"
+				+ "        {\r\n"
+				+ "            \"code\": \"4D\",\r\n"
+				+ "            \"image\": \"https://deckofcardsapi.com/static/img/4D.png\",\r\n"
+				+ "            \"images\": {\r\n"
+				+ "                \"svg\": \"https://deckofcardsapi.com/static/img/4D.svg\",\r\n"
+				+ "                \"png\": \"https://deckofcardsapi.com/static/img/4D.png\"\r\n"
+				+ "            },\r\n"
+				+ "            \"value\": \"4\",\r\n"
+				+ "            \"suit\": \"DIAMONDS\"\r\n"
+				+ "        },\r\n"
+				+ "        {\r\n"
+				+ "            \"code\": \"QD\",\r\n"
+				+ "            \"image\": \"https://deckofcardsapi.com/static/img/QD.png\",\r\n"
+				+ "            \"images\": {\r\n"
+				+ "                \"svg\": \"https://deckofcardsapi.com/static/img/QD.svg\",\r\n"
+				+ "                \"png\": \"https://deckofcardsapi.com/static/img/QD.png\"\r\n"
+				+ "            },\r\n"
+				+ "            \"value\": \"QUEEN\",\r\n"
+				+ "            \"suit\": \"DIAMONDS\"\r\n"
+				+ "        }\r\n"
+				+ "    ],\r\n"
+				+ "    \"piles\": {\r\n"
+				+ "        \"dealerhand\": {\r\n"
+				+ "            \"remaining\": 0\r\n"
+				+ "        },\r\n"
+				+ "        \"playerhand\": {\r\n"
+				+ "            \"remaining\": 2\r\n"
+				+ "        }\r\n"
+				+ "    }\r\n"
+				+ "}";
+		List<Card> newCards = new ArrayList<Card>();
+		Gson gson = new GsonBuilder().create();
+		Deck r = gson.fromJson(jsonString, Deck.class);
+		
+		for (Card card : r.getCards()) {
+			newCards.add(card);
+		}
+		
+		for(Card card : newCards) {
+			card.readVal(card.getValue());
+			card.setDeck_id(r.getDeck_id());
+			System.out.println(card);
+		}
+		
+		//System.out.println(r.cards);
+		
+		
+		
+		
 	}
 
 }
