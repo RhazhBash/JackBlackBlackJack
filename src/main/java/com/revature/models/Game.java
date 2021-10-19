@@ -22,12 +22,14 @@ public class Game {
 	private int gameState; //0-Ongoing, 1-Player wins, 2-Player loses by busting, 3-Dealer has a higher total than player, 4-Push
 	private boolean isPlayersTurn; //1-Player, 0-Dealer
 	private boolean gameIsPush;
-	
+	private boolean gameIsConcluded;
 	
 	//Player fields
 	private int playerBet;
 	private int playerChips;
 	private int playerTotal;
+	public boolean canDoubleDown;
+	public boolean hasDoubledDown;
 	private boolean playerIsStanding;
 	private boolean playerIsBust;
 	private boolean playerWinning;
@@ -41,7 +43,6 @@ public class Game {
 	private ArrayList<String> dealerHand = new ArrayList<String>();
 	
 	
-	
 
 	
 	
@@ -49,6 +50,10 @@ public class Game {
 	
 	//returns the value of a hand adjusted for aces
 	private int getHandValue(ArrayList<String> hand) {
+		if (hand.isEmpty()) {
+			return 0;
+		}
+		
 		int sum = 0;
 		int aceCount = 0;
 		
@@ -56,13 +61,13 @@ public class Game {
 			if (card.equals("KING")) {
 				sum += 10;
 			}
-			if (card.equals("QUEEN")) {
+			else if (card.equals("QUEEN")) {
 				sum += 10;
 			}
-			if (card.equals("JACK")) {
+			else if (card.equals("JACK")) {
 				sum += 10;
 			}
-			if (card.equals("ACE")) {
+			else if (card.equals("ACE")) {
 				aceCount++;
 				sum += 11;
 			}
@@ -93,9 +98,18 @@ public class Game {
 		return checkPlayerChips;
 	}
 	
-	//Double players bet if their first two cards match, then hit and force stand if they don't bust
-	private void doubleDown(String newCard) {
-		if (playerHand.get(0).equals(playerHand.get(1))) {
+	//Double players bet if their first two cards match, and they have the chips to cover it
+	public boolean canDoubleDown() {
+		
+		return (playerHand.size() > 1 &&
+				playerHand.get(0).equals(playerHand.get(1)) &&
+				(playerChips >= playerBet) &&
+				!hasDoubledDown);
+	}
+	
+	//Double bet, hit, and force stand if they don't bust
+	public void doubleDown(String newCard) {
+		if (canDoubleDown()) {
 			playerBet = 2*playerBet;
 			hitPlayer(newCard);
 			if (!isPlayerBust()) {
@@ -123,7 +137,7 @@ public class Game {
 	}
 	
 	//Check if player has higher score and isn't over 21
-	private boolean isPlayerWinner() { 
+	public boolean isPlayerWinner() { 
 		return ((playerTotal > dealerTotal) && playerTotal < 22);
 	}
 	
@@ -155,9 +169,15 @@ public class Game {
 	//PLAYER LOGIC
 	
 	//Add a card to players hand, adjust player total
-	private void hitPlayer(String newCard) {
+	public void hitPlayer(String newCard) {
 		playerHand.add(newCard);
 		playerTotal = getHandValue(playerHand);
+		if (playerTotal > 21) {
+			playerIsBust = true;
+		}
+		if (canDoubleDown()) {
+			canDoubleDown = true;
+		}
 	}
 	
 	//End players turn
@@ -181,14 +201,19 @@ public class Game {
 	}
 	
 	
-	
-	
-	
-	
 	//DEALER LOGIC
-	private void hitDealer(String newCard) {
+	private void dealerChoice(int dealerTotal) {
+		if (dealerIsBust) {
+			
+		}
+	}
+	
+	public void hitDealer(String newCard) {
 		dealerHand.add(newCard);
 		dealerTotal = getHandValue(dealerHand);
+		if (dealerTotal > 16) {
+			dealerStand();
+		}
 	}
 	
 	private boolean dealerIsBust() {
