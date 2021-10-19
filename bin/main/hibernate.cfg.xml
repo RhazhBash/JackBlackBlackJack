@@ -26,6 +26,7 @@
 		<!-- Now that hbm2ddl.auto is set to update, tables don't drop when the application runs -->
 		
 		
+		
 		<!-- We need to map our Classes in order for them to be recognized by Hibernate -->
 		<mapping class="com.revature.models.User"/>
 		<mapping class="com.revature.models.Game"/>
