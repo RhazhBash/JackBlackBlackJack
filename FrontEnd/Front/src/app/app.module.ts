@@ -12,6 +12,7 @@ import { BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { PileService } from './pile.service';
 import { CardComponent}  from './card/card/card.component';
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -22,7 +23,8 @@ import { CardComponent}  from './card/card/card.component';
     QuoteBubbleComponent,
     RulesPopUpComponent,
     GameplayviewComponent,
-    CardComponent
+    CardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

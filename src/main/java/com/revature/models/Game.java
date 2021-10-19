@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "GameSession")
+@Table(name = "gamesession")
 public class Game {
 
 	//Game fields
@@ -434,7 +434,6 @@ public class Game {
 
 	public Game() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -446,6 +445,50 @@ public class Game {
 				+ ", dealerIsBust=" + dealerIsBust + ", dealerIsStanding=" + dealerIsStanding + ", dealerHand="
 				+ dealerHand + "]";
 	}
+
+	public Game(String id, int gameState, boolean isPlayersTurn, boolean gameIsPush, int playerBet, int playerChips,
+			int playerTotal, boolean playerIsStanding, boolean playerIsBust, boolean playerWinning,
+			ArrayList<String> playerHand, int dealerTotal, boolean dealerIsBust, boolean dealerIsStanding,
+			ArrayList<String> dealerHand) {
+		super();
+		this.id = id;
+		this.gameState = gameState;
+		this.isPlayersTurn = isPlayersTurn;
+		this.gameIsPush = gameIsPush;
+		this.playerBet = playerBet;
+		this.playerChips = playerChips;
+		this.playerTotal = playerTotal;
+		this.playerIsStanding = playerIsStanding;
+		this.playerIsBust = playerIsBust;
+		this.playerWinning = playerWinning;
+		this.playerHand = playerHand;
+		this.dealerTotal = dealerTotal;
+		this.dealerIsBust = dealerIsBust;
+		this.dealerIsStanding = dealerIsStanding;
+		this.dealerHand = dealerHand;
+	}
+
+	public Game(int gameState, boolean isPlayersTurn, boolean gameIsPush, int playerBet, int playerChips,
+			int playerTotal, boolean playerIsStanding, boolean playerIsBust, boolean playerWinning,
+			ArrayList<String> playerHand, int dealerTotal, boolean dealerIsBust, boolean dealerIsStanding,
+			ArrayList<String> dealerHand) {
+		super();
+		this.gameState = gameState;
+		this.isPlayersTurn = isPlayersTurn;
+		this.gameIsPush = gameIsPush;
+		this.playerBet = playerBet;
+		this.playerChips = playerChips;
+		this.playerTotal = playerTotal;
+		this.playerIsStanding = playerIsStanding;
+		this.playerIsBust = playerIsBust;
+		this.playerWinning = playerWinning;
+		this.playerHand = playerHand;
+		this.dealerTotal = dealerTotal;
+		this.dealerIsBust = dealerIsBust;
+		this.dealerIsStanding = dealerIsStanding;
+		this.dealerHand = dealerHand;
+	}
+
 
 	
 	
