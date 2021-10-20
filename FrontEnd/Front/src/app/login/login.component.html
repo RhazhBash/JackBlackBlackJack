@@ -1,19 +1,10 @@
 
-<form class="form">
-    <fieldset>
-        <legend>Login</legend>
-        <div class="form-field">
-            <label>Email:</label>
-            <input name="email" formControlName="email">
-        </div>
-        <div class="form-field">
-            <label>Password:</label>
-            <input name="password" formControlName="password" 
-                   type="password">
-        </div>
-    </fieldset>
-    <div class="form-buttons">
-        <button class="button button-primary" 
-                >Login</button>
-    </div>
-</form>
+    <form class="form-signin" [formGroup]="form" (submit)="submit()">
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+  
+        <input formControlName="username" type="username" class="form-control" id="floatingInput" placeholder="Username">
+        
+        <input formControlName="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+    </form>

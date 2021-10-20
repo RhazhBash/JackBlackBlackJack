@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService } from '../login.service';
 
 @Component({
@@ -9,12 +11,30 @@ import { LoginService } from '../login.service';
 })
 
 export class LoginComponent implements OnInit {
-
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: LoginService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+    ) { 
+  }
 
   ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      username:'',
+      password:''
+    })
+  }
+  
+  submit(): void {
+    this.http.post('http://localhost:8090/login', this.form.getRawValue(), {
+      withCredentials:true
+    }).subscribe(() => this.router.navigate(['/']));
   }
 
 }
+
+
+
+
