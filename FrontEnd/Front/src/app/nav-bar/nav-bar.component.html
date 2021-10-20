@@ -1,10 +1,11 @@
-<div>
+<div id="fullbar">
         
 
 
 <span display="display:inline" id="RulesSpan">
    
-        <button class="button" id="RulesButton">Rules</button>
+        <button class="button" id="RulesButton" (click) = "toggleCollapse()">Rules</button>
+        
     
 </span>
 
@@ -17,6 +18,10 @@
         <button class="button" id="FriendsButton">Friends</button>
 </span>
 
+</div>
+
+<div id="rules" *ngIf=!isCollapsed>
+        <app-rules-pop-up></app-rules-pop-up>
 </div>
 
 

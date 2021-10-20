@@ -1,0 +1,36 @@
+
+
+.chips{
+    font-family: 'Roboto', sans-serif;
+    width: 150px;
+    height: 150px;
+    bottom: 12%;
+    right: 13%;
+    text-align: center;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    margin-inline-end: 2%;
+    border-radius: 50%;
+    font-size: 50px;
+}
+.chips:hover {
+    background-color: #2EE59D;
+    box-shadow: 0px 40px 60px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(7px);
+}
+span{
+    width: 900px;
+    bottom: 1%;
+    right: 3%;
+    margin: 0px;
+    position: absolute;
+}
+button{
+    padding-left: 45px;
+    padding-top: 45px;
+    padding-bottom: 45px;
+    padding-right: 45px;
+    text-align: center;
+    
+}
+
