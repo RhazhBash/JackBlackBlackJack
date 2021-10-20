@@ -25,14 +25,14 @@ class GameTest {
 		testGame.hitDealer("KING");
 		testGame.hitDealer("7");
 		assert(testGame.getDealerTotal() == 17);
-		assert(testGame.isDealerIsStanding());
+		assert(testGame.isDealerStanding());
 	}
 	
 	@Test
 	void testAcesWork() {
 		testGame.hitDealer("KING");
 		testGame.hitDealer("ACE");
-		assert(testGame.isDealerIsStanding());
+		assert(testGame.isDealerStanding());
 		assert(testGame.getDealerTotal() == 21);
 		testGame.hitPlayer("ACE");
 		testGame.hitPlayer("ACE");
@@ -110,10 +110,10 @@ class GameTest {
 		testGame.hitDealer("ACE");
 		testGame.hitDealer("16");
 		assert(testGame.getPlayerTotal() == testGame.getDealerTotal());
-		assert(testGame.isDealerIsStanding());
+		assert(testGame.isDealerStanding());
 		testGame.setPlayerStanding(true);
 		assert(testGame.isPlayerStanding());
-		assert(!testGame.isPlayerIsBust());
+		assert(!testGame.isPlayerBust());
 		assert(!testGame.isPlayerWinning());
 		assert(testGame.isGamePush());
 	}
@@ -126,8 +126,8 @@ class GameTest {
 		testGame.hitDealer("KING");
 		testGame.hitPlayer("KING");
 		testGame.hitDealer("KING");
-		assert(testGame.isDealerIsBust());
-		assert(testGame.isPlayerIsBust());
+		assert(testGame.isDealerBust());
+		assert(testGame.isPlayerBust());
 	}
 	
 	@Test
@@ -137,10 +137,10 @@ class GameTest {
 		testGame.hitPlayer("1");
 		testGame.hitDealer("6");
 		testGame.hitDealer("KING");
-		assert(!testGame.isDealerIsStanding());
+		assert(!testGame.isDealerStanding());
 		testGame.hitDealer("KING");
-		assert(testGame.isDealerIsBust());
-		assert(!testGame.isPlayerIsBust());
+		assert(testGame.isDealerBust());
+		assert(!testGame.isPlayerBust());
 		assert(testGame.playerHasBlackJack());
 		assert(testGame.isGameConcluded());
 		assert(testGame.hasPlayerWon());
@@ -163,16 +163,17 @@ class GameTest {
 		assert(!testGame.isPlayersTurn());
 		testGame.hitDealer("KING");
 		System.out.println(testGame.getDealerTotal());
-		assert(!testGame.isDealerIsStanding());
+		assert(!testGame.isDealerStanding());
 		testGame.hitDealer("KING");
 		System.out.println(testGame.getDealerTotal());
-		assert(testGame.isDealerIsStanding());
-		assert(testGame.isDealerIsBust());
-		assert(!testGame.isPlayerIsBust());
+		assert(testGame.isDealerStanding());
+		assert(testGame.isDealerBust());
+		assert(!testGame.isPlayerBust());
 		assert(testGame.isGameConcluded());
 		assert(testGame.hasPlayerWon());
 		System.out.println(testGame.getGameState());
-		//assert(testGame.getGameState() == 1);
+		assert( testGame.isPlayerWinning() && testGame.isDealerStanding());
+		assert(testGame.gameState() == 1);
 		assert(testGame.payOut() == testGame.getPlayerBet());
 	}
 	
