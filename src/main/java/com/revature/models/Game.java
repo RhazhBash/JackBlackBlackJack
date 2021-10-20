@@ -26,7 +26,7 @@ public class Game {
 	
 	//Player fields
 	private int playerBet;
-	private int playerChips;
+
 	private int playerTotal;
 	public boolean canDoubleDown;
 	public boolean hasDoubledDown;
@@ -49,7 +49,7 @@ public class Game {
 	//GAME LOGIC
 	
 	//returns the value of a hand adjusted for aces
-	private int getHandValue(ArrayList<String> hand) {
+	public int getHandValue(ArrayList<String> hand) {
 		if (hand.isEmpty()) {
 			return 0;
 		}
@@ -283,14 +283,6 @@ public class Game {
 		this.playerBet = playerBet;
 	}
 
-	public int getPlayerChips() {
-		return playerChips;
-	}
-
-	public void setPlayerChips(int playerChips) {
-		this.playerChips = playerChips;
-	}
-
 	public int getPlayerTotal() {
 		return playerTotal;
 	}
@@ -372,7 +364,6 @@ public class Game {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + (isPlayersTurn ? 1231 : 1237);
 		result = prime * result + playerBet;
-		result = prime * result + playerChips;
 		result = prime * result + ((playerHand == null) ? 0 : playerHand.hashCode());
 		result = prime * result + (playerIsBust ? 1231 : 1237);
 		result = prime * result + (playerIsStanding ? 1231 : 1237);
@@ -414,8 +405,6 @@ public class Game {
 			return false;
 		if (playerBet != other.playerBet)
 			return false;
-		if (playerChips != other.playerChips)
-			return false;
 		if (playerHand == null) {
 			if (other.playerHand != null)
 				return false;
@@ -436,28 +425,45 @@ public class Game {
 		super();
 	}
 
+	
+	
+
 	@Override
 	public String toString() {
 		return "Game [id=" + id + ", gameState=" + gameState + ", isPlayersTurn=" + isPlayersTurn + ", gameIsPush="
-				+ gameIsPush + ", playerBet=" + playerBet + ", playerChips=" + playerChips + ", playerTotal="
-				+ playerTotal + ", playerIsStanding=" + playerIsStanding + ", playerIsBust=" + playerIsBust
-				+ ", playerWinning=" + playerWinning + ", playerHand=" + playerHand + ", dealerTotal=" + dealerTotal
-				+ ", dealerIsBust=" + dealerIsBust + ", dealerIsStanding=" + dealerIsStanding + ", dealerHand="
-				+ dealerHand + "]";
+				+ gameIsPush + ", gameIsConcluded=" + gameIsConcluded + ", playerBet=" + playerBet + ", playerTotal="
+				+ playerTotal + ", canDoubleDown=" + canDoubleDown + ", hasDoubledDown=" + hasDoubledDown
+				+ ", playerIsStanding=" + playerIsStanding + ", playerIsBust=" + playerIsBust + ", playerWinning="
+				+ playerWinning + ", playerHand=" + playerHand + ", dealerTotal=" + dealerTotal + ", dealerIsBust="
+				+ dealerIsBust + ", dealerIsStanding=" + dealerIsStanding + ", dealerHand=" + dealerHand
+				+ ", checkPlayersChips()=" + checkPlayersChips() + ", canDoubleDown()=" + canDoubleDown()
+				+ ", isGamePush()=" + isGamePush() + ", isPlayerWinning()=" + isPlayerWinning() + ", isPlayerWinner()="
+				+ isPlayerWinner() + ", gameState()=" + gameState() + ", isPlayerBust()=" + isPlayerBust()
+				+ ", isPlayer21()=" + isPlayer21() + ", dealerIsBust()=" + dealerIsBust() + ", isDealer21()="
+				+ isDealer21() + ", dealerStand()=" + dealerStand() + ", isDealerStanding()=" + isDealerStanding()
+				+ ", getId()=" + getId() + ", getGameState()=" + getGameState() + ", isPlayersTurn()=" + isPlayersTurn()
+				+ ", isGameIsPush()=" + isGameIsPush() + ", getPlayerBet()=" + getPlayerBet() + ", getPlayerTotal()="
+				+ getPlayerTotal() + ", isPlayerIsStanding()=" + isPlayerIsStanding() + ", isPlayerIsBust()="
+				+ isPlayerIsBust() + ", getPlayerHand()=" + getPlayerHand() + ", getDealerTotal()=" + getDealerTotal()
+				+ ", isDealerIsBust()=" + isDealerIsBust() + ", isDealerIsStanding()=" + isDealerIsStanding()
+				+ ", getDealerHand()=" + getDealerHand() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass()
+				+ ", toString()=" + super.toString() + "]";
 	}
 
-	public Game(String id, int gameState, boolean isPlayersTurn, boolean gameIsPush, int playerBet, int playerChips,
-			int playerTotal, boolean playerIsStanding, boolean playerIsBust, boolean playerWinning,
-			ArrayList<String> playerHand, int dealerTotal, boolean dealerIsBust, boolean dealerIsStanding,
-			ArrayList<String> dealerHand) {
+	public Game(String id, int gameState, boolean isPlayersTurn, boolean gameIsPush, boolean gameIsConcluded,
+			int playerBet, int playerTotal, boolean canDoubleDown, boolean hasDoubledDown, boolean playerIsStanding,
+			boolean playerIsBust, boolean playerWinning, ArrayList<String> playerHand, int dealerTotal,
+			boolean dealerIsBust, boolean dealerIsStanding, ArrayList<String> dealerHand) {
 		super();
 		this.id = id;
 		this.gameState = gameState;
 		this.isPlayersTurn = isPlayersTurn;
 		this.gameIsPush = gameIsPush;
+		this.gameIsConcluded = gameIsConcluded;
 		this.playerBet = playerBet;
-		this.playerChips = playerChips;
 		this.playerTotal = playerTotal;
+		this.canDoubleDown = canDoubleDown;
+		this.hasDoubledDown = hasDoubledDown;
 		this.playerIsStanding = playerIsStanding;
 		this.playerIsBust = playerIsBust;
 		this.playerWinning = playerWinning;
@@ -468,7 +474,7 @@ public class Game {
 		this.dealerHand = dealerHand;
 	}
 
-	public Game(int gameState, boolean isPlayersTurn, boolean gameIsPush, int playerBet, int playerChips,
+	public Game(int gameState, boolean isPlayersTurn, boolean gameIsPush, int playerBet,
 			int playerTotal, boolean playerIsStanding, boolean playerIsBust, boolean playerWinning,
 			ArrayList<String> playerHand, int dealerTotal, boolean dealerIsBust, boolean dealerIsStanding,
 			ArrayList<String> dealerHand) {
@@ -477,7 +483,6 @@ public class Game {
 		this.isPlayersTurn = isPlayersTurn;
 		this.gameIsPush = gameIsPush;
 		this.playerBet = playerBet;
-		this.playerChips = playerChips;
 		this.playerTotal = playerTotal;
 		this.playerIsStanding = playerIsStanding;
 		this.playerIsBust = playerIsBust;
