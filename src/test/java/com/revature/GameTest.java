@@ -45,7 +45,7 @@ class GameTest {
 		testGame.hitPlayer("ACE");
 		testGame.setPlayerBet(50);
 		testGame.setPlayerChips(40);
-		assert(!testGame.canDoubleDown());
+		assert(!testGame.playerCanDoubleDown());
 	}
 	@Test
 	void testDoubleDownSucceeds() {
@@ -53,7 +53,7 @@ class GameTest {
 		testGame.hitPlayer("ACE");
 		testGame.setPlayerBet(50);
 		testGame.setPlayerChips(50);
-		assert(testGame.canDoubleDown());
+		assert(testGame.playerCanDoubleDown());
 		testGame.doubleDown("KING");
 		assert(testGame.getPlayerBet() == 100);
 		assert(testGame.getPlayerTotal() == 12);
@@ -65,11 +65,11 @@ class GameTest {
 		testGame.hitPlayer("1");
 		testGame.setPlayerBet(50);
 		testGame.setPlayerChips(50);
-		assert(testGame.canDoubleDown());
+		assert(testGame.playerCanDoubleDown());
 		testGame.doubleDown("ACE");
 		assert(testGame.getPlayerBet() == 100);
 		assert(testGame.getPlayerTotal() == 13);
-		assert(!testGame.canDoubleDown());
+		assert(!testGame.playerCanDoubleDown());
 	}
 	@Test
 	void testDoubleDownOnceAndLose() {
@@ -77,14 +77,14 @@ class GameTest {
 		testGame.hitPlayer("1");
 		testGame.setPlayerBet(50);
 		testGame.setPlayerChips(50);
-		assert(testGame.canDoubleDown());
+		assert(testGame.playerCanDoubleDown());
 		testGame.doubleDown("ACE");
 		assert(testGame.getPlayerBet() == 100);
 		assert(testGame.getPlayerTotal() == 13);
-		assert(!testGame.canDoubleDown());
+		assert(!testGame.playerCanDoubleDown());
 		testGame.hitDealer("ACE");
 		testGame.hitDealer("KING");
-		assert(!testGame.isPlayerWinner());
+		assert(!testGame.isPlayerWinning());
 	}
 	
 	@Test
@@ -93,27 +93,88 @@ class GameTest {
 		testGame.hitPlayer("1");
 		testGame.setPlayerBet(50);
 		testGame.setPlayerChips(50);
-		assert(testGame.canDoubleDown());
+		assert(testGame.playerCanDoubleDown());
 		testGame.doubleDown("ACE");
 		assert(testGame.getPlayerBet() == 100);
 		assert(testGame.getPlayerTotal() == 13);
-		assert(!testGame.canDoubleDown());
+		assert(!testGame.playerCanDoubleDown());
 		testGame.hitDealer("ACE");
 		testGame.hitDealer("ACE");
-		assert(testGame.isPlayerWinner());
+		assert(testGame.isPlayerWinning());
 	}
+	
 	@Test
 	void testPush() {
 		testGame.hitPlayer("1");
-		testGame.hitPlayer("1");
+		testGame.hitPlayer("16");
 		testGame.hitDealer("ACE");
-		testGame.hitDealer("ACE");
+		testGame.hitDealer("16");
+		assert(testGame.getPlayerTotal() == testGame.getDealerTotal());
+		assert(testGame.isDealerIsStanding());
+		testGame.setPlayerStanding(true);
+		assert(testGame.isPlayerStanding());
 		assert(!testGame.isPlayerIsBust());
-		assert(!testGame.isPlayerWinner());
+		assert(!testGame.isPlayerWinning());
+		assert(testGame.isGamePush());
+	}
+	
+	@Test
+	void testBust() {
+		testGame.hitPlayer("KING");
+		testGame.hitPlayer("KING");
+		testGame.hitDealer("KING");
+		testGame.hitDealer("KING");
+		testGame.hitPlayer("KING");
+		testGame.hitDealer("KING");
+		assert(testGame.isDealerIsBust());
+		assert(testGame.isPlayerIsBust());
+	}
+	
+	@Test
+	void testConcluded() {
+		testGame.hitPlayer("KING");
+		testGame.hitPlayer("KING");
+		testGame.hitPlayer("1");
+		testGame.hitDealer("6");
+		testGame.hitDealer("KING");
+		assert(!testGame.isDealerIsStanding());
+		testGame.hitDealer("KING");
+		assert(testGame.isDealerIsBust());
+		assert(!testGame.isPlayerIsBust());
+		assert(testGame.playerHasBlackJack());
+		assert(testGame.isGameConcluded());
+		assert(testGame.hasPlayerWon());
 	}
 	
 	
-
+	@Test
+	void testLogical() {
+		testGame.setPlayerBet(50);
+		testGame.setPlayerChips(100);
+		testGame.hitPlayer("KING");
+		testGame.hitPlayer("KING");
+		testGame.hitDealer("1");
+		testGame.hitDealer("5");
+		assert(testGame.playerCanDoubleDown());
+		assert(!testGame.playerHasBlackJack());
+		testGame.doubleDown("ACE");
+		assert(testGame.playerHasBlackJack());
+		assert(testGame.isPlayerStanding());
+		assert(!testGame.isPlayersTurn());
+		testGame.hitDealer("KING");
+		System.out.println(testGame.getDealerTotal());
+		assert(!testGame.isDealerIsStanding());
+		testGame.hitDealer("KING");
+		System.out.println(testGame.getDealerTotal());
+		assert(testGame.isDealerIsStanding());
+		assert(testGame.isDealerIsBust());
+		assert(!testGame.isPlayerIsBust());
+		assert(testGame.isGameConcluded());
+		assert(testGame.hasPlayerWon());
+		System.out.println(testGame.getGameState());
+		//assert(testGame.getGameState() == 1);
+		assert(testGame.payOut() == testGame.getPlayerBet());
+	}
 	
 	
 	
