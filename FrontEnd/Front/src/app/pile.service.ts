@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPiles } from './piles';
+import { IPilesList } from './pilesList';
 import { IGame } from './game';
 import { Observable } from 'rxjs';
 
@@ -16,16 +16,16 @@ export class PileService {
 
    }
 
-  getPile(deck_id: string, pile_name:string): Observable<IPiles>{
-    return this.http.get<IPiles>(this.apiURLbase 
+  getPile(deck_id: string, pile_name:string): Observable<IPilesList>{
+    return this.http.get<IPilesList>(this.apiURLbase 
                                + deck_id 
                                + "/pile/"
                                + pile_name
                                +"/list/");
   }
 
-  addCardToPile(deck_id: string, pile_name:string, card_code:string):Observable<IPiles>{
-    return this.http.get<IPiles>(this.apiURLbase 
+  addCardToPile(deck_id: string, pile_name:string, card_code:string):Observable<IPilesList>{
+    return this.http.get<IPilesList>(this.apiURLbase 
                                 + deck_id 
                                 + "/pile/"
                                 + pile_name
@@ -33,11 +33,11 @@ export class PileService {
                                 + card_code);
   }
 
-  sendPlayerPiles(piles: IPiles): Observable<IGame>{
+  sendPlayerPiles(piles: IPilesList): Observable<IGame>{
     return this.http.post<IGame>(this.serverURLbase + "/pile/player", piles);
   }
 
-  sendDealerPile(pile: IPiles): Observable<IGame>{
+  sendDealerPile(pile: IPilesList): Observable<IGame>{
     return this.http.post<IGame>(this.serverURLbase + "/pile/dealer", pile);
   }
 

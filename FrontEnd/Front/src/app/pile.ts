@@ -1,6 +1,6 @@
 import { ICard } from "./card";
 
 export interface IPile {
-    cards: ICard[],
-    remaining: string
+    remaining: number;
+    cards: ICard[];
 }

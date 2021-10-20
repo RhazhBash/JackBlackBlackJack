@@ -1,6 +1,9 @@
+import { IImage } from "./image";
+
 export interface ICard{
-    image: string,
-    value: string,
-    suit: string,
-    code: string,
+    code: string;
+    image: string;
+    images: IImage;
+    value: string;
+    suit: string;
 }
