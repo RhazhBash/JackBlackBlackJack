@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { PileService } from './pile.service';
 import { CardComponent}  from './card/card/card.component';
 import { LoginComponent } from './login/login.component';
+import { BettingSectionComponent } from './betting-section/betting-section.component';
+import { PlayingSectionComponent } from './playing-section/playing-section.component';
 
 
 
@@ -24,7 +26,9 @@ import { LoginComponent } from './login/login.component';
     RulesPopUpComponent,
     GameplayviewComponent,
     CardComponent,
-    LoginComponent
+    LoginComponent,
+    BettingSectionComponent,
+    PlayingSectionComponent
   ],
   imports: [
     BrowserModule,
