@@ -20,26 +20,32 @@ public class Game {
 	private String id;
 	
 	private int gameState; //0-Ongoing, 1-Player wins, 2-Player loses by busting, 3-Dealer has a higher total than player, 4-Push
+	
+	
+	private boolean isGameStarted = false;
 	private boolean isPlayersTurn; //1-Player, 0-Dealer
-	private boolean gameIsPush;
-	private boolean gameIsConcluded;
+	private boolean isGamePush;
+	private boolean isGameConcluded;
+	
 	
 	//Player fields
 	private int playerBet;
 
 	private int playerTotal;
-	public boolean canDoubleDown;
-	public boolean hasDoubledDown;
-	private boolean playerIsStanding;
-	private boolean playerIsBust;
-	private boolean playerWinning;
+	public boolean playerCanDoubleDown;
+	public boolean playerHasDoubledDown;
+	public boolean playerHasBlackJack;
+	private boolean playerHasWon;
+	private boolean isPlayerStanding;
+	private boolean isPlayerBust;
+	private boolean isPlayerWinning;
 	private ArrayList<String> playerHand = new ArrayList<String>();
 	
 	
 	//Dealer fields
 	private int dealerTotal;
-	private boolean dealerIsBust;
-	private boolean dealerIsStanding;
+	private boolean isDealerBust;
+	private boolean isDealerStanding;
 	private ArrayList<String> dealerHand = new ArrayList<String>();
 	
 	
@@ -47,6 +53,30 @@ public class Game {
 	
 	
 	//GAME LOGIC
+	public void startGame(String id, int bet, int chips,
+						  String dealerCard1, String dealerCard2,
+						  String playerCard1, String playerCard2) {
+		this.id = id;
+		playerBet = bet;
+		playerChips = chips;
+		isGameStarted = true;
+		
+		hitDealer(dealerCard1);
+		hitDealer(dealerCard2);
+		hitPlayer(playerCard1);
+		hitPlayer(playerCard2);
+		playerCanDoubleDown();
+	}
+	
+	
+	//If hasPlayerWon() add bet amount to chips and return positive/playerBet, else return 0
+	public int payOut() {
+		if (hasPlayerWon()) {
+			playerChips += playerBet;
+			return playerBet;
+		}
+		return 0;
+	}
 	
 	//returns the value of a hand adjusted for aces
 	public int getHandValue(ArrayList<String> hand) {
@@ -85,65 +115,74 @@ public class Game {
 		
 		return sum;
 	}		
-
-	private void gameLoop() {
-		//This method will run the game
-		//Reference Jacob's doc to see the flow of the game
-		//You'll need some default values for the game object like bet=0 and playerChips=their total
-	}
-
-	private boolean checkPlayersChips() {
-		boolean checkPlayerChips = false;
+	
+	//Game has concluded, player hasn't busted, game isn't push, player has higher score or dealer busted
+	public boolean hasPlayerWon() {
+		playerHasWon = 
+				((isGameConcluded()) &&
+				(!isPlayerBust())    &&
+				(!isGamePush())	     &&
+				(isPlayerWinning())  );
 		
-		return checkPlayerChips;
+//		System.out.println("IsGameConcluded: " + isGameConcluded() + 
+//						   " !isPlayerBust: " + !isPlayerBust() +
+//						   " !isGamePush: " + !isGamePush() +
+//						   " isPlayerWinning: " + isPlayerWinning());
+		return playerHasWon;
+	}
+	
+	public boolean isGameConcluded() {
+		return (isDealerBust() ||
+				isPlayerBust() ||
+				isPlayerStanding() );
 	}
 	
 	//Double players bet if their first two cards match, and they have the chips to cover it
-	public boolean canDoubleDown() {
-		
-		return (playerHand.size() > 1 &&
-				playerHand.get(0).equals(playerHand.get(1)) &&
-				(playerChips >= playerBet) &&
-				!hasDoubledDown);
+	public boolean playerCanDoubleDown() {
+		playerCanDoubleDown = (playerHand.size() > 1 &&
+							   playerHand.get(0).equals(playerHand.get(1)) &&
+							   (playerChips >= playerBet) &&
+							   !playerHasDoubledDown);
+		return playerCanDoubleDown;
 	}
 	
-	//Double bet, hit, and force stand if they don't bust
+	//Double bet, hit, and force stand 
 	public void doubleDown(String newCard) {
-		if (canDoubleDown()) {
+		if (playerCanDoubleDown()) {
 			playerBet = 2*playerBet;
 			hitPlayer(newCard);
-			if (!isPlayerBust()) {
-				playerIsStanding = true;
-			}
+			isPlayerStanding = true;
+			playerHasDoubledDown = true;
 		}
+		
 	}
 	
 	//If the player and dealer both stand without busting check if their hands are equal
-	private boolean isGamePush() { 
-		if (playerIsStanding && dealerIsStanding) {
-			gameIsPush = (playerTotal == dealerTotal);
+	public boolean isGamePush() { 
+		if (isPlayerStanding && isDealerStanding) {
+			isGamePush = (playerTotal == dealerTotal);
 		}
-		return gameIsPush;
+		return isGamePush;
 		
 	}
 	
-	private boolean isPlayerWinning() {
-		playerWinning = false;
+	//checks if player has higher score and isn't bust, or if dealer has busted and player hasn't
+	public boolean isPlayerWinning() {
+		isPlayerWinning = false;
 		if ( (playerTotal > dealerTotal) && 
 			(!isPlayerBust() )) {
-			playerWinning = true;
+			isPlayerWinning = true;
 		}
-		return playerWinning;
-	}
-	
-	//Check if player has higher score and isn't over 21
-	public boolean isPlayerWinner() { 
-		return ((playerTotal > dealerTotal) && playerTotal < 22);
+		if (isDealerBust() && 
+			!isPlayerBust()) {
+			isPlayerWinning = true;
+		}
+		return isPlayerWinning;
 	}
 	
 	//0-Ongoing, 1-Player wins, 2-Player loses by busting, 3-Dealer has a higher total than player, 4-Push
 	
-	private int gameState() {
+	public int gameState() {
 		
 		if (isPlayerBust()) {
 			return 2;
@@ -153,18 +192,23 @@ public class Game {
 			return 4;
 		}
 		
-		if ((dealerTotal > playerTotal) && playerIsStanding) {
+		if ((dealerTotal > playerTotal) && isPlayerStanding && (!isDealerBust())) {
 			return 3;
 		}
 		
-		if (isPlayerWinning() && isDealerStanding()) {
-			return  1;
+		if (isPlayerWinning() ) {
+			if (isDealerStanding()) {
+				return  1;
+			}
 		}
-		
 		return 0;
 		
 	}
 	
+	private void gameEnd() { 
+		//Don't worry about this one for now Peter
+		//Eventually this is gonna have all the logic for ending the game and starting a new one
+	}
 	
 	//PLAYER LOGIC
 	
@@ -172,112 +216,103 @@ public class Game {
 	public void hitPlayer(String newCard) {
 		playerHand.add(newCard);
 		playerTotal = getHandValue(playerHand);
-		if (playerTotal > 21) {
-			playerIsBust = true;
-		}
-		if (canDoubleDown()) {
-			canDoubleDown = true;
-		}
+		isPlayerBust();
 	}
 	
 	//End players turn
-	private boolean isPlayerStanding(boolean input) {
-		playerIsStanding = input;
-		return playerIsStanding;
+	public void stand() {
+		isPlayerStanding = true;
 	}
-	
+
 	//Set betting amount
 	private void bet(int bet) {
 		this.playerBet = bet;
 	}
 	
-	private boolean isPlayerBust() {
-		playerIsBust = (playerTotal > 21);
-		return playerIsBust;
+	public boolean isPlayerBust() {
+		isPlayerBust = (playerTotal > 21);
+		return isPlayerBust;
 	}
 
-	private boolean isPlayer21() {
-		return (playerTotal == 21);
+	public boolean playerHasBlackJack() {
+		playerHasBlackJack = (playerTotal == 21);
+		return playerHasBlackJack;
 	}
+	
+	
+	
 	
 	
 	//DEALER LOGIC
-	private void dealerChoice(int dealerTotal) {
-		if (dealerIsBust) {
-			
-		}
-	}
-	
+
 	public void hitDealer(String newCard) {
 		dealerHand.add(newCard);
 		dealerTotal = getHandValue(dealerHand);
-		if (dealerTotal > 16) {
-			dealerStand();
-		}
+		isDealerStanding();
+		isDealerBust();
+		
 	}
 	
-	private boolean dealerIsBust() {
-		dealerIsBust = (dealerTotal > 21);
-		return dealerIsBust;
+	public boolean isDealerBust() {
+		isDealerBust = (dealerTotal > 21);
+		return isDealerBust;
 	}
 	
 	private boolean isDealer21() {
 		return (dealerTotal == 21);
 	}
 	
-	private boolean dealerStand() {
-		dealerIsStanding = true;
-		return dealerIsStanding;
-	}
-	
-	private boolean isDealerStanding() {
-		dealerIsStanding = false;
-		if (dealerTotal > 16) {
-			dealerIsStanding = true;
-		}
-		return dealerIsStanding;
+	public boolean isDealerStanding() {
+		isDealerStanding = (dealerTotal > 16);
+		//System.out.println("dealer total: " + dealerTotal);
+		return isDealerStanding;
 	}
 
-	private void gameEnd() { 
-		//Don't worry about this one for now Peter
-		//Eventually this is gonna have all the logic for ending the game and starting a new one
-	}
 
 	public String getId() {
 		return id;
 	}
 
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 
 	public int getGameState() {
 		return gameState;
 	}
 
+
 	public void setGameState(int gameState) {
 		this.gameState = gameState;
 	}
+
+
+	public boolean isGameStarted() {
+		return isGameStarted;
+	}
+
+
+	public void setGameStarted(boolean isGameStarted) {
+		this.isGameStarted = isGameStarted;
+	}
+
 
 	public boolean isPlayersTurn() {
 		return isPlayersTurn;
 	}
 
+
 	public void setPlayersTurn(boolean isPlayersTurn) {
 		this.isPlayersTurn = isPlayersTurn;
 	}
 
-	public boolean isGameIsPush() {
-		return gameIsPush;
-	}
-
-	public void setGameIsPush(boolean gameIsPush) {
-		this.gameIsPush = gameIsPush;
-	}
 
 	public int getPlayerBet() {
 		return playerBet;
 	}
+
 
 	public void setPlayerBet(int playerBet) {
 		this.playerBet = playerBet;
@@ -287,90 +322,148 @@ public class Game {
 		return playerTotal;
 	}
 
+
 	public void setPlayerTotal(int playerTotal) {
 		this.playerTotal = playerTotal;
 	}
 
-	public boolean isPlayerIsStanding() {
-		return playerIsStanding;
+
+	public boolean isPlayerCanDoubleDown() {
+		return playerCanDoubleDown;
 	}
 
-	public void setPlayerIsStanding(boolean playerIsStanding) {
-		this.playerIsStanding = playerIsStanding;
+
+	public void setPlayerCanDoubleDown(boolean playerCanDoubleDown) {
+		this.playerCanDoubleDown = playerCanDoubleDown;
 	}
 
-	public boolean isPlayerIsBust() {
-		return playerIsBust;
+
+	public boolean isPlayerHasDoubledDown() {
+		return playerHasDoubledDown;
 	}
 
-	public void setPlayerIsBust(boolean playerIsBust) {
-		this.playerIsBust = playerIsBust;
+
+	public void setPlayerHasDoubledDown(boolean playerHasDoubledDown) {
+		this.playerHasDoubledDown = playerHasDoubledDown;
 	}
+
+
+	public boolean isPlayerHasBlackJack() {
+		return playerHasBlackJack;
+	}
+
+
+	public void setPlayerHasBlackJack(boolean playerHasBlackJack) {
+		this.playerHasBlackJack = playerHasBlackJack;
+	}
+
+
+	public boolean isPlayerHasWon() {
+		return playerHasWon;
+	}
+
+
+	public void setPlayerHasWon(boolean playerHasWon) {
+		this.playerHasWon = playerHasWon;
+	}
+
+
+	public boolean isPlayerStanding() {
+		return isPlayerStanding;
+	}
+
+
+	public void setPlayerStanding(boolean isPlayerStanding) {
+		this.isPlayerStanding = isPlayerStanding;
+	}
+
 
 	public ArrayList<String> getPlayerHand() {
 		return playerHand;
 	}
 
+
 	public void setPlayerHand(ArrayList<String> playerHand) {
 		this.playerHand = playerHand;
 	}
+
 
 	public int getDealerTotal() {
 		return dealerTotal;
 	}
 
+
 	public void setDealerTotal(int dealerTotal) {
 		this.dealerTotal = dealerTotal;
 	}
 
-	public boolean isDealerIsBust() {
-		return dealerIsBust;
-	}
-
-	public void setDealerIsBust(boolean dealerIsBust) {
-		this.dealerIsBust = dealerIsBust;
-	}
-
-	public boolean isDealerIsStanding() {
-		return dealerIsStanding;
-	}
-
-	public void setDealerIsStanding(boolean dealerIsStanding) {
-		this.dealerIsStanding = dealerIsStanding;
-	}
 
 	public ArrayList<String> getDealerHand() {
 		return dealerHand;
 	}
 
+
 	public void setDealerHand(ArrayList<String> dealerHand) {
 		this.dealerHand = dealerHand;
 	}
 
-	public void setPlayerWinning(boolean playerWinning) {
-		this.playerWinning = playerWinning;
+
+	public void setGamePush(boolean isGamePush) {
+		this.isGamePush = isGamePush;
 	}
+
+
+	public void setGameConcluded(boolean isGameConcluded) {
+		this.isGameConcluded = isGameConcluded;
+	}
+
+
+	public void setPlayerBust(boolean isPlayerBust) {
+		this.isPlayerBust = isPlayerBust;
+	}
+
+
+	public void setPlayerWinning(boolean isPlayerWinning) {
+		this.isPlayerWinning = isPlayerWinning;
+	}
+
+
+	public void setDealerBust(boolean isDealerBust) {
+		this.isDealerBust = isDealerBust;
+	}
+
+
+	public void setDealerStanding(boolean isDealerStanding) {
+		this.isDealerStanding = isDealerStanding;
+	}
+
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((dealerHand == null) ? 0 : dealerHand.hashCode());
-		result = prime * result + (dealerIsBust ? 1231 : 1237);
-		result = prime * result + (dealerIsStanding ? 1231 : 1237);
 		result = prime * result + dealerTotal;
-		result = prime * result + (gameIsPush ? 1231 : 1237);
 		result = prime * result + gameState;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (isDealerBust ? 1231 : 1237);
+		result = prime * result + (isDealerStanding ? 1231 : 1237);
+		result = prime * result + (isGameConcluded ? 1231 : 1237);
+		result = prime * result + (isGamePush ? 1231 : 1237);
+		result = prime * result + (isGameStarted ? 1231 : 1237);
+		result = prime * result + (isPlayerBust ? 1231 : 1237);
+		result = prime * result + (isPlayerStanding ? 1231 : 1237);
+		result = prime * result + (isPlayerWinning ? 1231 : 1237);
 		result = prime * result + (isPlayersTurn ? 1231 : 1237);
 		result = prime * result + playerBet;
 		result = prime * result + ((playerHand == null) ? 0 : playerHand.hashCode());
-		result = prime * result + (playerIsBust ? 1231 : 1237);
-		result = prime * result + (playerIsStanding ? 1231 : 1237);
+		result = prime * result + (playerHasBlackJack ? 1231 : 1237);
+		result = prime * result + (playerHasDoubledDown ? 1231 : 1237);
+		result = prime * result + (playerHasWon ? 1231 : 1237);
 		result = prime * result + playerTotal;
-		result = prime * result + (playerWinning ? 1231 : 1237);
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -386,13 +479,7 @@ public class Game {
 				return false;
 		} else if (!dealerHand.equals(other.dealerHand))
 			return false;
-		if (dealerIsBust != other.dealerIsBust)
-			return false;
-		if (dealerIsStanding != other.dealerIsStanding)
-			return false;
 		if (dealerTotal != other.dealerTotal)
-			return false;
-		if (gameIsPush != other.gameIsPush)
 			return false;
 		if (gameState != other.gameState)
 			return false;
@@ -400,6 +487,22 @@ public class Game {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (isDealerBust != other.isDealerBust)
+			return false;
+		if (isDealerStanding != other.isDealerStanding)
+			return false;
+		if (isGameConcluded != other.isGameConcluded)
+			return false;
+		if (isGamePush != other.isGamePush)
+			return false;
+		if (isGameStarted != other.isGameStarted)
+			return false;
+		if (isPlayerBust != other.isPlayerBust)
+			return false;
+		if (isPlayerStanding != other.isPlayerStanding)
+			return false;
+		if (isPlayerWinning != other.isPlayerWinning)
 			return false;
 		if (isPlayersTurn != other.isPlayersTurn)
 			return false;
@@ -410,19 +513,21 @@ public class Game {
 				return false;
 		} else if (!playerHand.equals(other.playerHand))
 			return false;
-		if (playerIsBust != other.playerIsBust)
+		if (playerHasBlackJack != other.playerHasBlackJack)
 			return false;
-		if (playerIsStanding != other.playerIsStanding)
+		if (playerHasDoubledDown != other.playerHasDoubledDown)
+			return false;
+		if (playerHasWon != other.playerHasWon)
 			return false;
 		if (playerTotal != other.playerTotal)
-			return false;
-		if (playerWinning != other.playerWinning)
 			return false;
 		return true;
 	}
 
+
 	public Game() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	
@@ -473,6 +578,8 @@ public class Game {
 		this.dealerIsStanding = dealerIsStanding;
 		this.dealerHand = dealerHand;
 	}
+	
+	
 
 	public Game(int gameState, boolean isPlayersTurn, boolean gameIsPush, int playerBet,
 			int playerTotal, boolean playerIsStanding, boolean playerIsBust, boolean playerWinning,
@@ -495,6 +602,11 @@ public class Game {
 	}
 
 
+
+
+
+	
+	
 	
 	
 	
