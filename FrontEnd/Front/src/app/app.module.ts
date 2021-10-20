@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +12,9 @@ import { BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { HttpClientModule } from '@angular/common/http';
 import { PileService } from './pile.service';
 import { CardComponent}  from './card/card/card.component';
+import { LoginComponent } from './login/login.component';
+import { BettingSectionComponent } from './betting-section/betting-section.component';
+import { PlayingSectionComponent } from './playing-section/playing-section.component';
 
 
 
@@ -22,14 +25,18 @@ import { CardComponent}  from './card/card/card.component';
     QuoteBubbleComponent,
     RulesPopUpComponent,
     GameplayviewComponent,
-    CardComponent
+    CardComponent,
+    LoginComponent,
+    BettingSectionComponent,
+    PlayingSectionComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     BsDropdownModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
     
   ],
   providers: [

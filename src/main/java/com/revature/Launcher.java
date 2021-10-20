@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
+import com.revature.controllers.LoginController;
+import com.revature.controllers.GameController;
 import com.revature.models.Card;
 import com.revature.models.Deck;
 
@@ -15,6 +16,50 @@ import io.javalin.Javalin;
 public class Launcher {
 
 	public static void main(String[] args) {
+LoginController lc = new LoginController(); 
+		
+	GameController GC = new GameController();
+	
+	Javalin app = Javalin.create(
+			config -> {
+				config.enableCorsForAllOrigins();
+			}
+			).start(8090);
+	
+	
+	
+	app.post("/game/start", GC.startGameHandler);
+	app.post("/game/hit/player", GC.playerHitHandler);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*public static void main(String[] args) {
+		
 		String jsonString = "{\r\n"
 				+ "    \"success\": true,\r\n"
 				+ "    \"deck_id\": \"x8xzusw5w5qj\",\r\n"
@@ -63,11 +108,16 @@ public class Launcher {
 			System.out.println(card);
 		}
 		
-		//System.out.println(r.cards);
+		Javalin app = Javalin.create(
+				config -> {
+					config.enableCorsForAllOrigins(); //allows the server to process JS requests from anywhere
+				}
+				).start(8090);
+		app.post("/login", lc.loginHandler);
 		
 		
 		
 		
-	}
+	}*/
 
 }

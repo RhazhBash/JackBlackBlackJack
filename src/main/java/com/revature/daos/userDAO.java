@@ -26,7 +26,7 @@ public class userDAO{
 		Session ses = HibernateUtil.getSession();
 		
 		List<User> userList = ses.createQuery("FROM com.revature.models.User WHERE username='" + username + "'").list();
-		User user = userList.get(1); 
+		User user = userList.get(0); 
 		HibernateUtil.closeSession();
 		
 		return user;

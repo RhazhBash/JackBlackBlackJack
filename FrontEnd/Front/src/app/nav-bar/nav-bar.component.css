@@ -28,7 +28,7 @@ button{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-div{
+#fullbar{
     background-color:rgb(190, 151, 100);
     opacity: .90;
     z-index: 0;
@@ -39,6 +39,11 @@ div{
 .titlemessage{
     left: 20%;
 
+}
+#rules{
+    left: 0%;
+    top: 20%;
+    position: absolute;
 }
 
 
