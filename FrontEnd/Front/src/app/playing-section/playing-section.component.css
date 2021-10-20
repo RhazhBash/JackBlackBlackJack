@@ -1,0 +1,30 @@
+.Hit{
+    background-color: darkgrey;
+    padding: 15px, 32px;
+    font-size: 45px;
+    position: absolute;
+    top:60%;
+    left: 18%;
+    border-radius: 15px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+}
+.Stay{
+    background-color: darkgrey;
+    padding: 15px, 32px;
+    font-size: 45px;
+    position: absolute;
+    top:60%;
+    left:  25%;
+    border-radius: 15px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+}
+.dd{
+    background-color: darkgrey;
+    padding: 15px, 32px;
+    font-size: 45px;
+    position: absolute;
+    top: 40%;
+    left: 15%;
+    border-radius: 45%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+}
