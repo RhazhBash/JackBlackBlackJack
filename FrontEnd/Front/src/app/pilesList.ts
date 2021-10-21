@@ -1,23 +1,5 @@
-interface IImage{
-    svg: string;
-    png: string;
-}
-interface ICard{
-    code: string;
-    image: string;
-    images: IImage;
-    value: string;
-    suit: string;
-}
+import { IPiles } from "./piles";
 
-interface IPile {
-    remaining: number;
-    cards: ICard[];
-}
-
-interface IPiles{
-    player: IPile;
-}
 export interface IPilesList{
     success: boolean;
     deck_id: string;

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IPilesList } from './pilesList';
+import { IPilesListDealer } from './pilesListDealer';
+import { AddCardResponse } from './addCardResponse';
 import { IGame } from './game';
 import { Observable } from 'rxjs';
 
@@ -16,16 +18,20 @@ export class PileService {
 
    }
 
-  getPile(deck_id: string, pile_name:string): Observable<IPilesList>{
+  getPlayerPile(deck_id: string):Observable<IPilesList>{
     return this.http.get<IPilesList>(this.apiURLbase 
                                + deck_id 
-                               + "/pile/"
-                               + pile_name
-                               +"/list/");
+                               + "/pile/player/list/");
   }
 
-  addCardToPile(deck_id: string, pile_name:string, card_code:string):Observable<IPilesList>{
-    return this.http.get<IPilesList>(this.apiURLbase 
+  getDealerPile(deck_id: string):Observable<IPilesListDealer>{
+    return this.http.get<IPilesListDealer>(this.apiURLbase 
+                               + deck_id 
+                               + "/pile/dealer/list/");
+  }
+
+  addCardToPile(deck_id: string, pile_name:string, card_code:string):Observable<AddCardResponse>{
+    return this.http.get<AddCardResponse>(this.apiURLbase 
                                 + deck_id 
                                 + "/pile/"
                                 + pile_name
@@ -33,12 +39,12 @@ export class PileService {
                                 + card_code);
   }
 
-  sendPlayerPiles(piles: IPilesList): Observable<IGame>{
-    return this.http.post<IGame>(this.serverURLbase + "/pile/player", piles);
+  sendPlayerPile(piles: IPilesList): Observable<IGame>{
+    return this.http.post<IGame>(this.serverURLbase + "/game/hit/player", piles);
   }
 
   sendDealerPile(pile: IPilesList): Observable<IGame>{
-    return this.http.post<IGame>(this.serverURLbase + "/pile/dealer", pile);
+    return this.http.post<IGame>(this.serverURLbase + "/game/hit/dealer", pile);
   }
 
 }
