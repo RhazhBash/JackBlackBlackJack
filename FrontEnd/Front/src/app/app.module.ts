@@ -15,6 +15,9 @@ import { CardComponent}  from './card/card/card.component';
 import { LoginComponent } from './login/login.component';
 import { BettingSectionComponent } from './betting-section/betting-section.component';
 import { PlayingSectionComponent } from './playing-section/playing-section.component';
+import { AccountComponent } from './account/account.component';
+import { AccountViewComponent } from './account-view/account-view.component';
+import { PregameViewComponent } from './pregame-view/pregame-view.component';
 
 
 
@@ -28,7 +31,10 @@ import { PlayingSectionComponent } from './playing-section/playing-section.compo
     CardComponent,
     LoginComponent,
     BettingSectionComponent,
-    PlayingSectionComponent
+    PlayingSectionComponent,
+    AccountComponent,
+    AccountViewComponent,
+    PregameViewComponent
   ],
   imports: [
     BrowserModule,
