@@ -15,7 +15,7 @@ public class JWTUtil {
         // builder design pattern
         String token = JWT.create()
                 .withClaim("username", username) 
-                .withClaim("password", password)
+                .withClaim("password", password) 
                 .sign(algorithm); 
 
         return  token;
@@ -24,5 +24,11 @@ public class JWTUtil {
     public static DecodedJWT isValidJWT(String token){
             DecodedJWT jwt = JWT.require(algorithm).build().verify(token);
             return  jwt;
+    }
+    
+    public static DecodedJWT decode(String token) {
+    	DecodedJWT jwt = JWT.decode(token);
+    	System.out.println(jwt);
+    	return jwt;
     }
 }

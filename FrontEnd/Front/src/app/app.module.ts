@@ -17,6 +17,9 @@ import { BettingSectionComponent } from './betting-section/betting-section.compo
 import { PlayingSectionComponent } from './playing-section/playing-section.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterComponent } from './register/register.component';
+import { AccountComponent } from './account/account.component';
+import { AccountViewComponent } from './account-view/account-view.component';
+import { PregameViewComponent } from './pregame-view/pregame-view.component';
 
 
 
@@ -31,7 +34,10 @@ import { RegisterComponent } from './register/register.component';
     LoginComponent,
     BettingSectionComponent,
     PlayingSectionComponent,
-    RegisterComponent
+    RegisterComponent,
+    AccountComponent,
+    AccountViewComponent,
+    PregameViewComponent
   ],
   imports: [
     BrowserModule,
