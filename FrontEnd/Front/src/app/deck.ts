@@ -2,8 +2,8 @@ import { ICard } from "./card";
 
 /*theDeck is in place of the initial deal for 4 cards*/
 export interface theDeck{
-    success: boolean,
-    cards:ICard[]
+    success: boolean, 
     deck_id: string,
-    remaining: number
+    remaining: number,
+    shuffled: boolean
 }
