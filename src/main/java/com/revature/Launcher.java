@@ -30,6 +30,7 @@ LoginController lc = new LoginController();
 	
 	app.post("/game/start", GC.startGameHandler);
 	app.post("/game/hit/player", GC.playerHitHandler);
+	app.post("/login", lc.loginHandler);
 	}
 	
 	

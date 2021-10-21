@@ -16,6 +16,7 @@ public class LoginService {
 			} else { 
 			state = false;//failed
 			}
+		System.out.println("Succesful Log in!!");
 		return state;
 		//If user is banned 
 	}

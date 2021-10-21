@@ -15,6 +15,8 @@ import { CardComponent}  from './card/card/card.component';
 import { LoginComponent } from './login/login.component';
 import { BettingSectionComponent } from './betting-section/betting-section.component';
 import { PlayingSectionComponent } from './playing-section/playing-section.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RegisterComponent } from './register/register.component';
 
 
 
@@ -28,7 +30,8 @@ import { PlayingSectionComponent } from './playing-section/playing-section.compo
     CardComponent,
     LoginComponent,
     BettingSectionComponent,
-    PlayingSectionComponent
+    PlayingSectionComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { PlayingSectionComponent } from './playing-section/playing-section.compo
     FormsModule,
     BsDropdownModule.forRoot(),
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
     
   ],
   providers: [
