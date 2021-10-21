@@ -28,9 +28,9 @@ export class LoginComponent implements OnInit {
   }
   
   submit(): void {
-    this.http.post('http://localhost:8090/login', this.form.getRawValue(), {
-      withCredentials:true
-    }).subscribe(() => this.router.navigate(['/']));
+    this.http.post('http://localhost:8090/login', this.form.getRawValue(),{responseType: 'text'}
+    ).subscribe(() => this.router.navigate(['/']));
+  
   }
 
 }

@@ -18,7 +18,26 @@ public class GameDTO {
 		this.playerHand = playerHand;
 		this.dealerHand = dealerHand;
 	}
+	
+	public GameDTO(String deck_id, Card[] playerHand, Card[] dealerHand) {
+		super();
+		this.deck_id = deck_id;
+		this.playerHand = playerHand;
+		this.dealerHand = dealerHand;
+	}
+	
+	public GameDTO(String deck_id, Card[] Hand) {
+		super();
+		this.deck_id = deck_id;
+		this.playerHand = Hand;
+	}
+	
+	public GameDTO(String deck_id) {
+		super();
+		this.deck_id = deck_id;
+	}
 
+	
 	public GameDTO() {
 		super();
 	}

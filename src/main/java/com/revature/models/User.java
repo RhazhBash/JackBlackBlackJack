@@ -77,6 +77,13 @@ public class User {
 		super();
 	}
 
+	public User(int iD, String username, String password) {
+		super();
+		ID = iD;
+		this.username = username;
+		this.password = password;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -22,7 +22,7 @@ public class Game {
 	private int gameState; //0-Ongoing, 1-Player wins, 2-Player loses by busting, 3-Dealer has a higher total than player, 4-Push
 	
 	
-	private boolean isGameStarted = false;
+	private boolean isGameStarted;
 	private boolean isPlayersTurn; //1-Player, 0-Dealer
 	private boolean isGamePush;
 	private boolean isGameConcluded;
@@ -52,31 +52,10 @@ public class Game {
 
 	
 	
-	//GAME LOGIC
-	public void startGame(String id, int bet, int chips,
-						  String dealerCard1, String dealerCard2,
-						  String playerCard1, String playerCard2) {
-		this.id = id;
-		playerBet = bet;
-		playerChips = chips;
-		isGameStarted = true;
-		
-		hitDealer(dealerCard1);
-		hitDealer(dealerCard2);
-		hitPlayer(playerCard1);
-		hitPlayer(playerCard2);
-		playerCanDoubleDown();
-	}
 	
 	
-	//If hasPlayerWon() add bet amount to chips and return positive/playerBet, else return 0
-	public int payOut() {
-		if (hasPlayerWon()) {
-			playerChips += playerBet;
-			return playerBet;
-		}
-		return 0;
-	}
+	
+	
 	
 	//returns the value of a hand adjusted for aces
 	public int getHandValue(ArrayList<String> hand) {
@@ -269,50 +248,44 @@ public class Game {
 	}
 
 
+	
+
+
 	public String getId() {
 		return id;
 	}
-
 
 	public void setId(String id) {
 		this.id = id;
 	}
 
-
 	public int getGameState() {
 		return gameState;
 	}
-
 
 	public void setGameState(int gameState) {
 		this.gameState = gameState;
 	}
 
-
 	public boolean isGameStarted() {
 		return isGameStarted;
 	}
-
 
 	public void setGameStarted(boolean isGameStarted) {
 		this.isGameStarted = isGameStarted;
 	}
 
-
 	public boolean isPlayersTurn() {
 		return isPlayersTurn;
 	}
-
 
 	public void setPlayersTurn(boolean isPlayersTurn) {
 		this.isPlayersTurn = isPlayersTurn;
 	}
 
-
 	public int getPlayerBet() {
 		return playerBet;
 	}
-
 
 	public void setPlayerBet(int playerBet) {
 		this.playerBet = playerBet;
@@ -322,121 +295,105 @@ public class Game {
 		return playerTotal;
 	}
 
-
 	public void setPlayerTotal(int playerTotal) {
 		this.playerTotal = playerTotal;
 	}
-
 
 	public boolean isPlayerCanDoubleDown() {
 		return playerCanDoubleDown;
 	}
 
-
 	public void setPlayerCanDoubleDown(boolean playerCanDoubleDown) {
 		this.playerCanDoubleDown = playerCanDoubleDown;
 	}
-
 
 	public boolean isPlayerHasDoubledDown() {
 		return playerHasDoubledDown;
 	}
 
-
 	public void setPlayerHasDoubledDown(boolean playerHasDoubledDown) {
 		this.playerHasDoubledDown = playerHasDoubledDown;
 	}
-
 
 	public boolean isPlayerHasBlackJack() {
 		return playerHasBlackJack;
 	}
 
-
 	public void setPlayerHasBlackJack(boolean playerHasBlackJack) {
 		this.playerHasBlackJack = playerHasBlackJack;
 	}
-
 
 	public boolean isPlayerHasWon() {
 		return playerHasWon;
 	}
 
-
 	public void setPlayerHasWon(boolean playerHasWon) {
 		this.playerHasWon = playerHasWon;
 	}
-
 
 	public boolean isPlayerStanding() {
 		return isPlayerStanding;
 	}
 
-
 	public void setPlayerStanding(boolean isPlayerStanding) {
 		this.isPlayerStanding = isPlayerStanding;
 	}
-
 
 	public ArrayList<String> getPlayerHand() {
 		return playerHand;
 	}
 
-
 	public void setPlayerHand(ArrayList<String> playerHand) {
 		this.playerHand = playerHand;
 	}
-
 
 	public int getDealerTotal() {
 		return dealerTotal;
 	}
 
-
 	public void setDealerTotal(int dealerTotal) {
 		this.dealerTotal = dealerTotal;
 	}
-
 
 	public ArrayList<String> getDealerHand() {
 		return dealerHand;
 	}
 
-
 	public void setDealerHand(ArrayList<String> dealerHand) {
 		this.dealerHand = dealerHand;
 	}
-
 
 	public void setGamePush(boolean isGamePush) {
 		this.isGamePush = isGamePush;
 	}
 
-
 	public void setGameConcluded(boolean isGameConcluded) {
 		this.isGameConcluded = isGameConcluded;
 	}
-
 
 	public void setPlayerBust(boolean isPlayerBust) {
 		this.isPlayerBust = isPlayerBust;
 	}
 
-
 	public void setPlayerWinning(boolean isPlayerWinning) {
 		this.isPlayerWinning = isPlayerWinning;
 	}
-
 
 	public void setDealerBust(boolean isDealerBust) {
 		this.isDealerBust = isDealerBust;
 	}
 
-
 	public void setDealerStanding(boolean isDealerStanding) {
 		this.isDealerStanding = isDealerStanding;
 	}
 
+	public Game() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	
+	
 
 	@Override
 	public int hashCode() {
@@ -456,6 +413,7 @@ public class Game {
 		result = prime * result + (isPlayerWinning ? 1231 : 1237);
 		result = prime * result + (isPlayersTurn ? 1231 : 1237);
 		result = prime * result + playerBet;
+		result = prime * result + (playerCanDoubleDown ? 1231 : 1237);
 		result = prime * result + ((playerHand == null) ? 0 : playerHand.hashCode());
 		result = prime * result + (playerHasBlackJack ? 1231 : 1237);
 		result = prime * result + (playerHasDoubledDown ? 1231 : 1237);
@@ -463,7 +421,6 @@ public class Game {
 		result = prime * result + playerTotal;
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -508,6 +465,8 @@ public class Game {
 			return false;
 		if (playerBet != other.playerBet)
 			return false;
+		if (playerCanDoubleDown != other.playerCanDoubleDown)
+			return false;
 		if (playerHand == null) {
 			if (other.playerHand != null)
 				return false;
@@ -524,84 +483,75 @@ public class Game {
 		return true;
 	}
 
-
-	public Game() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	
-	
-
 	@Override
 	public String toString() {
-		return "Game [id=" + id + ", gameState=" + gameState + ", isPlayersTurn=" + isPlayersTurn + ", gameIsPush="
-				+ gameIsPush + ", gameIsConcluded=" + gameIsConcluded + ", playerBet=" + playerBet + ", playerTotal="
-				+ playerTotal + ", canDoubleDown=" + canDoubleDown + ", hasDoubledDown=" + hasDoubledDown
-				+ ", playerIsStanding=" + playerIsStanding + ", playerIsBust=" + playerIsBust + ", playerWinning="
-				+ playerWinning + ", playerHand=" + playerHand + ", dealerTotal=" + dealerTotal + ", dealerIsBust="
-				+ dealerIsBust + ", dealerIsStanding=" + dealerIsStanding + ", dealerHand=" + dealerHand
-				+ ", checkPlayersChips()=" + checkPlayersChips() + ", canDoubleDown()=" + canDoubleDown()
-				+ ", isGamePush()=" + isGamePush() + ", isPlayerWinning()=" + isPlayerWinning() + ", isPlayerWinner()="
-				+ isPlayerWinner() + ", gameState()=" + gameState() + ", isPlayerBust()=" + isPlayerBust()
-				+ ", isPlayer21()=" + isPlayer21() + ", dealerIsBust()=" + dealerIsBust() + ", isDealer21()="
-				+ isDealer21() + ", dealerStand()=" + dealerStand() + ", isDealerStanding()=" + isDealerStanding()
-				+ ", getId()=" + getId() + ", getGameState()=" + getGameState() + ", isPlayersTurn()=" + isPlayersTurn()
-				+ ", isGameIsPush()=" + isGameIsPush() + ", getPlayerBet()=" + getPlayerBet() + ", getPlayerTotal()="
-				+ getPlayerTotal() + ", isPlayerIsStanding()=" + isPlayerIsStanding() + ", isPlayerIsBust()="
-				+ isPlayerIsBust() + ", getPlayerHand()=" + getPlayerHand() + ", getDealerTotal()=" + getDealerTotal()
-				+ ", isDealerIsBust()=" + isDealerIsBust() + ", isDealerIsStanding()=" + isDealerIsStanding()
-				+ ", getDealerHand()=" + getDealerHand() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass()
-				+ ", toString()=" + super.toString() + "]";
+		return "Game [id=" + id + ", gameState=" + gameState + ", isGameStarted=" + isGameStarted + ", isPlayersTurn="
+				+ isPlayersTurn + ", isGamePush=" + isGamePush + ", isGameConcluded=" + isGameConcluded + ", playerBet="
+				+ playerBet + ", playerTotal=" + playerTotal + ", playerCanDoubleDown=" + playerCanDoubleDown
+				+ ", playerHasDoubledDown=" + playerHasDoubledDown + ", playerHasBlackJack=" + playerHasBlackJack
+				+ ", playerHasWon=" + playerHasWon + ", isPlayerStanding=" + isPlayerStanding + ", isPlayerBust="
+				+ isPlayerBust + ", isPlayerWinning=" + isPlayerWinning + ", playerHand=" + playerHand
+				+ ", dealerTotal=" + dealerTotal + ", isDealerBust=" + isDealerBust + ", isDealerStanding="
+				+ isDealerStanding + ", dealerHand=" + dealerHand + "]";
 	}
 
-	public Game(String id, int gameState, boolean isPlayersTurn, boolean gameIsPush, boolean gameIsConcluded,
-			int playerBet, int playerTotal, boolean canDoubleDown, boolean hasDoubledDown, boolean playerIsStanding,
-			boolean playerIsBust, boolean playerWinning, ArrayList<String> playerHand, int dealerTotal,
-			boolean dealerIsBust, boolean dealerIsStanding, ArrayList<String> dealerHand) {
+	public Game(String id, int gameState, boolean isGameStarted, boolean isPlayersTurn, boolean isGamePush,
+			boolean isGameConcluded, int playerBet, int playerTotal, boolean playerCanDoubleDown,
+			boolean playerHasDoubledDown, boolean playerHasBlackJack, boolean playerHasWon, boolean isPlayerStanding,
+			boolean isPlayerBust, boolean isPlayerWinning, ArrayList<String> playerHand, int dealerTotal,
+			boolean isDealerBust, boolean isDealerStanding, ArrayList<String> dealerHand) {
 		super();
 		this.id = id;
 		this.gameState = gameState;
+		this.isGameStarted = isGameStarted;
 		this.isPlayersTurn = isPlayersTurn;
-		this.gameIsPush = gameIsPush;
-		this.gameIsConcluded = gameIsConcluded;
+		this.isGamePush = isGamePush;
+		this.isGameConcluded = isGameConcluded;
 		this.playerBet = playerBet;
 		this.playerTotal = playerTotal;
-		this.canDoubleDown = canDoubleDown;
-		this.hasDoubledDown = hasDoubledDown;
-		this.playerIsStanding = playerIsStanding;
-		this.playerIsBust = playerIsBust;
-		this.playerWinning = playerWinning;
+		this.playerCanDoubleDown = playerCanDoubleDown;
+		this.playerHasDoubledDown = playerHasDoubledDown;
+		this.playerHasBlackJack = playerHasBlackJack;
+		this.playerHasWon = playerHasWon;
+		this.isPlayerStanding = isPlayerStanding;
+		this.isPlayerBust = isPlayerBust;
+		this.isPlayerWinning = isPlayerWinning;
 		this.playerHand = playerHand;
 		this.dealerTotal = dealerTotal;
-		this.dealerIsBust = dealerIsBust;
-		this.dealerIsStanding = dealerIsStanding;
+		this.isDealerBust = isDealerBust;
+		this.isDealerStanding = isDealerStanding;
 		this.dealerHand = dealerHand;
 	}
-	
-	
 
-	public Game(int gameState, boolean isPlayersTurn, boolean gameIsPush, int playerBet,
-			int playerTotal, boolean playerIsStanding, boolean playerIsBust, boolean playerWinning,
-			ArrayList<String> playerHand, int dealerTotal, boolean dealerIsBust, boolean dealerIsStanding,
-			ArrayList<String> dealerHand) {
+	public Game(int gameState, boolean isGameStarted, boolean isPlayersTurn, boolean isGamePush,
+			boolean isGameConcluded, int playerBet, int playerTotal, boolean playerCanDoubleDown,
+			boolean playerHasDoubledDown, boolean playerHasBlackJack, boolean playerHasWon, boolean isPlayerStanding,
+			boolean isPlayerBust, boolean isPlayerWinning, ArrayList<String> playerHand, int dealerTotal,
+			boolean isDealerBust, boolean isDealerStanding, ArrayList<String> dealerHand) {
 		super();
 		this.gameState = gameState;
+		this.isGameStarted = isGameStarted;
 		this.isPlayersTurn = isPlayersTurn;
-		this.gameIsPush = gameIsPush;
+		this.isGamePush = isGamePush;
+		this.isGameConcluded = isGameConcluded;
 		this.playerBet = playerBet;
 		this.playerTotal = playerTotal;
-		this.playerIsStanding = playerIsStanding;
-		this.playerIsBust = playerIsBust;
-		this.playerWinning = playerWinning;
+		this.playerCanDoubleDown = playerCanDoubleDown;
+		this.playerHasDoubledDown = playerHasDoubledDown;
+		this.playerHasBlackJack = playerHasBlackJack;
+		this.playerHasWon = playerHasWon;
+		this.isPlayerStanding = isPlayerStanding;
+		this.isPlayerBust = isPlayerBust;
+		this.isPlayerWinning = isPlayerWinning;
 		this.playerHand = playerHand;
 		this.dealerTotal = dealerTotal;
-		this.dealerIsBust = dealerIsBust;
-		this.dealerIsStanding = dealerIsStanding;
+		this.isDealerBust = isDealerBust;
+		this.isDealerStanding = isDealerStanding;
 		this.dealerHand = dealerHand;
 	}
 
-
+	
 
 
 

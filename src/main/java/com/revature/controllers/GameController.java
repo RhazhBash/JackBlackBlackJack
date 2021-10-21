@@ -16,8 +16,6 @@ public class GameController {
 		
 		GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
 		
-		System.out.println(GDTO);
-		
 		Game game=GS.startGame(GDTO);
 		
 		String JSONGame = gson.toJson(game);
@@ -28,19 +26,51 @@ public class GameController {
 	
 	public Handler doubleDownHandler = (ctx) -> {
 		
+		GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
+		
+		Game game = GS.doubleDown(GDTO);
+		
+		String JSONGame = gson.toJson(game);
+		
+		ctx.status(200);
+		ctx.result(JSONGame);
 	};
 	
 	public Handler standHandler = (ctx) -> {
+		
+		GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
+		
+		Game game = GS.stand(GDTO);
+		
+		String JSONGame = gson.toJson(game);
+		
+		ctx.status(200);
+		ctx.result(JSONGame);
 		
 	};
 	
 	public Handler playerHitHandler = (ctx) -> {
 		
+		GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
 		
+		Game game = GS.hit(GDTO);
+		
+		String JSONGame = gson.toJson(game);
+		
+		ctx.status(200);
+		ctx.result(JSONGame);
 		
 	};
 	
 	public Handler dealerHitHandler = (ctx) -> {
 		
+		GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
+		
+		Game game = GS.dealerHit(GDTO);
+		
+		String JSONGame = gson.toJson(game);
+		
+		ctx.status(200);
+		ctx.result(JSONGame);
 	};
 }
