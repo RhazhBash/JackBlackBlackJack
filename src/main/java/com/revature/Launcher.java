@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.revature.controllers.LoginController;
+import com.revature.controllers.QuoteController;
 import com.revature.controllers.GameController;
 import com.revature.models.Card;
 import com.revature.models.Deck;
@@ -16,8 +17,8 @@ import io.javalin.Javalin;
 public class Launcher {
 
 	public static void main(String[] args) {
-LoginController lc = new LoginController(); 
-		
+	LoginController lc = new LoginController(); 
+	QuoteController QC = new QuoteController();
 	GameController GC = new GameController();
 	
 	Javalin app = Javalin.create(
@@ -30,6 +31,10 @@ LoginController lc = new LoginController();
 	
 	app.post("/game/start", GC.startGameHandler);
 	app.post("/game/hit/player", GC.playerHitHandler);
+	app.post("/game/hit/dealer", GC.dealerHitHandler);
+	app.post("/game/stand", GC.standHandler);
+	app.post("/game/doubledown", GC.doubleDownHandler);
+	app.post("/quotes", QC.quoteHandler);
 	}
 	
 	

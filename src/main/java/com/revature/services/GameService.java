@@ -18,7 +18,7 @@ public class GameService {
 		//Take a game object passed from the handler and send it to the DAO to be stored
 		//This method returns the ID of the game for the front end to track
 		Game game = new Game();
-		
+		boolean blackjack=false;
 		String id=gameDTO.getDeck_id();
 		int bet=gameDTO.getBet();
 	
@@ -40,27 +40,89 @@ public class GameService {
 		int playerTotal=game.getHandValue(playerHand);
 		int dealerTotal=game.getHandValue(dealerHand);
 		
-		Game newGame = new Game(id, 0, true, false, false, bet, playerTotal, true, false, false, false, false, playerHand, dealerTotal, false, false, dealerHand);
+		if (playerTotal==21)
+			blackjack=true;
+		Game newGame = new Game(id, 0, true, true, false, false, bet, playerTotal, true, false, blackjack, false, false, false, false, playerHand, dealerTotal, false, false, dealerHand);
 		
 		
 		GDAO.newGame(newGame);
 		return newGame;
 	}
 	
-	public boolean bet(int bet) {
-		//Subtract a player's bet from their chip total
-		//Dependent on userDAO
+	public Game hit(GameDTO GDTO) {
+		
+		Game game = GDAO.getGame(GDTO.getDeck_id());
+		
+		ArrayList<String> playerHand = new ArrayList<String>();
+		
+		for (int i=0; i<GDTO.getPlayerHand().length; i++) {
+			Card card = GDTO.getPlayerHand()[i];
+			playerHand.add(card.getValue());
+		}
+		
+		int playerTotal = game.getHandValue(playerHand);
+		
+		game.setPlayerTotal(playerTotal);
+		game.setPlayerHand(playerHand);
+		
+		if (playerTotal>21)
+			game.setPlayerBust(true);
+		
+		GDAO.newGame(game);
+		
+		return game;
 	}
 	
-	public void payout(int bet, boolean blackjack) {
-		//Take a bet, multiply it by the house payout, and add it to a user's chip count
+	public Game dealerHit(GameDTO GDTO) {
+		Game game = GDAO.getGame(GDTO.getDeck_id());
+		
+		ArrayList<String> dealerHand = new ArrayList<String>();
+		
+		for (int i=0; i<GDTO.getPlayerHand().length; i++) {
+			Card card = GDTO.getPlayerHand()[i];
+			dealerHand.add(card.getValue());
+		}
+		
+		int dealerTotal = game.getHandValue(dealerHand);
+		
+		game.setDealerTotal(dealerTotal);
+		game.setDealerHand(dealerHand);
+		
+		if (16<dealerTotal&&dealerTotal<22)
+			game.setDealerStanding(true);
+		else if (dealerTotal>21)
+			game.setDealerBust(true);
+		
+		GDAO.newGame(game);
+		
+		return game;
 	}
 	
-	public void stand() {
+	public Game stand(GameDTO GDTO) {
+		
+		Game game = GDAO.getGame(GDTO.getDeck_id());
+		
+		game.setPlayerStanding(true);
+		game.setPlayersTurn(false);
+		
+		GDAO.newGame(game);
+		
+		return game;
 		
 	}
 	
-	public void resetGame() {
+	public Game doubleDown(GameDTO GDTO) {
+		
+		Game game = GDAO.getGame(GDTO.getDeck_id());
+		
+		int bet = game.getPlayerBet();
+		bet = bet*2;
+		game.setPlayerBet(bet);
+		game.setPlayerHasDoubledDown(true);
+		
+		GDAO.newGame(game);
+		
+		return game;
 		
 	}
 	
