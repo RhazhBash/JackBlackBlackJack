@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { isDelegatedFactoryMetadata } from '@angular/compiler/src/render3/r3_factory';
 import { Injectable, OnInit } from '@angular/core';
-import { stringify } from 'querystring';
+//import { stringify } from 'querystring';
 import { Observable } from 'rxjs';
-import { runInThisContext } from 'vm';
+//import { runInThisContext } from 'vm';
 import { theDeck } from './deck';
 import { IDrawResponse } from './draw-card';
 import { IGame } from './game';
@@ -39,7 +39,7 @@ export class DeckService {
            this.deck_id = deck_id
         }
     }
-
+  
     let newDeck = this.http.get<IDrawResponse>(this.url + "new/draw/?count=4")
     let deck = Object.entries(newDeck); //deck is shown as a JSON object, (sucess, deck_id, remaining, shuffled)
     let deck_idKey = deck[2];          //deck_id array is shown independently

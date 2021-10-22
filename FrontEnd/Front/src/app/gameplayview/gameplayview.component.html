@@ -1,3 +1,5 @@
+
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -9,7 +11,9 @@
     <div class="play-background">
 
        <img  class = "JBhead" src="../../assets/jack-black-head1.png" alt="">
-       <p class = "pot">Pot:</p>
+
+       <p class = "pot" *ngIf=!isCollapsed>Pot:</p>
+
        <img class="card1" src="../../assets/card-back.png" alt="">
        <img class="card2" src="../../assets/card-back.png" alt="">
        <img class="card3" src="../../assets/card-back.png" alt="">
@@ -32,7 +36,7 @@
 
     <div class="play-background">
         <div id="bettingDisplay" *ngIf="isCollapsed">
-            <button (click) = "isCollapsed" (click)="" id="deal">DEAL</button>
+            <button (click) = "isCollapsed" (click)="this.deckService.getDeck(this.transferService.getBet())" id="deal">DEAL</button>
         </div>     
         <div *ngIf="isCollapsed">
             <app-betting-section></app-betting-section>
