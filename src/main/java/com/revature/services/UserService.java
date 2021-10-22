@@ -24,6 +24,7 @@ public class UserService {
 	
 	public void addUser(User user) {
 			ud.addUser(user);
+			System.out.println("Succesfully added/updated user!");
 	}
 	
 	//public user getUser() {

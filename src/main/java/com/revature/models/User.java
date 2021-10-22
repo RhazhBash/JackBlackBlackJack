@@ -84,6 +84,17 @@ public class User {
 		this.password = password;
 	}
 
+	public User(String name, String username, String password, int cardnumber, Calendar expirationdate,
+			int securitycode, Calendar dOB) {
+		super();
+		this.name = name;
+		this.username = username;
+		this.password = password;
+		this.cardnumber = cardnumber;
+		this.securitycode = securitycode;
+		DOB = dOB;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
