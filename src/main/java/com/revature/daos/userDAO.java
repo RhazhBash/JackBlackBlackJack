@@ -51,13 +51,15 @@ public class userDAO{
 	public void addUser(User user) {
 		
 		Session ses = HibernateUtil.getSession();
+		Transaction tran = ses.beginTransaction();
 		ses.saveOrUpdate(user);
+		tran.commit();
 		HibernateUtil.closeSession();
 		
 	}
 	
 
-	public void updateChipCount(int id, int chips) {
+	public void updateChipCount(String id, int chips) {
 		Session ses = HibernateUtil.getSession();
 		Transaction tran = ses.beginTransaction();
 		

@@ -34,6 +34,8 @@ public class Launcher {
 	app.post("/user/login", lc.loginHandler);
 	app.post("/user/register", lc.registrationHandler);
 	app.post("/user/friends", lc.friendsHandler);
+	app.post("/user/get", lc.getUserHandler);
+	app.post("/user/update", lc.updateUserHandler);
 	app.post("/game/hit/dealer", GC.dealerHitHandler);
 	app.post("/game/stand", GC.standHandler);
 	app.post("/game/doubledown", GC.doubleDownHandler);

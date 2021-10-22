@@ -7,6 +7,8 @@ import com.revature.models.Card;
 //Delete this comment
 import com.revature.models.Game;
 import com.revature.models.GameDTO;
+import com.revature.models.User;
+import com.revature.utils.JWTUtil;
 
 
 public class GameService {
@@ -19,8 +21,17 @@ public class GameService {
 		//This method returns the ID of the game for the front end to track
 		Game game = new Game();
 		boolean blackjack=false;
+		boolean isPush=false;
 		String id=gameDTO.getDeck_id();
 		int bet=gameDTO.getBet();
+		
+		User player = UDAO.getUserByCredentials(JWTUtil.decode(gameDTO.getJWT()));
+		
+		int chips = player.getChipCount();
+		chips = chips-bet;
+		
+		player.setChipCount(chips);
+		UDAO.addUser(player);
 	
 		ArrayList<String> playerHand = new ArrayList<String>();
 		ArrayList<String> dealerHand = new ArrayList<String>();
@@ -40,10 +51,25 @@ public class GameService {
 		int playerTotal=game.getHandValue(playerHand);
 		int dealerTotal=game.getHandValue(dealerHand);
 		
-		if (playerTotal==21)
+		if (playerTotal==21&&dealerTotal!=21) {
 			blackjack=true;
-		Game newGame = new Game(id, 0, true, true, false, false, bet, playerTotal, true, false, blackjack, false, false, false, false, playerHand, dealerTotal, false, false, dealerHand);
+		}
+		else if (playerTotal==21&&dealerTotal==21)
+			isPush = true;
+		Game newGame = new Game(id, 0, true, true, isPush, false, bet, playerTotal, true, false, blackjack, false, false, false, false, playerHand, dealerTotal, false, false, dealerHand);
 		
+		if (blackjack) {
+			int payout = newGame.getPlayerBet()/2;
+			payout = payout*5;
+			payout = payout+player.getChipCount();
+			player.setChipCount(payout);
+			UDAO.addUser(player);
+		}
+		else if (isPush) {
+			int payout = newGame.getPlayerBet()+player.getChipCount();
+			player.setChipCount(payout);
+			UDAO.addUser(player);
+		}
 		
 		GDAO.newGame(newGame);
 		return newGame;
@@ -65,8 +91,9 @@ public class GameService {
 		game.setPlayerTotal(playerTotal);
 		game.setPlayerHand(playerHand);
 		
-		if (playerTotal>21)
+		if (playerTotal>21) {
 			game.setPlayerBust(true);
+		}
 		
 		GDAO.newGame(game);
 		
@@ -75,6 +102,7 @@ public class GameService {
 	
 	public Game dealerHit(GameDTO GDTO) {
 		Game game = GDAO.getGame(GDTO.getDeck_id());
+		User user = UDAO.getUserByCredentials(JWTUtil.decode(GDTO.getJWT()));
 		
 		ArrayList<String> dealerHand = new ArrayList<String>();
 		
@@ -88,10 +116,28 @@ public class GameService {
 		game.setDealerTotal(dealerTotal);
 		game.setDealerHand(dealerHand);
 		
-		if (16<dealerTotal&&dealerTotal<22)
+		if (16<dealerTotal&&dealerTotal<22) {
 			game.setDealerStanding(true);
-		else if (dealerTotal>21)
+			
+			if (game.getPlayerTotal()>dealerTotal) {
+				int payout = game.getPlayerBet()*2;
+				user.setChipCount(user.getChipCount()+payout);
+				UDAO.addUser(user);
+			}
+			else if (game.getPlayerTotal()==dealerTotal) {
+				user.setChipCount(user.getChipCount()+game.getPlayerBet());
+				UDAO.addUser(user);
+			}
+		}
+		
+		else if (dealerTotal>21) {
+			
 			game.setDealerBust(true);
+			
+			int payout = game.getPlayerBet()*2;
+			user.setChipCount(user.getChipCount()+payout);
+			UDAO.addUser(user);
+		}
 		
 		GDAO.newGame(game);
 		
