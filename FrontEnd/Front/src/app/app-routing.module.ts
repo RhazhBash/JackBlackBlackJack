@@ -4,12 +4,14 @@ import { GameplayviewComponent } from './gameplayview/gameplayview.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RulesPopUpComponent } from './rules-pop-up/rules-pop-up.component';
+import { PregameViewComponent } from './pregame-view/pregame-view.component';
 
 const routes: Routes = [
   {path:'', component: GameplayviewComponent},
   {path:'rules', component: RulesPopUpComponent},
   {path:'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent}
+  {path: 'register', component: RegisterComponent},
+  {path: 'preGame', component: PregameViewComponent}
   
 ];
 
