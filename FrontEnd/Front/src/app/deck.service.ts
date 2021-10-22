@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { isDelegatedFactoryMetadata } from '@angular/compiler/src/render3/r3_factory';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { stringify } from 'querystring';
 import { Observable } from 'rxjs';
 import { runInThisContext } from 'vm';
@@ -19,6 +19,8 @@ export class DeckService {
   constructor(private http: HttpClient) { }
   private deckID:string =''
   
+
+
   getCard(): Observable<IGame>{
     //var drawnCard = 
   
@@ -52,7 +54,7 @@ export class DeckService {
     return this.http.post<IGame>(this.serverURLbase +"game/start/", package2 )
   }
 
-
+ 
 
 
 

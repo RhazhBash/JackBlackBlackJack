@@ -32,7 +32,7 @@
 
     <div class="play-background">
         <div id="bettingDisplay" *ngIf="isCollapsed">
-            <button (click) = toggleCollapse() id="deal">DEAL</button>
+            <button (click) = "isCollapsed" (click)="" id="deal">DEAL</button>
         </div>     
         <div *ngIf="isCollapsed">
             <app-betting-section></app-betting-section>
