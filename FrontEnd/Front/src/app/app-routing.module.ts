@@ -7,9 +7,9 @@ import { RulesPopUpComponent } from './rules-pop-up/rules-pop-up.component';
 
 const routes: Routes = [
   {path:'', component: GameplayviewComponent},
-  {path:'rules', component: RulesPopUpComponent},
   {path:'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent}
+  {path: 'register', component: RegisterComponent},
+  //{path: 'preGame', component: PreGameComponent}
   
 ];
 

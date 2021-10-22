@@ -1,7 +1,7 @@
 <form class="form-signin" [formGroup]="form" (submit)="submit()">
       <h1 class="h3 mb-3 fw-normal">Please register</h1>
 
-      <input formControlName="name" class="form-control" id="floatingInput" placeholder="Name" required>
+      <input formControlName="name" class="form-control"  placeholder="Name" required>
 
       <input formControlName="username" type="username" class="form-control" id="floatingInput" placeholder="Username" required>
       
@@ -15,11 +15,13 @@
 
       <input formControlName="zipcode" class="form-control" placeholder="zipcode " required>
 
-      <input formControlName="dob" class="form-control" placeholder="date of birth " required>
-
       <input formControlName="creditcard" class="form-control" placeholder="credit card number " required>
 
-      <input formControlName="sercuritycode" class="form-control" placeholder="sercurity code " required>
+      <input formControlName="expirationdate" class="form-control" placeholder="expiration date " required>
+
+      <input formControlName="securitycode" class="form-control" placeholder="sercurity code " required>
+      
+      <input formControlName="dob" class="form-control" placeholder="date of birth " required>
 
       <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
 </form>

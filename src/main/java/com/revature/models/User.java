@@ -120,6 +120,12 @@ public class User {
 		super();
 	}
 
+	public User(String iD, String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
+
 	@Override
 	public String toString() {
 		return "User [ID=" + ID + ", name=" + name + ", registered=" + registered + ", username=" + username

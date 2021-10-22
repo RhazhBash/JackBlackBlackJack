@@ -36,8 +36,8 @@ public class LoginController {
 			//create a user session
 			ctx.req.getSession(); //req is a "Request Object", we establish sessions through it
 			
-			ctx.status(200);
-			ctx.result(jwt);
+			ctx.status(200).json(jwt);
+			//ctx.result(jwt);
 			
 			
 		} else { //login fails...
