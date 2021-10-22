@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { DeckService } from '../deck.service';
 
 @Component({
   selector: 'app-pregame-view',
@@ -9,9 +11,13 @@ export class PregameViewComponent implements OnInit {
 
   
 
-  constructor() { }
+  constructor(
+    private deckService:DeckService,
+    private router:Router
+  ) { }
 
   ngOnInit(): void {
   }
+
 
 }
