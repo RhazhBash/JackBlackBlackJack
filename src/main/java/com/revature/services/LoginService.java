@@ -20,4 +20,26 @@ public class LoginService {
 		return state;
 		//If user is banned 
 	}
+	
+	public boolean register(User user) {
+		if (udao.getUserByCredentials(user.getUsername())==null) {
+			udao.addUser(user);
+			return true;
+		}
+		else 
+			return false;
+	}
+	
+	public boolean addFriend(String adder, String reciever) {
+		
+		User user = udao.getUserByCredentials(adder);
+		
+		if (udao.getUserByCredentials(reciever)!=null) {
+			user.getFriends().add(reciever);
+			udao.addUser(user);
+			return true;
+		}
+		else
+			return false;
+	}
 }

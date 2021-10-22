@@ -25,11 +25,15 @@ public class userDAO{
 	public User getUserByCredentials(String username) {
 		Session ses = HibernateUtil.getSession();
 		
-		List<User> userList = ses.createQuery("FROM com.revature.models.User WHERE username='" + username + "'").list();
-		User user = userList.get(0); 
+		List<User> userList = ses.createQuery("FROM com.revature.models.User").list();
+		
+		for (int i=0; i<userList.size(); i++) {
+			if (userList.get(i).getUsername().equals(username))
+				return userList.get(i);
+		}
 		HibernateUtil.closeSession();
 		
-		return user;
+		return null;
 	}
 	
 	public void deleteUser(String username, String password) {
@@ -47,7 +51,7 @@ public class userDAO{
 	public void addUser(User user) {
 		
 		Session ses = HibernateUtil.getSession();
-		ses.save(user);
+		ses.saveOrUpdate(user);
 		HibernateUtil.closeSession();
 		
 	}

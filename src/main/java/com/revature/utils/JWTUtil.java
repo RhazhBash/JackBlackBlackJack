@@ -1,7 +1,10 @@
 package com.revature.utils;
 
+import java.util.Base64;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class JWTUtil {
@@ -26,9 +29,20 @@ public class JWTUtil {
             return  jwt;
     }
     
-    public static DecodedJWT decode(String token) {
-    	DecodedJWT jwt = JWT.decode(token);
-    	System.out.println(jwt);
-    	return jwt;
+    public static String decode(String token) {
+    
+    	
+    	Base64.Decoder decoder = Base64.getDecoder();
+
+    	String[] chunks = token.split("\\.");
+    	String payload = new String(decoder.decode(chunks[1]));
+    	
+    	String[] chonky = payload.split("\\:");
+    	
+    	String randomVariableName = chonky[2];
+    	
+    	String username = randomVariableName.substring(1, (randomVariableName.length()-2));
+    	
+    	return username;
     }
 }
