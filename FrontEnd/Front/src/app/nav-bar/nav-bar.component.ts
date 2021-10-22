@@ -20,6 +20,7 @@ export class NavBarComponent implements OnInit {
   }
   
   ngOnInit(): void {
+ /*   
     this.http.get('http://localhost:8090/user', {withCredentials: true}).subscribe(
       (res: any)=> {
         this.message = 'Hi ${res.name}';
@@ -27,7 +28,7 @@ export class NavBarComponent implements OnInit {
       err => {
         this.message = 'You are not logged in';
       }
-    )
+    )*/
   }
 
 }

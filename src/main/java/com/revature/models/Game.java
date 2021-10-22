@@ -116,25 +116,6 @@ public class Game {
 				isPlayerStanding() );
 	}
 	
-	//Double players bet if their first two cards match, and they have the chips to cover it
-	public boolean playerCanDoubleDown() {
-		playerCanDoubleDown = (playerHand.size() > 1 &&
-							   playerHand.get(0).equals(playerHand.get(1)) &&
-							   (playerChips >= playerBet) &&
-							   !playerHasDoubledDown);
-		return playerCanDoubleDown;
-	}
-	
-	//Double bet, hit, and force stand 
-	public void doubleDown(String newCard) {
-		if (playerCanDoubleDown()) {
-			playerBet = 2*playerBet;
-			hitPlayer(newCard);
-			isPlayerStanding = true;
-			playerHasDoubledDown = true;
-		}
-		
-	}
 	
 	//If the player and dealer both stand without busting check if their hands are equal
 	public boolean isGamePush() { 
