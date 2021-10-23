@@ -18,7 +18,7 @@
         <button class="button" id="FriendsButton">Friends</button>
 </span>
 <span style="display: inline;">
-        <ul style="display: inline;">
+        <ul style="display: inline;" *ngIf="!authenticated">
                 <li style="display: inline;">
                         <a routerLink="/" >Home </a>
                 </li>
@@ -30,6 +30,18 @@
                 </li>
                 <li style="display: inline;">
                         {{message}}
+                </li>
+        </ul>
+
+        <ul style="display: inline;" *ngIf="authenticated">
+                <li style="display: inline;">
+                        <a routerLink="/" >Home </a>
+                </li>
+                <li style="display: inline;">
+                        <a routerLink="/" (click)="logout()">Logout</a>
+                </li>
+                <li style="display: inline;">
+                        {{message2}}
                 </li>
         </ul>
 </span>

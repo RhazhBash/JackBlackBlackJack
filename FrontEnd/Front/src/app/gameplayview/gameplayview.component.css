@@ -17,13 +17,14 @@
 
 .play-background{
     background-image: url("../../assets/green-felt-background.jpg");
+    
     background-color: #cccccc;
     height: 500px;
      background-position: center;
      background-repeat: repeat;
     background-size: cover;
     position: relative;
- 
+
     
 }
 #deal{

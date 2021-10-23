@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Emitters } from '../emitters';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,11 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  isCollapsed: boolean =true; 
+  isCollapsed: boolean =true;
+  authenticated = false; 
   
-  message = '(Please Login to begin playing)';
+  message = 'Please Login to play';
+  message2 = 'Welcome Click Start to play';
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router:Router
   ) { 
   }
 
@@ -20,15 +25,18 @@ export class NavBarComponent implements OnInit {
   }
   
   ngOnInit(): void {
- /*   
-    this.http.get('http://localhost:8090/user', {withCredentials: true}).subscribe(
-      (res: any)=> {
-        this.message = 'Hi ${res.name}';
-      },
-      err => {
-        this.message = 'You are not logged in';
+    Emitters.authEmmitter.subscribe(
+      (auth: boolean) => {
+        this.authenticated = auth
       }
-    )*/
+    )
+    
+  }
+
+  logout() {
+    localStorage.removeItem("id_token");
+    this.router.navigate(['/'])
+    this.authenticated = false
   }
 
 }

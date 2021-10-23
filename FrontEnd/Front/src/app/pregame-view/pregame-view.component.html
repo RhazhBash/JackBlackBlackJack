@@ -10,8 +10,12 @@
         <br>
         <div class="row">
             <div class="col"></div>
-            <div class="col-lg-6 text-center">
-                <a routerLink = '/gameplay'><button  type="button" class="btn btn-success btn-lg btn-block px-5 py-3">START</button></a>
+            
+            <div class="col-lg-6 text-center" *ngIf="!authenticated">
+                
+                    <div *ngIf="y">{{message}}</div>
+                    <button (click)="start()" type="button" class="btn btn-success btn-lg btn-block px-5 py-3">START</button>
+                
             </div>
             <div class="col"></div>
         </div>
