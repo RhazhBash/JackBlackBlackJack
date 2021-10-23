@@ -18,7 +18,7 @@ public class User {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	@Column(name = "user_id")
-	private String ID; 
+	private int ID; 
 	
 	@Column(name = "name")
 	private String name;
@@ -57,7 +57,10 @@ public class User {
 	@Column(name = "chipcount")
 	private int chipCount;
 
-	public User(String iD, String name, Timestamp registered, String username, String password, String address,
+	
+	
+	
+	public User(int iD, String name, Timestamp registered, String username, String password, String address,
 			String city, String state, String zipcode, ArrayList<String> friends, String cardnumber,
 			String expirationdate, String securitycode, String dOB, String email, int chipCount) {
 		super();
@@ -135,11 +138,11 @@ public class User {
 				+ ", chipCount=" + chipCount + "]";
 	}
 
-	public String getID() {
+	public int getID() {
 		return ID;
 	}
 
-	public void setID(String iD) {
+	public void setID(int iD) {
 		ID = iD;
 	}
 

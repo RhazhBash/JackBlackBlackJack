@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 public class GameDTO {
 
+	private String JWT;
 	private int bet;
 	private String deck_id;
 	private Card[] playerHand;
@@ -11,29 +12,33 @@ public class GameDTO {
 	
 	
 	
-	public GameDTO(int bet, String deck_id, Card[] playerHand, Card[] dealerHand) {
+	public GameDTO(String JWT, int bet, String deck_id, Card[] playerHand, Card[] dealerHand) {
 		super();
+		this.JWT= JWT;
 		this.bet = bet;
 		this.deck_id = deck_id;
 		this.playerHand = playerHand;
 		this.dealerHand = dealerHand;
 	}
 	
-	public GameDTO(String deck_id, Card[] playerHand, Card[] dealerHand) {
+	public GameDTO(String JWT, String deck_id, Card[] playerHand, Card[] dealerHand) {
 		super();
+		this.JWT = JWT;
 		this.deck_id = deck_id;
 		this.playerHand = playerHand;
 		this.dealerHand = dealerHand;
 	}
 	
-	public GameDTO(String deck_id, Card[] Hand) {
+	public GameDTO(String JWT, String deck_id, Card[] Hand) {
 		super();
+		this.JWT = JWT;
 		this.deck_id = deck_id;
 		this.playerHand = Hand;
 	}
 	
-	public GameDTO(String deck_id) {
+	public GameDTO(String JWT, String deck_id) {
 		super();
+		this.JWT = JWT;
 		this.deck_id = deck_id;
 	}
 
@@ -43,9 +48,16 @@ public class GameDTO {
 	}
 
 	@Override
+	public String toString() {
+		return "GameDTO [JWT=" + JWT + ", bet=" + bet + ", deck_id=" + deck_id + ", playerHand="
+				+ Arrays.toString(playerHand) + ", dealerHand=" + Arrays.toString(dealerHand) + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((JWT == null) ? 0 : JWT.hashCode());
 		result = prime * result + bet;
 		result = prime * result + Arrays.hashCode(dealerHand);
 		result = prime * result + ((deck_id == null) ? 0 : deck_id.hashCode());
@@ -62,6 +74,11 @@ public class GameDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		GameDTO other = (GameDTO) obj;
+		if (JWT == null) {
+			if (other.JWT != null)
+				return false;
+		} else if (!JWT.equals(other.JWT))
+			return false;
 		if (bet != other.bet)
 			return false;
 		if (!Arrays.equals(dealerHand, other.dealerHand))
@@ -76,10 +93,12 @@ public class GameDTO {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "GameDTO [bet=" + bet + ", deck_id=" + deck_id + ", playerHand=" + Arrays.toString(playerHand)
-				+ ", dealerHand=" + Arrays.toString(dealerHand) + "]";
+	public String getJWT() {
+		return JWT;
+	}
+
+	public void setJWT(String jWT) {
+		JWT = jWT;
 	}
 
 	public int getBet() {
@@ -113,6 +132,7 @@ public class GameDTO {
 	public void setDealerHand(Card[] dealerHand) {
 		this.dealerHand = dealerHand;
 	}
+
 	
 	
 }
