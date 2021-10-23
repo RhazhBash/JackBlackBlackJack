@@ -5,13 +5,15 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RulesPopUpComponent } from './rules-pop-up/rules-pop-up.component';
 import { PregameViewComponent } from './pregame-view/pregame-view.component';
+import { AccountComponent } from './account/account.component';
 
 const routes: Routes = [
-  {path: '', component: PregameViewComponent},
-  {path:'gameplay', component: GameplayviewComponent},
+  {path:'', component: PregameViewComponent},
   {path:'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  
+  {path: 'gameplay', component: GameplayviewComponent},
+  {path: 'preGame', component: PregameViewComponent},
+  {path: 'acctChange', component: AccountComponent}
   
 ];
 

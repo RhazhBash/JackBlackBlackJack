@@ -14,63 +14,99 @@ public class GameController {
 	
 	public Handler startGameHandler = (ctx) -> {
 		
-		GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
+		if(ctx.req.getSession(false) != null) {
 		
-		Game game=GS.startGame(GDTO);
+			GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
 		
-		String JSONGame = gson.toJson(game);
+			Game game=GS.startGame(GDTO);
 		
-		ctx.status(200);
-		ctx.result(JSONGame);
+			String JSONGame = gson.toJson(game);
+		
+			ctx.status(200);
+			ctx.result(JSONGame);
+		}
+		
+		else {
+			ctx.status(403); 
+		}
 	};
 	
 	public Handler doubleDownHandler = (ctx) -> {
 		
-		GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
+		if(ctx.req.getSession(false) != null) {
 		
-		Game game = GS.doubleDown(GDTO);
+			GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
 		
-		String JSONGame = gson.toJson(game);
+			Game game = GS.doubleDown(GDTO);
 		
-		ctx.status(200);
-		ctx.result(JSONGame);
+			String JSONGame = gson.toJson(game);
+		
+			ctx.status(200);
+			ctx.result(JSONGame);
+		}
+		
+		else {
+			ctx.status(403); 
+		}
 	};
 	
 	public Handler standHandler = (ctx) -> {
 		
-		GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
+		if(ctx.req.getSession(false) != null) {
 		
-		Game game = GS.stand(GDTO);
+			GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
 		
-		String JSONGame = gson.toJson(game);
+			Game game = GS.stand(GDTO);
 		
-		ctx.status(200);
-		ctx.result(JSONGame);
+			String JSONGame = gson.toJson(game);
+		
+			ctx.status(200);
+			ctx.result(JSONGame);
+		}
+		
+		else {
+			ctx.status(403); 
+		}
 		
 	};
 	
 	public Handler playerHitHandler = (ctx) -> {
 		
-		GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
+		if(ctx.req.getSession(false) != null) {
 		
-		Game game = GS.hit(GDTO);
+			GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
 		
-		String JSONGame = gson.toJson(game);
+			Game game = GS.hit(GDTO);
 		
-		ctx.status(200);
-		ctx.result(JSONGame);
+			String JSONGame = gson.toJson(game);
+		
+			ctx.status(200);
+			ctx.result(JSONGame);
+		}
+		
+		else {
+			ctx.status(403); 
+		}
 		
 	};
 	
+	//Note that when calling this the hand passed from the front end must be called playerHand
 	public Handler dealerHitHandler = (ctx) -> {
 		
-		GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
+		if(ctx.req.getSession(false) != null) {
 		
-		Game game = GS.dealerHit(GDTO);
+			GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
 		
-		String JSONGame = gson.toJson(game);
+			Game game = GS.dealerHit(GDTO);
 		
-		ctx.status(200);
-		ctx.result(JSONGame);
+			String JSONGame = gson.toJson(game);
+		
+			ctx.status(200);
+			ctx.result(JSONGame);
+		}
+		
+		else {
+			ctx.status(403); 
+		}
 	};
 }

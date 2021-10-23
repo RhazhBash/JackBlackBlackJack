@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Emitters } from '../emitters';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { Observable } from 'rxjs';
 
 export class LoginComponent implements OnInit {
   form!: FormGroup;
+  dispError = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,12 +35,24 @@ export class LoginComponent implements OnInit {
 
   submit() {
   this.http.post('http://localhost:8090/user/login', this.form.getRawValue(),{responseType: 'text'}
-  ).subscribe(() => this.router.navigate(['/']), res => this.setSession(res));
+  ).subscribe(res => this.setSession(res),err => this.credentialsMismatch);
   }
   
   private setSession(authResult:any) {
   localStorage.setItem('id_token', authResult);
-  }   
+  if (authResult){
+    Emitters.authEmmitter.emit(true);
+    this.router.navigate(['/'])  
+  } else{
+    Emitters.authEmmitter.emit(false); 
+  }
+  }
+  
+  credentialsMismatch(authError:Error) {
+    if (authError){
+    this.dispError = true
+    }
+  }
 
 }
 

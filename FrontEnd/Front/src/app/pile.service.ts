@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+/*
 import { IPilesList } from './pilesList';
 import { IPilesListDealer } from './pilesListDealer';
 import { AddCardResponse } from './addCardResponse';
 import { IGame } from './game';
 import { Observable } from 'rxjs';
-
+*/
 @Injectable({
   providedIn: 'root'
 })
@@ -17,19 +18,47 @@ export class PileService {
   constructor(private http: HttpClient) {
 
    }
-
+/*
   getPlayerPile(deck_id: string):Observable<IPilesList>{
     return this.http.get<IPilesList>(this.apiURLbase 
                                + deck_id 
                                + "/pile/player/list/");
   }
-
+*/
+  getPlayerPile(deck_id: string):any{
+    let response = "";
+    const http = new XMLHttpRequest();
+    http.open("GET", this.apiURLbase + deck_id + "/pile/player/list/");
+    http.send();
+    http.onreadystatechange = () => {
+      if(http.readyState==4 && http.status==200){
+      let responseJSON = http.responseText;
+      response = JSON.parse(responseJSON);
+      }
+    }
+       return response;
+  }
+/*
   getDealerPile(deck_id: string):Observable<IPilesListDealer>{
     return this.http.get<IPilesListDealer>(this.apiURLbase 
                                + deck_id 
                                + "/pile/dealer/list/");
   }
-
+*/
+  getDealerPile(deck_id: string):any{
+    let response = "";
+    const http = new XMLHttpRequest();
+    http.open("GET", this.apiURLbase + deck_id + "/pile/dealer/list/");
+    http.send();
+    http.onreadystatechange = () => {
+      if(http.readyState==4 && http.status==200){
+      let responseJSON = http.responseText;
+      response = JSON.parse(responseJSON);
+     }
+    }
+      return response;
+  }
+/*
   addCardToPile(deck_id: string, pile_name:string, card_code:string):Observable<AddCardResponse>{
     return this.http.get<AddCardResponse>(this.apiURLbase 
                                 + deck_id 
@@ -38,13 +67,50 @@ export class PileService {
                                 +"/add/?cards="
                                 + card_code);
   }
+*/
+  addCardToPile(deck_id: string, pile_name:string, card_code:string):void{
+    const http = new XMLHttpRequest();
+    http.open("GET", this.apiURLbase 
+                    + deck_id 
+                    + "/pile/" 
+                    + pile_name
+                    + "/add/?cards="
+                    + card_code);
+    http.send();
+    http.onreadystatechange = () => {
+      if(http.readyState==4 && http.status==200){
+      let responseJSON = http.responseText;
+      console.log(JSON.parse(responseJSON));
+      }
+    }
 
+  }
+/*
   sendPlayerPile(piles: IPilesList): Observable<IGame>{
     return this.http.post<IGame>(this.serverURLbase + "/game/hit/player", piles);
   }
-
+*/
+sendPile(pile:string,isPlayerPile:boolean):any{
+  let response = "";
+  const http = new XMLHttpRequest();
+  let sendPackage = JSON.stringify(pile);
+  if(isPlayerPile){
+    http.open("POST", this.serverURLbase + "/game/hit/player");
+  } else {
+    http.open("POST", this.serverURLbase + "/game/hit/dealer");
+  } 
+  http.send(sendPackage);
+  http.onreadystatechange = () => {
+    if(http.readyState==4 && http.status==200){
+    let responseJSON = http.responseText;
+    response = JSON.parse(responseJSON);
+    }
+  }
+   return response;
+}
+/*
   sendDealerPile(pile: IPilesList): Observable<IGame>{
     return this.http.post<IGame>(this.serverURLbase + "/game/hit/dealer", pile);
   }
-
+*/
 }
