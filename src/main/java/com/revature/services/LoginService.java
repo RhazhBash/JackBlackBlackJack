@@ -36,10 +36,20 @@ public class LoginService {
 		
 		if (udao.getUserByCredentials(reciever)!=null) {
 			user.getFriends().add(reciever);
+			System.out.println(user.getFriends());
 			udao.addUser(user);
 			return true;
 		}
 		else
 			return false;
+	}
+	
+	public User getUser(String username) {
+		User user = udao.getUserByCredentials(username);
+		return user;
+	}
+	
+	public void updateUser(User user) {
+		udao.updateUserInfo(user);
 	}
 }

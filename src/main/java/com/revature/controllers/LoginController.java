@@ -77,20 +77,69 @@ public class LoginController {
 		
 	};
 	
+	
+	public Handler getUserHandler = (ctx) -> {
+		
+		if(ctx.req.getSession(false) != null) {
+		
+			String jwt = gson.fromJson(ctx.body(), String.class);
+		
+			String username = JWTUtil.decode(jwt);
+		
+			User user = ls.getUser(username);
+		
+			String JSONUser = gson.toJson(user);
+		
+			ctx.result(JSONUser);
+			
+		}
+		
+		else {
+			ctx.status(403); 
+		}
+	};
+	
+	
 	//Request should have the jwt for the logged in user and an input from a text field representing the person they want to add
 	public Handler friendsHandler = (ctx) -> {
 		
-		FriendsDTO FDTO = gson.fromJson(ctx.body(), FriendsDTO.class);
+	
+		if(ctx.req.getSession(false) != null) {
+			
 		
-		String username = JWTUtil.decode(FDTO.getJwt());
+			FriendsDTO FDTO = gson.fromJson(ctx.body(), FriendsDTO.class);
 		
-		if (ls.addFriend(username, FDTO.getAdding())) {
-			ctx.result(FDTO.getAdding()+"successfully added");
-			ctx.status(200);
+			String username = JWTUtil.decode(FDTO.getJwt());
+		
+			if (ls.addFriend(username, FDTO.getAdding())) {
+				ctx.result(FDTO.getAdding()+" successfully added");
+				ctx.status(200);
+			}
+			else
+				ctx.result("User not found");
 		}
-		else
-			ctx.result("User not found");
 		
+		else {
+			ctx.status(403); 
+		}
+		
+	};
+	
+	public Handler updateUserHandler = (ctx) -> {
+		
+		if(ctx.req.getSession(false) != null) {
+			
+			User user = gson.fromJson(ctx.body(), User.class);
+			
+			ls.updateUser(user);
+			
+			ctx.status(200);
+			
+		}
+		
+		else {
+			ctx.status(403); 
+		}
 	};
 
 	/*
