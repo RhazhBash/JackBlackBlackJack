@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { theDeck } from './deck';
 import { IDrawResponse } from './draw-card';
 import { IGame } from './game';
-
+import { PileService } from './pile.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,42 +16,77 @@ export class DeckService {
   private url: string = "http://deckofcardsapi.com/api/deck/"
   private readonly serverURLbase: string = "http://localhost:8090/";
  
-  constructor(private http: HttpClient) { }
-  private deckID:string =''
-  
+  constructor(private http: HttpClient, public pileService:PileService) { }
+  public deckID:string =''
+  public playerHand:String[] =[]
+  public dealerHand:string[]=[]
+  public newCard:string=''
+  public parsed_NewCard:string[]=[]
+  public parsed_Cards:string=''
+  public newCardCode:string=''
+  public cardsSubCat:string[]=[]
+  public cardValue:string=''
 
+  getCard(){
+    const Http = new XMLHttpRequest();
+    Http.open("GET", this.url+ this.deckID+ "/draw/"+"?count=1/");        //
+    Http.send();                                                          //this function draws a new card from the deck api 
+    Http.onreadystatechange = (e) => {                                    //using the deck_id from the original deck
+      let newCard = (Http.responseText)                                   //
+      let parsed_NewCard = JSON.parse(newCard)                            //        this is to get the proper information
+                                                                         //        after hittng the deal button
+      let allCardStats = parsed_NewCard.cards   
+      this.cardValue = allCardStats.value    
+      
+      
+    }
 
-  getCard(): Observable<IGame>{
-    //var drawnCard = 
-  
-   return this.http.get<IGame>(this.url
-                                  + this.deckID
-                                  + "/draw/"
-                                 +"?count=1/");
-   }
    
-  getDeck(bet2:number):  Observable<IGame>{
+
+
+    }
+  
+  
+
+  getDeck(bet2:number){
+    
+
     class fullObject {
-        constructor (private bet:number,private playerHand:string[], private dealerHand:string[], private deck_id:string){
+        constructor (private bet:number,private playerHand:string[], private dealerHand:string[], private deck_id:string){ //object to be sent to the back end
            this.bet = bet
            this.playerHand = playerHand
            this.dealerHand = dealerHand
            this.deck_id = deck_id
         }
     }
-  
-    let newDeck = this.http.get<IDrawResponse>(this.url + "new/draw/?count=4")
-    let deck = Object.entries(newDeck); //deck is shown as a JSON object, (sucess, deck_id, remaining, shuffled)
-    let deck_idKey = deck[2];          //deck_id array is shown independently
-    this.deckID = deck_idKey[1];      //deck_id is seperated from the key 
-      
-    let usedCards = deck[1]; //pulls "cards" array from the deck
-    let usedCards2 = usedCards[1]; //pulls card value from "cards" array
-    let playerHand:string[] = [usedCards2[0].value, usedCards2[2].value]; //pulls card value 1 and 3 from values array and puts it in the player hand 
-    let dealerHand:string[] = [usedCards2[1].value, usedCards2[3].value]; //pulls card value 2 and 4 from values array and puts it in the dealer hand
-    let package2:fullObject = new fullObject(bet2,playerHand,dealerHand,this.deckID); //adds all values to package2, so it can be sent awayyy 
 
-    return this.http.post<IGame>(this.serverURLbase +"game/start/", package2 )
+  
+
+    
+    const Http = new XMLHttpRequest();                  //
+    Http.open("GET", this.url + "new/draw/?count=4");   //  
+    Http.send();                                        //  
+    Http.onreadystatechange = (e) => {                  //
+      let newDeck = (Http.responseText)                 //
+      let parsed_deck = JSON.parse(newDeck)             //        this is to get the proper information
+      let deckID= parsed_deck.deck_id                   //        after hittng the deal button
+      let allCards = parsed_deck.cards                  //
+      this.playerHand = [allCards[0], allCards[2]]      //
+      this.dealerHand = [allCards[1], allCards[3]]      //
+      
+      
+
+    }
+    //console.log(fullObject)
+    //return this.http.post<IGame>(this.serverURLbase +"game/start/", fullObject ) //update the post request to the back end******************************************************
+
+
+
+    
+    
+    
+    
+   
   }
 
  

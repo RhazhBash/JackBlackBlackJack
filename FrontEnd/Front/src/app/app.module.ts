@@ -20,6 +20,8 @@ import { RegisterComponent } from './register/register.component';
 import { AccountComponent } from './account/account.component';
 import { AccountViewComponent } from './account-view/account-view.component';
 import { PregameViewComponent } from './pregame-view/pregame-view.component';
+import { TransferService } from './services/game-bet.service';
+import { DeckService } from './deck.service';
 
 
 
@@ -37,7 +39,8 @@ import { PregameViewComponent } from './pregame-view/pregame-view.component';
     RegisterComponent,
     AccountComponent,
     AccountViewComponent,
-    PregameViewComponent
+    PregameViewComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,10 @@ import { PregameViewComponent } from './pregame-view/pregame-view.component';
     
   ],
   providers: [
-    PileService
+    PileService,
+    TransferService,
+    DeckService,
+    
   ],
   bootstrap: [AppComponent]
 })

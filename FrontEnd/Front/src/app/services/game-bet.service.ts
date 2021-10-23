@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BettingSectionComponent } from '../betting-section/betting-section.component';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class TransferService {
-  constructor(private router:Router, public bettingSection:BettingSectionComponent) { }
+  constructor(private router:Router){ }
 
-  public bet:number = this.bettingSection.pot;
+  public bet:number = 0
   public temp:number = 0;
   
   setBet(bet:number){
