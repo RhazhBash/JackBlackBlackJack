@@ -3,10 +3,14 @@ package com.revature;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.revature.controllers.LoginController;
 import com.revature.controllers.QuoteController;
+import com.revature.daos.QuoteDAO;
 import com.revature.controllers.GameController;
 import com.revature.models.Card;
 import com.revature.models.Deck;
@@ -16,10 +20,16 @@ import io.javalin.Javalin;
 
 public class Launcher {
 
+	
+	
 	public static void main(String[] args) {
+		
 	LoginController lc = new LoginController(); 
 	QuoteController QC = new QuoteController();
 	GameController GC = new GameController();
+	
+	Logger log = LogManager.getLogger(QuoteDAO.class);
+	log.info("API is up and running");
 	
 	Javalin app = Javalin.create(
 			config -> {
@@ -36,6 +46,7 @@ public class Launcher {
 	app.post("/user/friends", lc.friendsHandler);
 	app.post("/user/get", lc.getUserHandler);
 	app.post("/user/update", lc.updateUserHandler);
+	app.post("/user/chips", lc.sendChipsHandler);
 	app.post("/game/hit/dealer", GC.dealerHitHandler);
 	app.post("/game/stand", GC.standHandler);
 	app.post("/game/doubledown", GC.doubleDownHandler);

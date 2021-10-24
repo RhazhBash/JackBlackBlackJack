@@ -1,7 +1,9 @@
 package com.revature.services;
 
 import com.revature.daos.userDAO;
+import com.revature.models.ChipDTO;
 import com.revature.models.User;
+import com.revature.utils.JWTUtil;
 
 public class LoginService {
 	
@@ -51,5 +53,24 @@ public class LoginService {
 	
 	public void updateUser(User user) {
 		udao.updateUserInfo(user);
+	}
+	
+	public void sendChips(ChipDTO CDTO) {
+		
+		User sender = udao.getUserByCredentials(JWTUtil.decode(CDTO.getJwt()));
+		
+		if (sender.getChipCount()>=CDTO.getChips()) {
+			
+			User recipient = udao.getUserByCredentials(CDTO.getReciepient());
+			
+			int senderChips = sender.getChipCount()-CDTO.getChips();
+			int recipientChips = recipient.getChipCount()+CDTO.getChips();
+			
+			sender.setChipCount(senderChips);
+			udao.updateUserInfo(sender);
+			recipient.setChipCount(recipientChips);
+			udao.updateUserInfo(recipient);
+		}
+		
 	}
 }
