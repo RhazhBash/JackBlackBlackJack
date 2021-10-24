@@ -10,9 +10,9 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-  sendPile(newPile: Observable<IPilesList>, arg1: boolean) {
+  /*sendPile(newPile: Observable<IPilesList>, arg1: boolean) {
     throw new Error('Method not implemented.');
-  }
+  }*/
 export class PileService {
 
   private readonly apiURLbase: string = "http://deckofcardsapi.com/api/deck/";
@@ -37,14 +37,9 @@ export class PileService {
       if(http.readyState ==4 && http.status==200){
       let responseJSON = http.responseText;
       response = JSON.parse(responseJSON);
-<<<<<<< HEAD
-      } else {
-        console.log()
-=======
       console.log(response)
       }else{
         console.log(http.status)
->>>>>>> e519932c8c7a9a42f8996809ce8e805f70fa581a
       }
     }
     console.log(http.status)
