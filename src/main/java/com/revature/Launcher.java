@@ -3,8 +3,8 @@ package com.revature;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,8 +28,8 @@ public class Launcher {
 	QuoteController QC = new QuoteController();
 	GameController GC = new GameController();
 	
-	Logger log = LogManager.getLogger(QuoteDAO.class);
-	log.info("API is up and running");
+	//Logger log = LogManager.getLogger(QuoteDAO.class);
+	//log.info("API is up and running");
 	
 	Javalin app = Javalin.create(
 			config -> {

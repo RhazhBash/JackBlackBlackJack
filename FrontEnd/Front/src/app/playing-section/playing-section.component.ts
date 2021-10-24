@@ -25,7 +25,7 @@ export class PlayingSectionComponent implements OnInit {
   
   bank:number = 1000
   public deckID:string =''
-  public playerHand:String[] =[]
+  public playerHand:string[] =[] 
   public dealerHand:string[]=[]
   public newCard:string=''
   public parsed_NewCard:string[]=[]
@@ -39,7 +39,7 @@ export class PlayingSectionComponent implements OnInit {
   public allCards:string[]=[]
   public playerSingleCard1:string=''
   public playerSingleCard2:string=''
-  public playerSingleCardImage:string=''
+  public playerSingleCardImage:any=''
   
   private url: string = "http://deckofcardsapi.com/api/deck/"
   public playerSingleCardImage2:string=''
@@ -54,22 +54,15 @@ export class PlayingSectionComponent implements OnInit {
     this.iGame=<IGame>{};
    }
 
+   
+
+
   ngOnInit():void {
     //this.subscription = this.deckService.cardView.subscribe(item => this.item = item)
     this.JWTToken = localStorage.getItem('id_token')
     this.bet=this.transferService.getBet()
     
-    class fullObject {
-      constructor (private JWTtoken:string, private bet:number,private deck_id:string, private playerHand:string[], private dealerHand:string[]){ //object to be sent to the back end
-        this.JWTtoken = JWTtoken 
-        this.bet = bet
-        this.deck_id = deck_id
-        this.playerHand = playerHand
-        this.dealerHand = dealerHand
-         
-         }
-
-    }
+    
   //this.deckService.getDeck(4)
   
     
@@ -92,34 +85,27 @@ export class PlayingSectionComponent implements OnInit {
           this.playerHand = [this.allCards[0], this.allCards[2]]      //putting 2 of the 4 drawn cards into a playing section array
           this.dealerHand = [this.allCards[1], this.allCards[3]] 
           this.deckService.deckID=this.deckID  
-          }
-        }
-         
-   
-              //same witht eh dealer array
-          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          
-         console.log(this.playerHand)
-          let playerSingleCard = this.allCards[0]      //players first card OBJ
+          console.log(this.playerHand)
+          console.log(this.allCards[0])
+          console.log(this.playerHand)
 
+
+
+          let playerSingleCard:any = this.allCards[0]      //players first card OBJ
           console.log(playerSingleCard)
-          let playerSingleCardValues = Object.values(playerSingleCard)        //value array of player 1st card OBJ
+          let playerSingleCardValues = Object.values(playerSingleCard)
+          console.log(playerSingleCardValues)        //value array of player 1st card OBJ
           let playerCardValue=(Object.values(playerSingleCardValues))[0]        //values of players 1st card
          
           console.log(playerCardValue)//code player card
           this.playerSingleCardImage=playerSingleCardValues[1]          //adding first player card img
+
+
+          /////////////////////////////////////////////////////player 1st card/////////////////////////////////////////////
           
          // this.pileService.addCardToPile(this.deckID, "player",playerCardValue )//adding first player card to player pile
           console.log(playerSingleCard)
           console.log(this.playerSingleCardImage)
-          //let hahahahah = this.pileService.getPlayerPile(this.deckID)
-          //console.log(hahahahah)
-
-          /////////////////////////////////1st player card///////////////////////////////
-
-
-
-
           let dealerSingleCard = this.allCards[3]           //dealer second card
           console.log(dealerSingleCard)
           let dealerSingleCardValues = Object.values(dealerSingleCard)          //values array of dealers second card
@@ -164,6 +150,39 @@ export class PlayingSectionComponent implements OnInit {
           let dealerSingleCardValues2 = Object.values(dealerSingleCard2)  //value array of dealers second card
           let dealerCardValue2=(Object.values(dealerSingleCardValues2))[0]///code of dealer 2nd card
           this.dealerSingleCardImage2=dealerSingleCardValues2[1]          ////saving img of dealer card
+           
+          console.log("************************************************************")
+          this.sendBackEndInfo()  
+        }
+      }
+       
+   
+              //same with the dealer array
+          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          
+         console.log(this.playerHand)
+          let playerSingleCard:any = this.allCards[0]      //players first card OBJ
+          console.log(playerSingleCard)
+          let playerSingleCardValues = Object.values(playerSingleCard)
+          console.log(playerSingleCardValues)        //value array of player 1st card OBJ
+          let playerCardValue=(Object.values(playerSingleCardValues))[0]        //values of players 1st card
+         
+          console.log(playerCardValue)//code player card
+          this.playerSingleCardImage=playerSingleCardValues[1]          //adding first player card img
+          
+         // this.pileService.addCardToPile(this.deckID, "player",playerCardValue )//adding first player card to player pile
+          console.log(playerSingleCard)
+          console.log(this.playerSingleCardImage)
+          //let hahahahah = this.pileService.getPlayerPile(this.deckID)
+          //console.log(hahahahah)
+          
+
+          /////////////////////////////////1st player card///////////////////////////////
+
+
+
+
+          
           //console.log(playerSingleCard)
          // console.log(this.dealerSingleCardImage2)                         
           //this.playerSingleCard1 
@@ -216,12 +235,44 @@ export class PlayingSectionComponent implements OnInit {
              this.deck_id = deck_id
           }
       }*/
+      
         
       
   
     }
+
+
       
-      
+sendBackEndInfo():any{
+  class fullObject {
+    constructor (private JWTtoken:string, private bet:number,private deck_id:string, private playerHand:String[], private dealerHand:String[]){ //object to be sent to the back end
+      this.JWTtoken = JWTtoken 
+      this.bet = bet
+      this.deck_id = deck_id
+      this.playerHand = playerHand
+      this.dealerHand = dealerHand
+       
+       }
+
+  }
+  const Http = new XMLHttpRequest();  
+  let backEndInfo = new fullObject(this.JWTToken, this.bet , this.deckID, this.playerHand, this.dealerHand)
+  console.log(backEndInfo)
+      let newGameRequest = JSON.stringify(backEndInfo);
+      Http.open("POST", this.serverURLbase + "game/start")
+      console.log(newGameRequest)
+      Http.send(newGameRequest)
+      Http.onreadystatechange=(e)=>{
+        if (Http.readyState == 4){
+          console.log("success")
+          let responseJSON = Http.responseText;
+          let response = JSON.parse(responseJSON);
+          console.log(response)
+
+
+        }
+      }
+}      
  
 
 
