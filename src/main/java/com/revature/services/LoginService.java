@@ -1,7 +1,7 @@
 package com.revature.services;
 
 import com.revature.daos.userDAO;
-import com.revature.models.ChipDTO;
+//import com.revature.models.ChipDTO;
 import com.revature.models.User;
 import com.revature.utils.JWTUtil;
 
@@ -55,22 +55,22 @@ public class LoginService {
 		udao.updateUserInfo(user);
 	}
 	
-	public void sendChips(ChipDTO CDTO) {
+	//public void sendChips(ChipDTO CDTO) {
 		
-		User sender = udao.getUserByCredentials(JWTUtil.decode(CDTO.getJwt()));
+		//User sender = udao.getUserByCredentials(JWTUtil.decode(CDTO.getJwt()));
 		
-		if (sender.getChipCount()>=CDTO.getChips()) {
+		//if (sender.getChipCount()>=CDTO.getChips()) {
 			
-			User recipient = udao.getUserByCredentials(CDTO.getReciepient());
+		//	User recipient = udao.getUserByCredentials(CDTO.getReciepient());
 			
-			int senderChips = sender.getChipCount()-CDTO.getChips();
-			int recipientChips = recipient.getChipCount()+CDTO.getChips();
+		//	int senderChips = sender.getChipCount()-CDTO.getChips();
+		//	int recipientChips = recipient.getChipCount()+CDTO.getChips();
 			
-			sender.setChipCount(senderChips);
-			udao.updateUserInfo(sender);
-			recipient.setChipCount(recipientChips);
-			udao.updateUserInfo(recipient);
-		}
+		//	sender.setChipCount(senderChips);
+		//	udao.updateUserInfo(sender);
+		//	recipient.setChipCount(recipientChips);
+		//	udao.updateUserInfo(recipient);
+		//}
 		
-	}
+	//}
 }

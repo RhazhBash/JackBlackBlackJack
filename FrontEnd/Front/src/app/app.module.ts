@@ -56,6 +56,7 @@ import { AuthInterceptor } from './AuthInterceptor';
   providers: [
     PileService,
     TransferService,
+    CardComponent,
     DeckService,
     {
       provide: HTTP_INTERCEPTORS,
