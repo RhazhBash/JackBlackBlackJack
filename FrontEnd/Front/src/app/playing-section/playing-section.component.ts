@@ -240,6 +240,8 @@ export class PlayingSectionComponent implements OnInit {
       
   
     }
+
+
       
 sendBackEndInfo():any{
   class fullObject {
