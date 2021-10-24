@@ -1,9 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-<<<<<<< HEAD
 import { CardComponent } from '../card/card/card.component';
-=======
->>>>>>> 42ce29b007ec7fbd476bbaa7ab4a806e15463c9e
 import { DeckService } from '../deck.service';
 import { PileService } from '../pile.service';
 import { TransferService } from '../services/game-bet.service';

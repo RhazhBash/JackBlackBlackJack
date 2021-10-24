@@ -10,6 +10,9 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+  sendPile(newPile: Observable<IPilesList>, arg1: boolean) {
+    throw new Error('Method not implemented.');
+  }
 export class PileService {
 
   private readonly apiURLbase: string = "http://deckofcardsapi.com/api/deck/";
