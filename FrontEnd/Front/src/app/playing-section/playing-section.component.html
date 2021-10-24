@@ -1,7 +1,7 @@
 
 
 <span>
-    <button class="Hit" (click)="hit">Hit</button>
+    <button class="Hit" (click)="hit()">Hit</button>
 </span>
 <span>
     <button class="dd" (click)="dd">Double Down</button>
@@ -10,6 +10,21 @@
     <button class="Stay" (click)="stay">Stay</button>
 </span>
 <div class="container d flex">
-    <p>{{playerTotal}}</p>
-    getCardSource  
+    <p>{{this.iGame.playerTotal}}</p>
+    <img src={{this.playerSingleCardImage2}} alt="">  
+    <img src="{{this.playerSingleCardImage}}" alt="">
+    
+    <img *ngFor="let cardImage of this.deckService.cardImageArray" src="{{cardImage}}">
+
+    <p>Dealer</p>
+    <img src="../../assets/card-back.png" alt="">  
+    <img src="{{this.dealerSingleCardImage}}" alt="">
+    
+    <!--<img *ngFor="let cardImage of this.deckService.cardImageArray" src="{{cardImage}}">-->
+
+</div>
+<div class="container d flex">
+    <p>Dealer Total is:</p>
+    <p>{{this.iGame.dealerTotal}}</p>
+
 </div>

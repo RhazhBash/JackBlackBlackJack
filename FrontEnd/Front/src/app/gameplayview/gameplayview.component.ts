@@ -14,12 +14,13 @@ import { TransferService } from '../services/game-bet.service';
 export class GameplayviewComponent implements OnInit {
   isCollapsed: boolean =true;
   bet:number = 0;
-
+  
   constructor(public deckService:DeckService, public transferService:TransferService, private router:Router, public cardService:CardComponent, public pileService:PileService) { }
   
   toggleCollapse(){
     this.isCollapsed = !this.isCollapsed;
     this.transferService.bet = this.bet;
+    
   }
   
 
