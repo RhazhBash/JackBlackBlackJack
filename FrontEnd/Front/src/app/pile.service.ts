@@ -34,6 +34,8 @@ export class PileService {
       if(http.readyState==4 && http.status==200){
       let responseJSON = http.responseText;
       response = JSON.parse(responseJSON);
+      } else {
+        console.log()
       }
     }
        return response;
@@ -104,6 +106,8 @@ sendPile(pile:string,isPlayerPile:boolean):any{
     if(http.readyState==4 && http.status==200){
     let responseJSON = http.responseText;
     response = JSON.parse(responseJSON);
+    } else {
+      console.log("send hit failed with status: " + http.status)
     }
   }
    return response;

@@ -37,6 +37,7 @@ export class NavBarComponent implements OnInit {
     localStorage.removeItem("id_token");
     this.router.navigate(['/'])
     this.authenticated = false
+    console.log("user logged out. auth removed.");
   }
 
 }

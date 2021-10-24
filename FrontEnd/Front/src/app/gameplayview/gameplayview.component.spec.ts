@@ -22,4 +22,9 @@ describe('GameplayviewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('toggle to false', () => {
+    component.toggleCollapse;
+    expect(component.isCollapsed).toBeFalse;
+  });
 });

@@ -42,15 +42,18 @@ export class LoginComponent implements OnInit {
   localStorage.setItem('id_token', authResult);
   if (authResult){
     Emitters.authEmmitter.emit(true);
+    console.log("user auth successful");
     this.router.navigate(['/'])  
   } else{
-    Emitters.authEmmitter.emit(false); 
+    Emitters.authEmmitter.emit(false);
+    console.log("user auth failed");
   }
   }
   
   credentialsMismatch(authError:Error) {
     if (authError){
     this.dispError = true
+    console.log(authError);
     }
   }
 

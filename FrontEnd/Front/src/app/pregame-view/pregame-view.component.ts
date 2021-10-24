@@ -34,6 +34,7 @@ export class PregameViewComponent implements OnInit {
       this.router.navigate(['/gameplay'])
     } else {
       this.y = true;
+      console.log("get local token failed");
     }
   }
 

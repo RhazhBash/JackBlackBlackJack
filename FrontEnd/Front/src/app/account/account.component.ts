@@ -2,10 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { userAccount } from '../models/userAccount';
-import { Observable } from 'rxjs';
-import { IGame } from '../game';
-import { isDelegatedFactoryMetadata } from '@angular/compiler/src/render3/r3_factory';
 
 @Component({
   selector: 'app-account',
@@ -41,25 +37,41 @@ export class AccountComponent implements OnInit {
   }
 
   submit(): void {
-    this.http.post('http://localhost:8090/user/register', this.form.getRawValue(),{responseType: 'text'}
-    ).subscribe(() => this.router.navigate(['/login']));
+    const http = new XMLHttpRequest();
+    let prePackage = this.form.getRawValue();
+    prePackage.JWT = localStorage.getItem('id_token');
+    let packageToSend = JSON.stringify(prePackage);
+    http.open("POST", "http://localhost:8090//user/get");
+    http.send(packageToSend);
+    http.onreadystatechange = () => {
+      if(http.readyState==4 && http.status==200){
+        console.log("update account post status: " + http.status);
+      }
+      else{
+        console.log("update account post failed with status: "  + http.status);
+      }
+    }
+    this.router.navigate(['/acctView']);
   }
 
   getAcctInfo():any{
-    let response = null;
+    let response:any = null;
     const http = new XMLHttpRequest();
-    http.open("POST", "http://localhost:8090//game/hit/dealer");
+    http.open("POST", "http://localhost:8090//user/update");
     http.send(localStorage.getItem('id_token'));
     http.onreadystatechange = () => {
       if(http.readyState==4 && http.status==200){
       let responseJSON = http.responseText;
       response = JSON.parse(responseJSON);
+      console.log("get account information successful");
+      } else {
+        console.log("update account initial field population failed with status: " + http.status);
       }
     }
      return response;
   }
 
   back():void{
-    this.router.navigate(['/login']);
+    this.router.navigate(['/acctView']);
   }
 }
