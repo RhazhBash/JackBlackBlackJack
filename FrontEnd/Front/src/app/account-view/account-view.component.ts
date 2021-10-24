@@ -9,6 +9,11 @@ import { UserService } from '../user.service';
 })
 export class AccountViewComponent implements OnInit {
 
+  chips = 10
+  name = ''
+  email = ''
+  username = ''
+  password = ''
   public user : any
   constructor(
     private http:HttpClient,
