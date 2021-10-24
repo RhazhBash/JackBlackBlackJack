@@ -13,7 +13,8 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'gameplay', component: GameplayviewComponent},
   {path: 'preGame', component: PregameViewComponent},
-  {path: 'acctChange', component: AccountComponent}
+  {path: 'acctChange', component: AccountComponent},
+  {path: 'account', component: AccountComponent}
   
 ];
 

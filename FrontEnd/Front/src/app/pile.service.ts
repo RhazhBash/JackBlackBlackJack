@@ -10,10 +10,13 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+  sendPile(newPile: Observable<IPilesList>, arg1: boolean) {
+    throw new Error('Method not implemented.');
+  }
 export class PileService {
 
   private readonly apiURLbase: string = "http://deckofcardsapi.com/api/deck/";
-  private readonly serverURLbase: string = "http://localhost:8090/";
+  private readonly serverURLbase: string = "http://localhost:8090";
 
   constructor(private http: HttpClient) {
 
@@ -31,13 +34,21 @@ export class PileService {
     http.open("GET", this.apiURLbase + deck_id + "/pile/player/list/");
     http.send();
     http.onreadystatechange = () => {
-      if(http.readyState==4 && http.status==200){
+      if(http.readyState ==4 && http.status==200){
       let responseJSON = http.responseText;
       response = JSON.parse(responseJSON);
+<<<<<<< HEAD
       } else {
         console.log()
+=======
+      console.log(response)
+      }else{
+        console.log(http.status)
+>>>>>>> e519932c8c7a9a42f8996809ce8e805f70fa581a
       }
     }
+    console.log(http.status)
+    console.log(http.readyState)
        return response;
   }
 /*
@@ -53,9 +64,12 @@ export class PileService {
     http.open("GET", this.apiURLbase + deck_id + "/pile/dealer/list/");
     http.send();
     http.onreadystatechange = () => {
-      if(http.readyState==4 && http.status==200){
+      if(http.readyState ==4 &&http.status==200){
       let responseJSON = http.responseText;
       response = JSON.parse(responseJSON);
+      console.log(response)
+     }else{
+       console.log(http.status)
      }
     }
       return response;
@@ -72,6 +86,7 @@ export class PileService {
 */
   addCardToPile(deck_id: string, pile_name:string, card_code:string):void{
     const http = new XMLHttpRequest();
+    console.log(card_code+"***************")
     http.open("GET", this.apiURLbase 
                     + deck_id 
                     + "/pile/" 
@@ -80,12 +95,17 @@ export class PileService {
                     + card_code);
     http.send();
     http.onreadystatechange = () => {
-      if(http.readyState==4 && http.status==200){
-      let responseJSON = http.responseText;
-      console.log(JSON.parse(responseJSON));
+      if(http.readyState==4 && http.status ==200){
+        
+       
+          let responseJSON = http.responseText;
+      
+          console.log(JSON.parse(responseJSON));
+        
+      
       }
     }
-
+    
   }
 /*
   sendPlayerPile(piles: IPilesList): Observable<IGame>{
@@ -103,7 +123,7 @@ sendPile(pile:string,isPlayerPile:boolean):any{
   } 
   http.send(sendPackage);
   http.onreadystatechange = () => {
-    if(http.readyState==4 && http.status==200){
+    if(http.status==200){
     let responseJSON = http.responseText;
     response = JSON.parse(responseJSON);
     } else {

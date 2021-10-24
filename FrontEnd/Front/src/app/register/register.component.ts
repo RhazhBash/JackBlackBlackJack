@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
       city:'',
       state:'',
       zipcode:'',
-      creditcard:'',
+      cardnumber:'',
       expirationdate:'',
       securitycode:'',
       dob:''
