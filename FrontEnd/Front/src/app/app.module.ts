@@ -56,6 +56,7 @@ import { DeckService } from './deck.service';
     PileService,
     TransferService,
     DeckService,
+    CardComponent
     
   ],
   bootstrap: [AppComponent]

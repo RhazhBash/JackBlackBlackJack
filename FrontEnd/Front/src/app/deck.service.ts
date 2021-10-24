@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
+import { HtmlParser } from '@angular/compiler';
 import { isDelegatedFactoryMetadata } from '@angular/compiler/src/render3/r3_factory';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, Output } from '@angular/core';
+//import { emit } from 'process';
 //import { stringify } from 'querystring';
 import { Observable } from 'rxjs';
 //import { runInThisContext } from 'vm';
@@ -8,11 +10,16 @@ import { theDeck } from './deck';
 import { IDrawResponse } from './draw-card';
 import { IGame } from './game';
 import { PileService } from './pile.service';
+//import { Emitters } from './emitters';
+//import { EventEmitter } from 'stream';
+import { BehaviorSubject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeckService {
+  //public emitter:Emitters = false
   private url: string = "http://deckofcardsapi.com/api/deck/"
   private readonly serverURLbase: string = "http://localhost:8090/";
  
@@ -25,28 +32,69 @@ export class DeckService {
   public parsed_Cards:string=''
   public newCardCode:string=''
   public cardsSubCat:string[]=[]
+  public cardValueArray:string[]=[]
   public cardValue:string=''
+  public preDeck:boolean=false
+  private cardSource =new BehaviorSubject<any>(0)
+  cardView =this.cardSource.asObservable();
+  public allCards:string[]=[]
+  public playerSingleCard1:string=''
+  public playerSingleCard2:string=''
+  public playerSingleCardImage:string=''
+  public item:string=''
+  public cardValueSplit:string=''
+  public cardCode:string=''
+  public cardImage:string=''
+  public cardImageArray:string[]=[]
 
   getCard(){
     const Http = new XMLHttpRequest();
-    Http.open("GET", this.url+ this.deckID+ "/draw/"+"?count=1/");        //
+    Http.open("GET", this.url+ this.deckID+ "/draw/"+"?count=1");        //
     Http.send();                                                          //this function draws a new card from the deck api 
-    Http.onreadystatechange = (e) => {                                    //using the deck_id from the original deck
-      let newCard = (Http.responseText)                                   //
-      let parsed_NewCard = JSON.parse(newCard)                            //        this is to get the proper information
+    Http.onreadystatechange = (e) => {    
+      if (Http.readyState ==4){
+        let newCard = (Http.responseText)                                   //
+        let parsed_NewCard = JSON.parse(newCard)  
+        console.log(newCard)                          //        this is to get the proper information
+        let deckID= parsed_NewCard.deck_id 
+        console.log(deckID)  
                                                                          //        after hittng the deal button
-      let allCardStats = parsed_NewCard.cards   
-      this.cardValue = allCardStats.value    
+        let allCardStats = parsed_NewCard.cards 
+        console.log(allCardStats)
+        this.cardValueArray = Object.values(allCardStats) 
+        this.cardValueSplit = this.cardValueArray[0]
+        this.cardValue=allCardStats[0].value
+        this.cardImage=allCardStats[0].image
+        this.cardCode=allCardStats[0].code
+        console.log(this.cardCode)
+        this.cardImageArray.push(this.cardImage)
+        console.log(this.cardImageArray)
+       // console.log(this.cardImage)
+       // console.log(this.cardValueArray) 
+      //  console.log(this.cardValueSplit)
+        //console.log(this.cardValue) 
+
+      }                                //using the deck_id from the original deck
+      
       
       
     }
+  }
+  /*
+  changeCardList(stringArray:string[]){
+    this.cardSource.next(this.playerHand)
+  }
+  updateCardList(item:string){
+    this.changeCardList(this.playerSingleCardImage)
+  }
+  */
 
-   
 
 
-    }
-  
-  
+
+
+
+
 
   getDeck(bet2:number){
     
@@ -66,13 +114,27 @@ export class DeckService {
     const Http = new XMLHttpRequest();                  //
     Http.open("GET", this.url + "new/draw/?count=4");   //  
     Http.send();                                        //  
-    Http.onreadystatechange = (e) => {                  //
-      let newDeck = (Http.responseText)                 //
-      let parsed_deck = JSON.parse(newDeck)             //        this is to get the proper information
-      let deckID= parsed_deck.deck_id                   //        after hittng the deal button
-      let allCards = parsed_deck.cards                  //
-      this.playerHand = [allCards[0], allCards[2]]      //
-      this.dealerHand = [allCards[1], allCards[3]]      //
+    Http.onreadystatechange = () => {  
+      if (Http.readyState ==4){               //
+        let newDeck = (Http.responseText)
+        console.log(newDeck)                                                   //
+        let parsed_deck = JSON.parse(newDeck) //error
+        console.log(parsed_deck)            //        this is to get the proper information
+        let deckID= parsed_deck.deck_id                   //        after hittng the deal button
+        this.allCards = parsed_deck.cards  
+        console.log(this.allCards)                //
+        this.playerHand = [this.allCards[0], this.allCards[2]]      //
+        this.dealerHand = [this.allCards[1], this.allCards[3]] 
+        let playerSingleCard = this.allCards[0]
+        console.log(playerSingleCard)
+        let playerSingleCardValues = Object.values(playerSingleCard)
+        this.playerSingleCardImage=playerSingleCardValues[1]
+        console.log(playerSingleCard)
+        console.log(this.playerSingleCardImage)
+        //this.playerSingleCard1 
+        
+          
+      }
       
       
 
