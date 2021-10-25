@@ -1,6 +1,7 @@
 export interface IUser {
+    ID: Number
     name: string,
     username: string,
-    email: string,
-    chipCount: Number
+    friends:[],
+    chipCount: number
 }

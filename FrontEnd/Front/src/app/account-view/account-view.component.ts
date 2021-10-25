@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { IUser } from '../user';
 import { UserService } from '../user.service';
 
 @Component({
@@ -9,12 +10,11 @@ import { UserService } from '../user.service';
 })
 export class AccountViewComponent implements OnInit {
 
-  chips = 10
+  
   name = ''
-  email = ''
   username = ''
-  password = ''
-  public user : any
+  chips = 10
+  public user!: IUser; 
   constructor(
     private http:HttpClient,
     private userService:UserService
@@ -22,15 +22,14 @@ export class AccountViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.http.post('http://localhost:8090/user/get', localStorage.getItem("id_token"))
-    //.subscribe(user => this.acountView(user))
     this.userService.getUser()
       .subscribe(data => this.user = data)
-      console.log(localStorage.getItem("username"))
   }
 
-  acountView(userInfo:any){
-    console.log(userInfo)
+  acountView(userInfo:IUser){
+    this.name = 'bruh'
+    this.username = userInfo.username
+    this.chips = userInfo.chipCount
     
   }
 }
