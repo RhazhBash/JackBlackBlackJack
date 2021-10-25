@@ -20,6 +20,7 @@ public class GameService {
 		//Take a game object passed from the handler and send it to the DAO to be stored
 		//This method returns the ID of the game for the front end to track
 		Game game = new Game();
+		int gameState=0;
 		boolean blackjack=false;
 		boolean isPush=false;
 		String id=gameDTO.getDeck_id();
@@ -53,10 +54,13 @@ public class GameService {
 		
 		if (playerTotal==21&&dealerTotal!=21) {
 			blackjack=true;
+			gameState=1;
 		}
-		else if (playerTotal==21&&dealerTotal==21)
+		else if (playerTotal==21&&dealerTotal==21) {
 			isPush = true;
-		Game newGame = new Game(id, 0, true, true, isPush, false, bet, playerTotal, true, false, blackjack, false, false, false, false, playerHand, dealerTotal, false, false, dealerHand);
+			gameState=4;
+		}
+		Game newGame = new Game(id, gameState, true, true, isPush, false, bet, playerTotal, true, false, blackjack, false, false, false, false, playerHand, dealerTotal, false, false, dealerHand);
 		
 		if (blackjack) {
 			int payout = newGame.getPlayerBet()/2;
@@ -93,6 +97,7 @@ public class GameService {
 		
 		if (playerTotal>21) {
 			game.setPlayerBust(true);
+			game.setGameState(2);
 		}
 		
 		GDAO.newGame(game);
@@ -123,17 +128,21 @@ public class GameService {
 				int payout = game.getPlayerBet()*2;
 				user.setChipCount(user.getChipCount()+payout);
 				UDAO.addUser(user);
+				game.setGameState(1);
 			}
 			else if (game.getPlayerTotal()==dealerTotal) {
 				user.setChipCount(user.getChipCount()+game.getPlayerBet());
 				UDAO.addUser(user);
+				game.setGameState(4);
 			}
+			else
+				game.setGameState(3);
 		}
 		
 		else if (dealerTotal>21) {
 			
 			game.setDealerBust(true);
-			
+			game.setGameState(1);
 			int payout = game.getPlayerBet()*2;
 			user.setChipCount(user.getChipCount()+payout);
 			UDAO.addUser(user);

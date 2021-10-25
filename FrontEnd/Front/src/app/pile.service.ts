@@ -11,6 +11,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
   /*sendPile(newPile: Observable<IPilesList>, arg1: boolean) {
+/*
+  sendPile(newPile: Observable<IPilesList>, arg1: boolean) {
     throw new Error('Method not implemented.');
   }*/
 export class PileService {

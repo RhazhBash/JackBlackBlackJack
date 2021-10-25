@@ -9,6 +9,11 @@ import { UserService } from '../user.service';
 })
 export class AccountViewComponent implements OnInit {
 
+  chips = 10
+  name = ''
+  email = ''
+  username = ''
+  password = ''
   public user : any
   constructor(
     private http:HttpClient,
@@ -21,9 +26,11 @@ export class AccountViewComponent implements OnInit {
     //.subscribe(user => this.acountView(user))
     this.userService.getUser()
       .subscribe(data => this.user = data)
+      console.log(localStorage.getItem("username"))
   }
 
   acountView(userInfo:any){
-
+    console.log(userInfo)
+    
   }
 }

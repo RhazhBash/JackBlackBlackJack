@@ -88,23 +88,19 @@ public class LoginController {
 	
 	public Handler getUserHandler = (ctx) -> {
 		
-		if(ctx.req.getSession(false) != null) {
+		
 		
 			String jwt = gson.fromJson(ctx.body(), String.class);
+			
+			//String username = JWTUtil.decode(jwt);
 		
-			String username = JWTUtil.decode(jwt);
-		
-			User user = ls.getUser(username);
+			User user = ls.getUser(jwt);
 		
 			String JSONUser = gson.toJson(user);
 		
 			ctx.result(JSONUser);
 			
-		}
-		
-		else {
-			ctx.status(403); 
-		}
+	
 	};
 	
 	

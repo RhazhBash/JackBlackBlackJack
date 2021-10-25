@@ -22,4 +22,11 @@ describe('PlayingSectionComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should get HttpClient.get for PileService getPlayerPile', ()=>{
+    let expectedID:string = "entjlmvpe7cf"
+    component.deckService.deckID = expectedID;              
+    component.deckService.getCard();
+    expect(component.deckService.deckID).toBe(expectedID);
+    });
 });
