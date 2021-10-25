@@ -56,22 +56,23 @@ public class LoginService {
 		udao.updateUserInfo(user);
 	}
 	
-	//public void sendChips(ChipDTO CDTO) {
+	public int sendChips(User user) {
 		
-		//User sender = udao.getUserByCredentials(JWTUtil.decode(CDTO.getJwt()));
+		User sender = udao.getUserByCredentials(user.getName());
 		
-		//if (sender.getChipCount()>=CDTO.getChips()) {
+		if (sender.getChipCount()>=user.getChipCount()) {
 			
-		//	User recipient = udao.getUserByCredentials(CDTO.getReciepient());
+			User recipient = udao.getUserByCredentials(user.getUsername());
 			
-		//	int senderChips = sender.getChipCount()-CDTO.getChips();
-		//	int recipientChips = recipient.getChipCount()+CDTO.getChips();
+			int senderChips = sender.getChipCount()-user.getChipCount();
+			int recipientChips = recipient.getChipCount()+user.getChipCount();
 			
-		//	sender.setChipCount(senderChips);
-		//	udao.updateUserInfo(sender);
-		//	recipient.setChipCount(recipientChips);
-		//	udao.updateUserInfo(recipient);
-		//}
+			sender.setChipCount(senderChips);
+			udao.updateUserInfo(sender);
+			recipient.setChipCount(recipientChips);
+			udao.updateUserInfo(recipient);
+		}
 		
-	//}
+		return sender.getChipCount();
+	}
 }

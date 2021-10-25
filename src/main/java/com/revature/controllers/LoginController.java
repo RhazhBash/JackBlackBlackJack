@@ -147,20 +147,12 @@ public class LoginController {
 	};
 	
 	public Handler sendChipsHandler = (ctx) -> {
-		
-		if(ctx.req.getSession(false) != null) {
+					
+			User user = gson.fromJson(ctx.body(), User.class);
 			
-			//ChipDTO CDTO = gson.fromJson(ctx.body(), ChipDTO.class);
-			
-			//ls.sendChips(CDTO);
-			
+			ctx.result("Your New Chip Count is " + ls.sendChips(user));
 			ctx.status(200);
-		}
-	
-	
-		else {
-			ctx.status(403); 
-		}
+			
 	};
 
 	/*

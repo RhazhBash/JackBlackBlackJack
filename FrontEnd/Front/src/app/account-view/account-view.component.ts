@@ -23,11 +23,11 @@ export class AccountViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUser()
-      .subscribe(data => this.user = data)
+      .subscribe(data => this.accountView(data))
   }
 
-  acountView(userInfo:IUser){
-    this.name = 'bruh'
+  accountView(userInfo:IUser){
+    this.name = userInfo.name
     this.username = userInfo.username
     this.chips = userInfo.chipCount
     

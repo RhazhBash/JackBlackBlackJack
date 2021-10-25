@@ -23,6 +23,7 @@ import { PregameViewComponent } from './pregame-view/pregame-view.component';
 import { TransferService } from './services/game-bet.service';
 import { DeckService } from './deck.service';
 import { AuthInterceptor } from './AuthInterceptor';
+import { SendchipsComponent } from './sendchips/sendchips.component';
 
 
 
@@ -41,6 +42,7 @@ import { AuthInterceptor } from './AuthInterceptor';
     AccountComponent,
     AccountViewComponent,
     PregameViewComponent,
+    SendchipsComponent,
    
   ],
   imports: [
