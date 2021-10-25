@@ -160,7 +160,7 @@ public class GameService {
 		game.setPlayerStanding(true);
 		game.setPlayersTurn(false);
 		
-		GDAO.newGame(game);
+		GDAO.betterUpdateMethod(game);
 		
 		return game;
 		
