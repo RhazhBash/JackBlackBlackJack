@@ -16,7 +16,7 @@ fdescribe('HttpPileService', ()=>{
     pileService = TestBed.inject(PileService);
     httpTestController = TestBed.get(HttpTestingController);
   });
-
+/*
   it('should get HttpClient.get for PileService getPlayerPile', ()=>{
     const testPile = {
                       "success": true,
@@ -124,4 +124,5 @@ fdescribe('HttpPileService', ()=>{
   });
 });
 
-
+*/
+})

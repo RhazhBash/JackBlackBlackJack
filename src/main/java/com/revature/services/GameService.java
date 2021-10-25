@@ -25,7 +25,7 @@ public class GameService {
 		String id=gameDTO.getDeck_id();
 		int bet=gameDTO.getBet();
 		
-		User player = UDAO.getUserByCredentials(JWTUtil.decode(gameDTO.getJWT()));
+		User player = UDAO.getUserByCredentials(JWTUtil.decode(gameDTO.getJWTtoken()));
 		
 		int chips = player.getChipCount();
 		chips = chips-bet;
@@ -102,7 +102,7 @@ public class GameService {
 	
 	public Game dealerHit(GameDTO GDTO) {
 		Game game = GDAO.getGame(GDTO.getDeck_id());
-		User user = UDAO.getUserByCredentials(JWTUtil.decode(GDTO.getJWT()));
+		User user = UDAO.getUserByCredentials(JWTUtil.decode(GDTO.getJWTtoken()));
 		
 		ArrayList<String> dealerHand = new ArrayList<String>();
 		

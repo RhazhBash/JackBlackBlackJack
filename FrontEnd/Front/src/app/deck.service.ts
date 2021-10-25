@@ -46,39 +46,49 @@ export class DeckService {
   public cardCode:string=''
   public cardImage:string=''
   public cardImageArray:string[]=[]
+  public allCardStats:any
+  
+  
 
-  getCard(){
+  getCard():any{
     const Http = new XMLHttpRequest();
     Http.open("GET", this.url+ this.deckID+ "/draw/"+"?count=1");        //
     Http.send();                                                          //this function draws a new card from the deck api 
     Http.onreadystatechange = (e) => {    
-      if (Http.readyState ==4){
+      if (Http.readyState ==4 && Http.status==200){
         let newCard = (Http.responseText)                                   //
         let parsed_NewCard = JSON.parse(newCard)  
-        console.log(newCard)                          //        this is to get the proper information
+        console.log(newCard)  
+        console.log(parsed_NewCard)                        //        this is to get the proper information
         let deckID= parsed_NewCard.deck_id 
         console.log(deckID)  
                                                                          //        after hittng the deal button
-        let allCardStats = parsed_NewCard.cards 
-        console.log(allCardStats)
-        this.cardValueArray = Object.values(allCardStats) 
+        this.allCardStats = parsed_NewCard.cards  //object of new card = all allCardStats
+        console.log(this.allCardStats)
+        this.cardValueArray = Object.values(this.allCardStats) //card by itself with cardValueArray
+        console.log(this.cardValueArray)
+        console.log(this.cardValue)
+        console.log(this.allCardStats[0])
         this.cardValueSplit = this.cardValueArray[0]
-        this.cardValue=allCardStats[0].value
-        this.cardImage=allCardStats[0].image
-        this.cardCode=allCardStats[0].code
+        console.log(this.cardValueSplit)
+        this.cardValue=this.allCardStats[0].value
+        this.cardImage=this.allCardStats[0].image
+        this.cardCode=this.allCardStats[0].code
         console.log(this.cardCode)
+        console.log(this.cardValueSplit)
         this.cardImageArray.push(this.cardImage)
         console.log(this.cardImageArray)
        // console.log(this.cardImage)
        // console.log(this.cardValueArray) 
       //  console.log(this.cardValueSplit)
         //console.log(this.cardValue) 
-
+       
       }                                //using the deck_id from the original deck
       
       
       
     }
+    
   }
   /*
   changeCardList(stringArray:string[]){

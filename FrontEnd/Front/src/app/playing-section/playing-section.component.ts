@@ -6,6 +6,11 @@ import {IGame} from '../../app/game'
 import { isDelegatedFactoryMetadata } from '@angular/compiler/src/render3/r3_factory';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { TransferService } from '../services/game-bet.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+//import { callbackify } from 'util';
+
+//import { stringify } from 'querystring';
 
 
 @Component({
@@ -22,12 +27,13 @@ export class PlayingSectionComponent implements OnInit {
     public subscription: Subscription = new Subscription;
     public item:any
     pot:number=0
-  
+  public gameState:any 
+  public freeBoolean:boolean = false
   bank:number = 1000
   public deckID:string =''
   public playerHand:string[] =[] 
   public dealerHand:string[]=[]
-  public newCard:string=''
+  public newCard:any
   public parsed_NewCard:string[]=[]
   public parsed_Cards:string=''
   public newCardCode:string=''
@@ -50,7 +56,17 @@ export class PlayingSectionComponent implements OnInit {
   private readonly serverURLbase: string = "http://localhost:8090/";
   public bet:number = 0
   public JWTToken:any=''
-  constructor(public cardService:CardComponent, public pileService:PileService, public deckService:DeckService, public transferService:TransferService) {
+  public response:any
+  public allCardStats:any
+  public dealermessage:string=''
+  public cardImageArray:string[]=[]
+  public cardValueArray:string[]=[]
+  public cardImage:string=''
+  public cardPool:string[] =[] 
+ 
+
+
+  constructor(public cardService:CardComponent, public pileService:PileService, public deckService:DeckService, public transferService:TransferService ) {
     this.iGame=<IGame>{};
    }
 
@@ -58,17 +74,20 @@ export class PlayingSectionComponent implements OnInit {
 
 
   ngOnInit():void {
-    //this.subscription = this.deckService.cardView.subscribe(item => this.item = item)
     this.JWTToken = localStorage.getItem('id_token')
     this.bet=this.transferService.getBet()
-    
+    this.dealStart();
+  }
+    //this.subscription = this.deckService.cardView.subscribe(item => this.item = item)
+   
     
   //this.deckService.getDeck(4)
   
-    
+  async dealStart(){
     console.log("Curtis")
+    try{
     const Http = new XMLHttpRequest();                  //
-      Http.open("GET", this.url + "new/draw/?count=4");   //  
+      Http.open("GET", this.url + "new/draw/?count=16");   //  
       Http.send();                                        //  
       Http.onreadystatechange = () => {  
         if (Http.readyState ==4){               
@@ -81,10 +100,18 @@ export class PlayingSectionComponent implements OnInit {
 
           console.log("*********"+this.deckID+"*********")                //        after hittng the deal button
           this.allCards = parsed_deck.cards                             //playing section array or card objects
-          console.log(this.allCards)                
+          console.log(this.allCards) 
+           
+                      
           this.playerHand = [this.allCards[0], this.allCards[2]]      //putting 2 of the 4 drawn cards into a playing section array
           this.dealerHand = [this.allCards[1], this.allCards[3]] 
-          this.deckService.deckID=this.deckID  
+          this.deckService.deckID=this.deckID
+          
+          for(let i = 0; i < 12; i++){
+            this.cardPool.push(this.allCards[i])
+          }
+
+          console.log(this.cardPool)
           console.log(this.playerHand)
           console.log(this.allCards[0])
           console.log(this.playerHand)
@@ -146,21 +173,27 @@ export class PlayingSectionComponent implements OnInit {
 
           //dealer deal cards
           let dealerSingleCard2 = this.allCards[1]              //dealr second card OBJ
-          console.log(dealerSingleCard2)
+          console.log(dealerSingleCard2)                                                                             /////dealer card 2 discrepency
           let dealerSingleCardValues2 = Object.values(dealerSingleCard2)  //value array of dealers second card
           let dealerCardValue2=(Object.values(dealerSingleCardValues2))[0]///code of dealer 2nd card
           this.dealerSingleCardImage2=dealerSingleCardValues2[1]          ////saving img of dealer card
            
           console.log("************************************************************")
-          this.sendBackEndInfo()  
+          this.sendBackEndInfo()
+          this.updateView();
         }
+      
+        }
+      }catch(e: any){
       }
-       
+    
+      
+      
    
               //same with the dealer array
           ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           
-         console.log(this.playerHand)
+       
           let playerSingleCard:any = this.allCards[0]      //players first card OBJ
           console.log(playerSingleCard)
           let playerSingleCardValues = Object.values(playerSingleCard)
@@ -236,16 +269,20 @@ export class PlayingSectionComponent implements OnInit {
           }
       }*/
       
-        
-      
-  
     }
-
+      
+   
+  //**********************************************************************end NGONINT */
+  // async getCardPool(){
+      // this.cardPool = await this.cardGen()
+///}
+ 
+  
 
       
 sendBackEndInfo():any{
   class fullObject {
-    constructor (private JWTtoken:string, private bet:number,private deck_id:string, private playerHand:String[], private dealerHand:String[]){ //object to be sent to the back end
+    constructor (private JWTtoken:string, private bet:number,private deck_id:string, private playerHand:string[], private dealerHand:string[]){ //object to be sent to the back end
       this.JWTtoken = JWTtoken 
       this.bet = bet
       this.deck_id = deck_id
@@ -264,28 +301,81 @@ sendBackEndInfo():any{
       Http.send(newGameRequest)
       Http.onreadystatechange=(e)=>{
         if (Http.readyState == 4){
-          console.log("success")
+          console.log("success") 
           let responseJSON = Http.responseText;
-          let response = JSON.parse(responseJSON);
-          console.log(response)
-
-
+          this.response = JSON.parse(responseJSON);
+          console.log(this.response)
+          this.gameState= this.response
+          this.freeBoolean = true
+          
         }
       }
 }      
  
+hit(){
+  const Http = new XMLHttpRequest();
+  Http.open("GET", this.url+ this.deckID+ "/draw/"+"?count=1");        //
+  Http.send();                                                          //this function draws a new card from the deck api 
+  Http.onreadystatechange = (e) => {    
+    if (Http.readyState ==4 && Http.status==200){
+      let newCard = Http.responseText                                  //
+      let parsed_NewCard = JSON.parse(newCard)  
+      console.log(newCard)  
+      console.log(parsed_NewCard)                        //        this is to get the proper information
+      let deckID= parsed_NewCard.deck_id 
+      console.log(deckID)  
+                                                                       //        after hittng the deal button
+      this.allCardStats = parsed_NewCard.cards  //object of new card = all allCardStats
+      console.log(this.allCardStats)
+      this.cardValueArray = Object.values(this.allCardStats) //card by itself with cardValueArray
+      console.log(this.cardValueArray)
+      console.log(this.cardValue)
+      console.log(this.allCardStats[0])
+      let cardValueSplit = this.cardValueArray[0]
+      console.log(cardValueSplit)
+      this.cardValue=this.allCardStats[0].value
+      let cardImage=this.allCardStats[0].image
+      let cardCode=this.allCardStats[0].code
+      console.log(cardCode)
+      console.log(cardValueSplit)
+      this.cardImageArray.push(this.cardImage)
+      console.log(this.cardImageArray)
+     // console.log(this.cardImage)
+
+     // console.log(this.cardValueArray) 
+    //  console.log(this.cardValueSplit)
+      //console.log(this.cardValue) 
+      this.sendBackEndInfo()
+      this.updateView()
+     
+    }                                //using the deck_id from the original deck
+  }
+} 
+   
+  
+  
 
 
-  hit():void{
-    this.deckService.getCard()
-    console.log(this.deckService.deckID)
+
+
+  
+    
+    
+
+
+
+    //this.updateView()
    // this.pileService.addCardToPile(this.deckService.deckID, 'player', this.deckService.cardCode)
    // let newPile= this.pileService.getPlayerPile(this.deckService.deckID)
    // let updatedPile=this.pileService.sendPile(newPile, true)
    // Object.assign(this.iGame,updatedPile)
 
 
-    }
+    
+
+ 
+
+
     stay():void{
 
     }
@@ -318,25 +408,26 @@ updateView(){
   dealerBust = true (bust message is shown)*/
 
 
-    if(this.iGame.isPlayersTurn && this.iGame.gameState == 0){
+    if(this.gameState.isPlayersTurn && this.gameState.gameState == 0){
         //where player can draw/ hit stand player buttons avail.
         //update player hand values
        
 
 
-        if(this.iGame.playerHasDoubledDown){  //dd button showtoggle
+        if(this.response.playerHasDoubledDown){  //dd button showtoggle
           this.ddCollapse=false;
         }
         //seperate condition for DD
     } else {
 
       this.hitStayButtonCollapse=false
-      if(this.iGame.playerHasDoubledDown){        //this block eliminates all player input buttons when turn ends
+      if(this.response.playerHasDoubledDown){        //this block eliminates all player input buttons when turn ends
         this.ddCollapse = false
       }
-      switch(this.iGame.gameState){
+      switch(this.gameState.gameState){
         case 0: //dealer turn
           //update dealer hand vlaues
+          this.displayMessage="huosoaosoas"
             
           
           
@@ -346,7 +437,7 @@ updateView(){
         case 1: //player wins
           this.displayMessage = "You Won!"
 
-         if (this.iGame.playerTotal=21){    //if player has black jack display "black jack message"
+         if (this.response.playerTotal=21){    //if player has black jack display "black jack message"
            this.displayMessage = "You Won with BlackJack!"
          }
 
@@ -364,7 +455,7 @@ updateView(){
           this.displayMessage = "You Lost!"
 
 
-          if(this.iGame.dealerTotal=21){//if dealer total is 21, show dealer blackjack message
+          if(this.response.dealerTotal=21){//if dealer total is 21, show dealer blackjack message
             this.displayMessage="You Lost! Dealer BlackJack!"
           }
            
@@ -379,9 +470,52 @@ updateView(){
     }    
 
 
-
+  
  
 
 
 }
+
+
+
+
+
+/*console.log("*****hitting*****")
+    const Http = new XMLHttpRequest();
+    Http.open("GET", this.url+ this.deckID+ "/draw/?count=1");   
+    console.log(Http.readyState)     //
+    Http.send();     
+    console.log(Http.readyState)                                                     //this function draws a new card from the deck api 
+    Http.onreadystatechange = () => {  
+      console.log(Http.readyState)
+      console.log(Http.status)
+      if (Http.readyState ==4 && Http.status==200){
+        let newCard = (Http.responseText)                                   //
+        let parsed_NewCard = JSON.parse(newCard)  
+        console.log(newCard)  
+        console.log(parsed_NewCard)                        //        this is to get the proper information
+        let deckID= parsed_NewCard.deck_id 
+        console.log(deckID)  
+                                                                         //        after hittng the deal button
+        this.deckService.allCardStats = parsed_NewCard.cards  //object of new card = all allCardStats
+        console.log(this.deckService.allCardStats)
+        this.deckService.cardValueArray = Object.values(this.deckService.allCardStats) //card by itself with cardValueArray
+        console.log(this.deckService.cardValueArray)
+        console.log(this.cardValue)
+        this.deckService.cardValueSplit = this.deckService.cardValueArray[0]
+        this.cardValue=this.deckService.allCardStats[0].value
+        this.deckService.cardImage=this.deckService.allCardStats[0].image
+        this.deckService.cardCode=this.deckService.allCardStats[0].code
+        console.log(this.deckService.cardCode)
+        console.log(this.deckService.cardValueSplit)
+        this.deckService.cardImageArray.push(this.deckService.cardImage)
+        console.log(this.deckService.cardImageArray)
+    console.log(this.deckService.deckID)
+    //let tempNewCard =JSON.parse(this.deckService.allCardStats)
+    console.log(this.deckService.cardValueSplit)
+    */
+      }
+
+function cardGen(): ((this: XMLHttpRequest, ev: Event) => any) | null {
+  throw new Error('Function not implemented.');
 }

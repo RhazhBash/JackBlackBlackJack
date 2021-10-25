@@ -14,7 +14,7 @@ public class GameController {
 	
 	public Handler startGameHandler = (ctx) -> {
 		
-		if(ctx.req.getSession(false) != null) {
+		//if(ctx.req.getSession(false) != null) {
 		
 			GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
 		
@@ -24,11 +24,11 @@ public class GameController {
 		
 			ctx.status(200);
 			ctx.result(JSONGame);
-		}
+		//}
 		
-		else {
-			ctx.status(403); 
-		}
+		//else {
+		//	ctx.status(403); 
+		//}
 	};
 	
 	public Handler doubleDownHandler = (ctx) -> {
@@ -75,7 +75,8 @@ public class GameController {
 		if(ctx.req.getSession(false) != null) {
 		
 			GameDTO GDTO = gson.fromJson(ctx.body(), GameDTO.class);
-		
+			System.out.println(GDTO.getDeck_id());
+			System.out.println((GDTO.getPlayerHand()));
 			Game game = GS.hit(GDTO);
 		
 			String JSONGame = gson.toJson(game);
