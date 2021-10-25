@@ -17,15 +17,16 @@ export class PlayingSectionComponent implements OnInit {
     iGame:IGame;
     public displayMessage:string=''
     public pushMessage:string='No one wins and you get your chips back.'
-    public ddCollapse:boolean=true
-    public hitStayButtonCollapse:boolean=true
+    public ddCollapse:boolean=false;
+    public hitStayButtonCollapse:boolean=false;
     public subscription: Subscription = new Subscription;
     public item:any
     pot:number=0
   
   bank:number = 1000
   public deckID:string =''
-  public playerHand:string[] =[] 
+  public playerHand:String[] =[]
+  public playerSplitHand:string[]=[]
   public dealerHand:string[]=[]
   public newCard:string=''
   public parsed_NewCard:string[]=[]
@@ -290,9 +291,35 @@ sendBackEndInfo():any{
 
     }
 
-    dd(){
+    async dd(){
+      this.bet *= 2;
+      let packageToSend:any = {};
+      packageToSend.JWT = localStorage.getItem("id_token");
+      packageToSend.deckID = this.deckID;
+      const http = new XMLHttpRequest();
+      http.open("POST", "http://localhost:8090/game/doubledown");
+      http.send(packageToSend); 
+      http.onreadystatechange = (e) => {    
+        if (http.readyState ==4 && http.status == 200){
+          console.log("doubledown request successful");
+        } else {
+          console.log("doubledown request unsuccessful");
+        }
+      }
+      this.hit();
+    }
+
+    exitGame():void{
 
     }
+
+    restartGame():void{
+
+    }
+
+
+
+
 updateView(){
   /*playertotal
     dealertotal
@@ -318,38 +345,43 @@ updateView(){
   dealerBust = true (bust message is shown)*/
 
 
-    if(this.iGame.isPlayersTurn && this.iGame.gameState == 0){
+    if(this.gameState.isPlayersTurn && this.gameState.gameState == 0){
         //where player can draw/ hit stand player buttons avail.
         //update player hand values
-       
+        this.hitStayButtonCollapse=false
+      if(this.playerHand.length < 3){
 
-
-        if(this.iGame.playerHasDoubledDown){  //dd button showtoggle
+        if(this.gameState.playerHasDoubledDown){  //dd button showtoggle
+          this.ddCollapse=true;
+        } else {
           this.ddCollapse=false;
         }
+
+      }
         //seperate condition for DD
     } else {
 
       this.hitStayButtonCollapse=false
-      if(this.iGame.playerHasDoubledDown){        //this block eliminates all player input buttons when turn ends
-        this.ddCollapse = false
-      }
-      switch(this.iGame.gameState){
+      this.ddCollapse = false
+      switch(this.gameState.gameState){
         case 0: //dealer turn
           //update dealer hand vlaues
             
-          
+          this.hit();
           
           //this is where dealer draws
           // player buttons no longer visible
           break;
         case 1: //player wins
-          this.displayMessage = "You Won!"
-
-         if (this.iGame.playerTotal=21){    //if player has black jack display "black jack message"
-           this.displayMessage = "You Won with BlackJack!"
-         }
-
+          if(this.gameState.playerHasBlackJack){
+            this.displayMessage = "You Won with BlackJack!"
+          }else{
+            this.displayMessage = "You Won!"
+          }
+          if(this.gameState.isDealerBust)
+          {
+            this.dealerMessage = "Dealer Bust"
+          }
           //dealer stops drawing
           
           break;
@@ -364,7 +396,7 @@ updateView(){
           this.displayMessage = "You Lost!"
 
 
-          if(this.iGame.dealerTotal=21){//if dealer total is 21, show dealer blackjack message
+          if(this.gameState.dealerTotal=21){//if dealer total is 21, show dealer blackjack message
             this.displayMessage="You Lost! Dealer BlackJack!"
           }
            
