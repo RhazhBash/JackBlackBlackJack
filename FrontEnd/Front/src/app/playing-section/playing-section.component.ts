@@ -7,6 +7,7 @@ import { isDelegatedFactoryMetadata } from '@angular/compiler/src/render3/r3_fac
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { TransferService } from '../services/game-bet.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 //import { callbackify } from 'util';
 
@@ -67,10 +68,11 @@ export class PlayingSectionComponent implements OnInit {
 
 
 
-  constructor(public cardService: CardComponent, public pileService: PileService, public deckService: DeckService, public transferService: TransferService) {
-    this.iGame = <IGame>{};
-  }
+ 
 
+  constructor(public cardService:CardComponent, public pileService:PileService, public deckService:DeckService, public transferService:TransferService, private router: Router) {
+    this.iGame=<IGame>{};
+   }
 
 
 
@@ -416,13 +418,52 @@ export class PlayingSectionComponent implements OnInit {
     this.hit();
   }
 
-  exitGame(): void {
+    exitGame():void{
+      //send bank to back end?
+      this.router.navigate(['/']) 
+    }
 
-  }
+    restartGame():void{
+      this.displayMessage=''
+      this.pushMessage='No one wins and you get your chips back.'
+      this.ddCollapse=false;
+      this.hitStayButtonCollapse=false;
 
-  restartGame(): void {
-
-  }
+      //item:any
+      //gameState:any 
+      this.freeBoolean = false
+      this.bank = 1000
+      this.deckID=""
+      this.playerHand=[]
+      this.dealerHand=[]
+      this.newCard=""
+      this.parsed_NewCard=[]
+      this.parsed_Cards=''
+      this.newCardCode=''
+      this.cardsSubCat=[]
+      this.cardValue=''
+      this.preDeck=false
+      //this.cardSource.asObservable();
+      this.allCards=[]
+      this.playerSingleCard1=''
+      this.playerSingleCard2=''
+      this.playerSingleCardImage=''
+      this.playerSingleCardImage=''
+      this.dealerSingleCard1=''
+      this.dealerSingleCard2=''
+      this.dealerSingleCardImage=''
+      this.dealerSingleCardImage2=''
+      this.bet = 0
+      this.response=null;
+      this.allCardStats=null;
+      this.dealermessage=''
+      this.cardImageArray=[]
+      this.cardValueArray=[]
+      this.cardImage=''
+      this.cardPool=[] 
+      //here we need to toggle betting section back on,
+      // but the div that the deal button is in no longer exists
+    }
 
 
 
