@@ -1,13 +1,13 @@
 
 
 <span>
-    <button class="Hit" (click)="hit()" [disable]="hitStayButtonCollapse">Hit</button>
+    <button class="Hit" (click)="hit()" [attr.disable]="hitStayButtonCollapse">Hit</button>
 </span>
 <span>
-    <button class="dd" (click)="dd()" [disable]="ddCollapse">Double Down</button>
+    <button class="dd" (click)="dd()" [attr.disable]="ddCollapse">Double Down</button>
 </span>
 <span>
-    <button class="Stay" (click)="stay()" [disable]="hitStayButtonCollapse">Stay</button>
+    <button class="Stay" (click)="stay()" [attr.disable]="hitStayButtonCollapse">Stay</button>
 </span>
 <span>
     <button class="exitGame" (click)="exitGame()" *ngIf="gameState.gameState != 0">exit</button>
@@ -20,7 +20,7 @@
     <img src={{this.playerSingleCardImage2}} alt="">  
     <img src="{{this.playerSingleCardImage}}" alt="">
     
-    <img *ngFor="let cardImage of this.deckService.cardImageArray" src="{{cardImage}}">
+    <img *ngFor="let cardImage of this.cardImageArray" src="{{cardImage}}">
 
     <p>Dealer</p>
     <img src="../../assets/card-back.png" alt="">  
