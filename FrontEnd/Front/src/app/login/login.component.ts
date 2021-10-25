@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
     Emitters.authEmmitter.emit(true);
     console.log("user auth successful");
     localStorage.setItem('username', this.form.controls['username'].value)
-    localStorage.setItem('password', this.form.controls['password'].value)
+    //localStorage.setItem('password', this.form.controls['password'].value)
     this.router.navigate(['/'])  
   } else{
     Emitters.authEmmitter.emit(false);
