@@ -1,41 +1,53 @@
+<div class="container">
 
 
-<span>
+
     <button class="Hit" (click)="hit()" *ngIf="!hitStayButtonCollapse || this.playState==2">Hit</button>
-</span>
-<span>
+
+
     <button class="dd" (click)="dd()" *ngIf="!ddCollapse || this.playState ==2">Double Down</button>
-</span>
-<span>
+
+
     <button class="Stay" (click)="stay()" *ngIf="!hitStayButtonCollapse || this.playState ==2">Stay</button>
-</span>
-<span>
-    <button class="exitGame" (click)="exitGame()" *ngIf="this.playState != 0">exit</button>
-</span>
+
+
+    <button class="exitGame" (click)="exitGame()" *ngIf="this.playState != 0">Exit Game</button>
+
 
 <span *ngIf="this.playState !=0" style="left:50%;">
-    <p *ngIf="this.gameState.playerTotal>this.gameState.dealerTotal && this.playState !=0 && this.gameState.playerTotal < this.tt">You won!</p>
-    <p *ngIf="this.gameState.playerTotal > tt">You Busted!</p>
-    <p *ngIf="this.gameState.dealerTotal>=this.gameState.playerTotal && this.playState != 0 ">You Lost!</p>
+    <p class="endingmessage" *ngIf="this.gameState.playerTotal>this.gameState.dealerTotal && this.playState !=0 && this.gameState.playerTotal < this.tt">You won!</p>
+    <p class="endingmessage" *ngIf="this.gameState.playerTotal > tt">You Busted!</p>
+    <p class="endingmessage" *ngIf="this.gameState.dealerTotal > tt">You Won!</p>
+    <p class="endingmessage" *ngIf="this.gameState.dealerTotal>=this.gameState.playerTotal && this.playState != 0 ">You Lost!</p>
+    <div class="container d flex"id="dealerTotal">
+        <p class="endingmessage">Dealer Total is:</p>
+        <p class="endingmessage" *ngIf="freeBoolean">{{this.gameState.dealerTotal}}</p>
+    
+    </div>
+
 </span>
 
-<div class="container d flex">
+
+
+<div class="container d flex" id="playerCards">
+    <p>Dealer</p>
+    <img style="top:40%" src="../../assets/card-back.png" alt="">  
+    <img src="{{this.dealerSingleCardImage}}" alt="">
+    <img  src="{{this.dealerCardImage}}" alt="">
+
+
+
     <p *ngIf="freeBoolean">{{this.gameState.playerTotal}}</p>
-    <img src={{this.playerSingleCardImage2}} alt="">  
-    <img src="{{this.playerSingleCardImage}}" alt="">
+    <img id="playerSingleCardImage2" src={{this.playerSingleCardImage2}} alt="">  
+    
+    <img id = "playerSingleCardImage" src="{{this.playerSingleCardImage}}" alt="">
     
     <img *ngFor="let cardImage of this.cardImageArray" src="{{cardImage}}">
 
-    <p>Dealer</p>
-    <img src="../../assets/card-back.png" alt="">  
-    <img src="{{this.dealerSingleCardImage}}" alt="">
-    <p>"THE DISPLAY MESSAGE" +{{this.displayMessage}}</p>
-    <p>{{dealermessage}} + dealer message</p>
+    
+    
     <!--<img *ngFor="let cardImage of this.deckService.cardImageArray" src="{{cardImage}}">-->
 
 </div>
-<div class="container d flex">
-    <p>Dealer Total is:</p>
-    <p *ngIf="freeBoolean">{{this.gameState.dealerTotal}}</p>
 
 </div>

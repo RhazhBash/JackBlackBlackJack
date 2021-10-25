@@ -1,17 +1,22 @@
 
+    <span class="container"id="chipSpan" style="display: inline;">
+        <div>
+            <p>Total Bet:{{pot}}</p>
+            <p></p>
+        </div>
+        <button class ="chips" id="Chip_1" (click)=addChipsToBet(1)></button>
+        <button class ="chips" id="Chip_5" (click)=addChipsToBet(5)></button>
+        <button class ="chips" id="Chip_10"(click)=addChipsToBet(10)></button>
+        <button class ="chips" id="Chip_25"(click)=addChipsToBet(25)></button>
+        <button class ="chips" id="Chip_100"(click)=addChipsToBet(100)></button>
+    </span>
 
 
-<span class="container"id="chipSpan" style="display: inline;">
-    <div>
-        <p>Total Bet:{{pot}}</p>
-        <p></p>
-    </div>
-    <button class ="chips" id="Chip_1" (click)=addChipsToBet(1)>1</button>
-    <button class ="chips" id="Chip_5" (click)=addChipsToBet(5)>5</button>
-    <button class ="chips" id="Chip_10"(click)=addChipsToBet(10)>10</button>
-    <button class ="chips" id="Chip_25"(click)=addChipsToBet(25)>25</button>
-    <button class ="chips" id="Chip_100"(click)=addChipsToBet(100)>100</button>
-</span>
+
+
+
+
+
 
 
 

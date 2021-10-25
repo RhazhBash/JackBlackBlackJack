@@ -27,10 +27,10 @@ export class PlayingSectionComponent implements OnInit {
   public hitStayButtonCollapse: boolean = false;
   public subscription: Subscription = new Subscription;
   public item: any
-  pot: number = 0
+  
   public gameState: any
   public freeBoolean: boolean = false
-  bank: number = 1000
+  bank: number = this.transferService.bank
   public deckID: string = ''
   public playerHand: string[] = []
   public playerSplitHand: string[] = []
@@ -62,12 +62,14 @@ export class PlayingSectionComponent implements OnInit {
   public allCardStats: any
   public dealermessage: string = ''
   public cardImageArray: string[] = []
+  public dealerCardImageArray:string[] = []
   public cardValueArray: string[] = []
   public cardImage: string = ''
   public cardPool: string[] = []
   public mainCardPoolIndex:number =14
   public playState:number=0
   public tt:number=21
+  public dealerCardImage:string=''
 
 
 
@@ -321,11 +323,18 @@ export class PlayingSectionComponent implements OnInit {
           this.playState=3//player blackjack
           this.hitStayButtonCollapse = !this.hitStayButtonCollapse
           this.ddCollapse = !this.ddCollapse
+          this.transferService.bank = this.transferService.payout
         }
         if(this.gameState.dealerTotal >21){
           this.playState = 4 //dealer bust
           this.hitStayButtonCollapse = !this.hitStayButtonCollapse
           this.ddCollapse = !this.ddCollapse
+          this.transferService.bank = this.transferService.payout
+        }
+        if(this.playState != 0){
+          if (this.gameState.dealerTotal > this.gameState.playertotal){
+            this.transferService.bank = this.transferService.payout
+          }
         }
       })
       .catch(error => {
@@ -354,13 +363,18 @@ dealerHit(){
   console.log(this.playState)
     if (this.gameState.dealerTotal<17){
       this.dealerHand.push(this.allCards[this.mainCardPoolIndex])
+      
       this.mainCardPoolIndex--
       this.sendBackEndInfo()
+
+      
+    }
+   
+
+    
       console.log(this.gameState.dealerTotal + "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
       console.log(this.playState)
-    }
- 
-       
+    //this.dealerCardImageArray
       console.log(this.dealerHand)
       console.log(this.gameState.dealerTotal)
     } 
@@ -452,11 +466,17 @@ dealerHit(){
 
   }
 
-  async dd() {
-    console.log(this.transferService)
+  dd() {
+    console.log(this.transferService.bet)
     this.transferService.subtractBank(this.transferService.bet*=2)
+    console.log(this.bank)
+    console.log(this.transferService.bet + "the value being sub")
+    this.bank = this.bank - (this.transferService.getBet() + this.transferService.getBet())
+    this.transferService.bank = this.bank
+    console.log(this.bank + "this is post sub")
+    console.log(this.bank)
     //this.transferService.setBet(this.transferService.bet *= 2);
-    let packageToSend: any = {};
+   /* let packageToSend: any = {};
     packageToSend.JWT = localStorage.getItem("id_token");
     packageToSend.deckID = this.deckID;
     const http = new XMLHttpRequest();
@@ -468,7 +488,7 @@ dealerHit(){
       } else {
         console.log("doubledown request unsuccessful");
       }
-    }
+    }*/
     this.hit();
   }
 

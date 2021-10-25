@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+//import { Router } from '@angular/router';
 import { CardComponent } from '../card/card/card.component';
 import { DeckService } from '../deck.service';
 import { PileService } from '../pile.service';
@@ -15,7 +15,7 @@ export class GameplayviewComponent implements OnInit {
   isCollapsed: boolean =true;
   bet:number = 0;
   
-  constructor(public deckService:DeckService, public transferService:TransferService, private router:Router, public cardService:CardComponent, public pileService:PileService) { }
+  constructor(public deckService:DeckService, public transferService:TransferService, public cardService:CardComponent, public pileService:PileService) { }
   
   toggleCollapse(){
     this.isCollapsed = !this.isCollapsed;
