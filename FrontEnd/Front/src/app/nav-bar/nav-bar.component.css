@@ -20,9 +20,9 @@ span.RulesSpan{
 }
 
 button{
-    background-color: green;
-    border-radius: 33%;
-    padding: 15px 32px;
+    
+    border-radius: 0%;
+    padding: 8px 16px;
     text-align: center + 10px;
     font-size: 16px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -45,6 +45,10 @@ button{
     top: 20%;
     position: absolute;
     z-index: 5;
+}
+
+#right{
+    left: 80px;
 }
 
 

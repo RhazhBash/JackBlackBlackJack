@@ -11,6 +11,6 @@ export class UserService {
   constructor(private http:HttpClient) { }
 
   getUser(): Observable<IUser>{
-    return this.http.post<IUser>('http://localhost:8090/user/login', localStorage.getItem("id_token"))
+    return this.http.post<IUser>('http://localhost:8090/user/get', localStorage.getItem("username"))
   }
 }
