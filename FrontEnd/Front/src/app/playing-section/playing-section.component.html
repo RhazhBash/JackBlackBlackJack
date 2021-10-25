@@ -1,16 +1,22 @@
 
 
 <span>
-    <button class="Hit" (click)="hit()">Hit</button>
+    <button class="Hit" (click)="hit()" [disable]="hitStayButtonCollapse">Hit</button>
 </span>
 <span>
-    <button class="dd" (click)="dd">Double Down</button>
+    <button class="dd" (click)="dd()" [disable]="ddCollapse">Double Down</button>
 </span>
 <span>
-    <button class="Stay" (click)="stay">Stay</button>
+    <button class="Stay" (click)="stay()" [disable]="hitStayButtonCollapse">Stay</button>
+</span>
+<span>
+    <button class="exitGame" (click)="exitGame()" *ngIf="gameState.gameState != 0">exit</button>
+</span>
+<span>
+    <button class="restartGame" (click)="restartGame()" *ngIf="gameState.gameState != 0">play again</button>
 </span>
 <div class="container d flex">
-    <p>{{this.iGame.playerTotal}}</p>
+    <p *ngIf="freeBoolean">{{this.gameState.playerTotal}}</p>
     <img src={{this.playerSingleCardImage2}} alt="">  
     <img src="{{this.playerSingleCardImage}}" alt="">
     
@@ -25,6 +31,6 @@
 </div>
 <div class="container d flex">
     <p>Dealer Total is:</p>
-    <p>{{this.iGame.dealerTotal}}</p>
+    <p *ngIf="freeBoolean">{{this.gameState.dealerTotal}}</p>
 
 </div>
