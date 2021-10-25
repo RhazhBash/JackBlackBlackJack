@@ -131,6 +131,13 @@ public class User {
 
 	
 
+	public User(String name, String username, int chipCount) {
+		super();
+		this.name = name;
+		this.username = username;
+		this.chipCount = chipCount;
+	}
+
 	public User(int iD, String name, String username, int chipCount) {
 		super();
 		ID = iD;

@@ -7,6 +7,7 @@ import { RulesPopUpComponent } from './rules-pop-up/rules-pop-up.component';
 import { PregameViewComponent } from './pregame-view/pregame-view.component';
 import { AccountComponent } from './account/account.component';
 import { AccountViewComponent } from './account-view/account-view.component';
+import { SendchipsComponent } from './sendchips/sendchips.component';
 
 const routes: Routes = [
   {path:'', component: PregameViewComponent},
@@ -15,8 +16,8 @@ const routes: Routes = [
   {path: 'gameplay', component: GameplayviewComponent},
   {path: 'preGame', component: PregameViewComponent},
   {path: 'acctChange', component: AccountComponent},
-  {path: 'account', component: AccountViewComponent}
-  
+  {path: 'account', component: AccountViewComponent},
+  {path: 'sendChips', component: SendchipsComponent}
 ];
 
 @NgModule({
