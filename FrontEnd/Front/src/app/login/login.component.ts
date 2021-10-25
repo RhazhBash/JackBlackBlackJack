@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+//import { stringify } from 'querystring';
 import { Observable } from 'rxjs';
 import { Emitters } from '../emitters';
 
@@ -44,6 +45,8 @@ export class LoginComponent implements OnInit {
   if (authResult){
     Emitters.authEmmitter.emit(true);
     console.log("user auth successful");
+    localStorage.setItem('username', this.form.controls['username'].value)
+    localStorage.setItem('password', this.form.controls['password'].value)
     this.router.navigate(['/'])  
   } else{
     Emitters.authEmmitter.emit(false);

@@ -26,9 +26,11 @@ export class AccountViewComponent implements OnInit {
     //.subscribe(user => this.acountView(user))
     this.userService.getUser()
       .subscribe(data => this.user = data)
+      console.log(localStorage.getItem("username"))
   }
 
   acountView(userInfo:any){
-
+    console.log(userInfo)
+    
   }
 }

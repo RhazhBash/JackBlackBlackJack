@@ -129,6 +129,14 @@ public class User {
 		this.password = password;
 	}
 
+	public User(String name, String username, String email, int chipCount) {
+		super();
+		this.name = name;
+		this.username = username;
+		this.email = email;
+		this.chipCount = chipCount;
+	}
+
 	@Override
 	public String toString() {
 		return "User [ID=" + ID + ", name=" + name + ", registered=" + registered + ", username=" + username
