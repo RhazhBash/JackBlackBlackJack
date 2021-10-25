@@ -129,11 +129,13 @@ public class User {
 		this.password = password;
 	}
 
-	public User(String name, String username, String email, int chipCount) {
+	
+
+	public User(int iD, String name, String username, int chipCount) {
 		super();
+		ID = iD;
 		this.name = name;
 		this.username = username;
-		this.email = email;
 		this.chipCount = chipCount;
 	}
 

@@ -1,13 +1,13 @@
 
 
 <span>
-    <button class="Hit" (click)="hit()" [disable]="hitStayButtonCollapse">Hit</button>
+    <button class="Hit" (click)="hit()" >Hit</button>
 </span>
 <span>
-    <button class="dd" (click)="dd()" [disable]="ddCollapse">Double Down</button>
+    <button class="dd" (click)="dd()" >Double Down</button>
 </span>
 <span>
-    <button class="Stay" (click)="stay()" [disable]="hitStayButtonCollapse">Stay</button>
+    <button class="Stay" (click)="stay()" >Stay</button>
 </span>
 <span>
     <button class="exitGame" (click)="exitGame()" *ngIf="gameState.gameState != 0">exit</button>
