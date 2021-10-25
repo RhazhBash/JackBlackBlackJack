@@ -97,67 +97,67 @@ public class Game {
 	
 	//Game has concluded, player hasn't busted, game isn't push, player has higher score or dealer busted
 	public boolean hasPlayerWon() {
-		playerHasWon = 
-				((isGameConcluded()) &&
-				(!isPlayerBust())    &&
-				(!isGamePush())	     &&
-				(isPlayerWinning())  );
+		this.playerHasWon = 
+				((this.isGameConcluded()) &&
+				(!this.isPlayerBust())    &&
+				(!this.isGamePush())	     &&
+				(this.isPlayerWinning())  );
 		
 //		System.out.println("IsGameConcluded: " + isGameConcluded() + 
 //						   " !isPlayerBust: " + !isPlayerBust() +
 //						   " !isGamePush: " + !isGamePush() +
 //						   " isPlayerWinning: " + isPlayerWinning());
-		return playerHasWon;
+		return this.playerHasWon;
 	}
 	
 	public boolean isGameConcluded() {
-		return (isDealerBust() ||
-				isPlayerBust() ||
-				isPlayerStanding() );
+		return (this.isDealerBust() ||
+				this.isPlayerBust() ||
+				this.isPlayerStanding() );
 	}
 	
 	
 	//If the player and dealer both stand without busting check if their hands are equal
 	public boolean isGamePush() { 
-		if (isPlayerStanding && isDealerStanding) {
-			isGamePush = (playerTotal == dealerTotal);
+		if (this.isPlayerStanding && this.isDealerStanding) {
+			this.isGamePush = (this.playerTotal == this.dealerTotal);
 		}
-		return isGamePush;
+		return this.isGamePush;
 		
 	}
 	
 	//checks if player has higher score and isn't bust, or if dealer has busted and player hasn't
 	public boolean isPlayerWinning() {
-		isPlayerWinning = false;
-		if ( (playerTotal > dealerTotal) && 
+		this.isPlayerWinning = false;
+		if ( (this.playerTotal > this.dealerTotal) && 
 			(!isPlayerBust() )) {
-			isPlayerWinning = true;
+			this.isPlayerWinning = true;
 		}
 		if (isDealerBust() && 
 			!isPlayerBust()) {
-			isPlayerWinning = true;
+			this.isPlayerWinning = true;
 		}
-		return isPlayerWinning;
+		return this.isPlayerWinning;
 	}
 	
 	//0-Ongoing, 1-Player wins, 2-Player loses by busting, 3-Dealer has a higher total than player, 4-Push
 	
 	public int gameState() {
 		
-		if (isPlayerBust()) {
+		if (this.isPlayerBust()) {
 			return 2;
 		}
 		
-		if (isGamePush() ){
+		if (this.isGamePush() ){
 			return 4;
 		}
 		
-		if ((dealerTotal > playerTotal) && isPlayerStanding && (!isDealerBust())) {
+		if ((this.dealerTotal > this.playerTotal) && this.isPlayerStanding && (!this.isDealerBust())) {
 			return 3;
 		}
 		
-		if (isPlayerWinning() ) {
-			if (isDealerStanding()) {
+		if (this.isPlayerWinning() ) {
+			if (this.isDealerStanding()) {
 				return  1;
 			}
 		}
@@ -174,14 +174,14 @@ public class Game {
 	
 	//Add a card to players hand, adjust player total
 	public void hitPlayer(String newCard) {
-		playerHand.add(newCard);
-		playerTotal = getHandValue(playerHand);
-		isPlayerBust();
+		this.playerHand.add(newCard);
+		this.playerTotal = this.getHandValue(this.playerHand);
+		this.isPlayerBust();
 	}
 	
 	//End players turn
 	public void stand() {
-		isPlayerStanding = true;
+		this.isPlayerStanding = true;
 	}
 
 	//Set betting amount
@@ -190,13 +190,13 @@ public class Game {
 	}
 	
 	public boolean isPlayerBust() {
-		isPlayerBust = (playerTotal > 21);
-		return isPlayerBust;
+		this.isPlayerBust = (this.playerTotal > 21);
+		return this.isPlayerBust;
 	}
 
 	public boolean playerHasBlackJack() {
-		playerHasBlackJack = (playerTotal == 21);
-		return playerHasBlackJack;
+		this.playerHasBlackJack = (this.playerTotal == 21);
+		return this.playerHasBlackJack;
 	}
 	
 	
@@ -206,26 +206,26 @@ public class Game {
 	//DEALER LOGIC
 
 	public void hitDealer(String newCard) {
-		dealerHand.add(newCard);
-		dealerTotal = getHandValue(dealerHand);
-		isDealerStanding();
-		isDealerBust();
+		this.dealerHand.add(newCard);
+		this.dealerTotal = getHandValue(dealerHand);
+		this.isDealerStanding();
+		this.isDealerBust();
 		
 	}
 	
 	public boolean isDealerBust() {
-		isDealerBust = (dealerTotal > 21);
-		return isDealerBust;
+		this.isDealerBust = (dealerTotal > 21);
+		return this.isDealerBust;
 	}
 	
 	private boolean isDealer21() {
-		return (dealerTotal == 21);
+		return (this.dealerTotal == 21);
 	}
 	
 	public boolean isDealerStanding() {
-		isDealerStanding = (dealerTotal > 16);
+		this.isDealerStanding = (this.dealerTotal > 16);
 		//System.out.println("dealer total: " + dealerTotal);
-		return isDealerStanding;
+		return this.isDealerStanding;
 	}
 
 

@@ -32,6 +32,7 @@ export class BettingSectionComponent implements OnInit {
   public item:string=''
   private url: string = "http://deckofcardsapi.com/api/deck/"
   public playerSingleCardImage2:string=''
+  private readonly serverURLbase: string = "http://localhost:8090/";
   
 
 
@@ -40,6 +41,7 @@ export class BettingSectionComponent implements OnInit {
     
     console.log(this.pot)
         this.transferService.setBet(this.pot)
+        //this.transferService.subtractBank(this.pot)
         
   
       }
@@ -50,16 +52,18 @@ export class BettingSectionComponent implements OnInit {
   
   
   ngOnInit():void {
-  
+    
   }
   addChipsToBet(num:number){
       this.pot += num; 
       this.transferService.setBet(this.pot)
-      this.changeBank(num);
+      this.transferService.subtractBank(num)
+      
   }
-  changeBank(num:number){
-    this.bank -= num;
-  }
+  
+
+
+
 
     
 

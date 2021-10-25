@@ -56,7 +56,7 @@ export class PlayingSectionComponent implements OnInit {
   public dealerSingleCardImage: string = ''
   public dealerSingleCardImage2: string = ''
   private readonly serverURLbase: string = "http://localhost:8090/";
-  public bet: number = 0
+  public bet:any
   public JWTToken: any = ''
   public response: any
   public allCardStats: any
@@ -65,6 +65,9 @@ export class PlayingSectionComponent implements OnInit {
   public cardValueArray: string[] = []
   public cardImage: string = ''
   public cardPool: string[] = []
+  public mainCardPoolIndex:number =14
+  public playState:number=0
+  public tt:number=21
 
 
 
@@ -184,7 +187,7 @@ export class PlayingSectionComponent implements OnInit {
 
           console.log("************************************************************")
           this.sendBackEndInfo()
-          this.updateView();
+          //this.updateView();
         }
 
       }
@@ -296,6 +299,7 @@ export class PlayingSectionComponent implements OnInit {
       }
 
     }
+
     let backEndInfo = new fullObject(this.JWTToken, this.bet, this.deckID, this.playerHand, this.dealerHand)
     
     fetch(`${this.serverURLbase}game/start`, { method: "POST", body: JSON.stringify(backEndInfo) })
@@ -307,12 +311,27 @@ export class PlayingSectionComponent implements OnInit {
         console.log(this.response)
         this.gameState = this.response
         this.freeBoolean = true
-
+        console.log(this.gameState.playerTotal)
+        if (this.gameState.playerTotal > 21){
+          this.playState = 2//player bust
+          this.hitStayButtonCollapse = !this.hitStayButtonCollapse
+          this.ddCollapse = !this.ddCollapse
+        }
+        if(this.gameState.playerTotal == 21){
+          this.playState=3//player blackjack
+          this.hitStayButtonCollapse = !this.hitStayButtonCollapse
+          this.ddCollapse = !this.ddCollapse
+        }
+        if(this.gameState.dealerTotal >21){
+          this.playState = 4 //dealer bust
+          this.hitStayButtonCollapse = !this.hitStayButtonCollapse
+          this.ddCollapse = !this.ddCollapse
+        }
       })
       .catch(error => {
         console.log(error)
 
-      });
+      }); 
     /*const Http = new XMLHttpRequest();
 
     console.log(backEndInfo)
@@ -327,8 +346,31 @@ export class PlayingSectionComponent implements OnInit {
     }
   }*/
   }
+dealerHit(){
+  this.hitStayButtonCollapse = !this.hitStayButtonCollapse
+  this.ddCollapse = !this.ddCollapse
+  this.playState =1
+  console.log(this.gameState.dealerTotal)
+  console.log(this.playState)
+    if (this.gameState.dealerTotal<17){
+      this.dealerHand.push(this.allCards[this.mainCardPoolIndex])
+      this.mainCardPoolIndex--
+      this.sendBackEndInfo()
+      console.log(this.gameState.dealerTotal + "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+      console.log(this.playState)
+    }
+ 
+       
+      console.log(this.dealerHand)
+      console.log(this.gameState.dealerTotal)
+    } 
+      
+    
+  
+
 
   hit() {
+    if (this.playState==0){
     const Http = new XMLHttpRequest();
     Http.open("GET", this.url + this.deckID + "/draw/" + "?count=1");        //
     Http.send();                                                          //this function draws a new card from the deck api 
@@ -366,10 +408,14 @@ export class PlayingSectionComponent implements OnInit {
         //  console.log(this.cardValueSplit)
         //console.log(this.cardValue) 
         this.sendBackEndInfo()
+        console.log(this.gameState.playerTotal)
         this.updateView()
+        
+
 
       }                                //using the deck_id from the original deck
     }
+  }
   }
 
 
@@ -397,11 +443,19 @@ export class PlayingSectionComponent implements OnInit {
 
 
   stay(): void {
+    this.gameState.isPlayersTurn = false
+    console.log("player stayed")
+    this.dealerHit()
+    
+
+    
 
   }
 
   async dd() {
-    this.bet *= 2;
+    console.log(this.transferService)
+    this.transferService.subtractBank(this.transferService.bet*=2)
+    //this.transferService.setBet(this.transferService.bet *= 2);
     let packageToSend: any = {};
     packageToSend.JWT = localStorage.getItem("id_token");
     packageToSend.deckID = this.deckID;

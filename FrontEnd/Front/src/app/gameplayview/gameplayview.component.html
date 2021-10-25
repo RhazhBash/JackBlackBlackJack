@@ -15,21 +15,16 @@
 
        <p class = "pot" *ngIf=!isCollapsed>Pot:</p>
 
-       <img class="card1" src="../../assets/card-back.png" alt="">
-       <img class="card2" src="../../assets/card-back.png" alt="">
-       <img class="card3" src="../../assets/card-back.png" alt="">
-       <img class="card4" src="../../assets/card-back.png" alt="">
-       <img class="card5" src="../../assets/card-back.png" alt="">
-       <img class="card6" src="../../assets/card-back.png" alt="">
-
+      
         <!--right cards above left cards below-->
 
-       <img class="card7" src="../../assets/card-back.png" alt="">
+        <img class="card7" src="../../assets/card-back.png" alt="">
        <img class="card8" src="../../assets/card-back.png" alt="">
        <img class="card9" src="../../assets/card-back.png" alt="">
        <img class="card10" src="../../assets/card-back.png" alt="">
        <img class="card11" src="../../assets/card-back.png" alt="">
        <img class="card12" src="../../assets/card-back.png" alt="">
+       
 
     </div>
 
@@ -51,7 +46,7 @@
         </div>
         
         
-        <p class = "bank">Bank: </p>
+        <p class = "bank">Bank:{{this.transferService.getBank()}} </p>
        
         
            

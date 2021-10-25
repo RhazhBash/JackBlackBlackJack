@@ -10,6 +10,8 @@ export class TransferService {
   public bet:number = 0
   public temp:number = 0;
   public startDeal:boolean=false
+  public bank:number=1000
+
   
   setBet(bet:number){
     this.bet = bet;
@@ -21,9 +23,25 @@ export class TransferService {
     this.clearBet();
     return temp;
   }
+  setBank(bank:number){
+    this.bank = bank
+  }
+
+  getBank(){
+    return this.bank
+  }
+  changeBank(bet:number){
+    this.bank = this.bank - bet
+  }
 
   clearBet(){
     this.bet = 0;
+  }
+  subtractBank(num:number){
+    this.bank -= num;
+  }
+  addBank(num:number){
+    this.bank += num;
   }
 
 }
