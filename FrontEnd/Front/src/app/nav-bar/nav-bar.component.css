@@ -29,9 +29,13 @@ button{
 }
 
 #fullbar{
-    background-color:rgb(190, 151, 100);
+    background-color:#ffffff;
     opacity: .90;
     z-index: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 .col-sm-4{
     border-radius: 30%;

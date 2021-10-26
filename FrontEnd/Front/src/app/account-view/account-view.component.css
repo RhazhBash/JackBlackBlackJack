@@ -2,18 +2,30 @@
     background-image: url(../../assets/bjbg3.jpg);
     position:center;
     background-size: cover;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
 }
 
 #info{
-    border-radius: 10%;
+    border-radius: 6px;
     position: relative;
-    top: 130px;
     margin: auto;
+    background-color: rgba(96, 175, 128, 0.94);
+}
 
-    background-color: hsla(36, 100%, 80%, 0.94);
-    width: 360px;
-    height: 400px;
-    
+#infoInner{
+    border-radius: 6px;
+    position: relative;
+    margin: auto;
+    background-color: #ffffff;
+}
+
+#acctViewButtons{
+    font-size:24px;
+    color:#ffffff;
+    background-color: #125a24;
+}
+
+#acctViewButtons:hover{
+    background-color: #03be03
 }

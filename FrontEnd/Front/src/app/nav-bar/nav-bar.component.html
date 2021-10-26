@@ -4,13 +4,13 @@
 <span style="display: inline;">
         <ul style="display: inline;" *ngIf="!authenticated">
                 <li style="display: inline;">
-                        <a routerLink="/" ><button type="button" class="btn btn-primary">Home</button> </a>
+                        <a routerLink="/" ><button type="button" class="btn btn-success">Home</button> </a>
                 </li>
                 <li style="display: inline;" >
-                        <a routerLink="/login" ><button type="button" class="btn btn-primary">Login</button> </a>
+                        <a routerLink="/login" ><button type="button" class="btn btn-success">Login</button> </a>
                 </li>
                 <li style="display: inline;">
-                        <a routerLink="/register" ><button type="button" class="btn btn-primary">Register</button></a>
+                        <a routerLink="/register" ><button type="button" class="btn btn-success">Register</button></a>
                 </li>
                 <li style="display: inline;">
                         {{message}}
@@ -19,13 +19,13 @@
 
         <ul style="display: inline;" *ngIf="authenticated">
                 <li style="display: inline;">
-                        <a routerLink="/" ><button type="button" class="btn btn-primary">Home</button> </a>
+                        <a routerLink="/" ><button type="button" class="btn btn-success">Home</button> </a>
                 </li>
                 <li style="display: inline;">
-                        <a routerLink="/account" ><button type="button" class="btn btn-primary">Account</button> </a>
+                        <a routerLink="/account" ><button type="button" class="btn btn-success">Account</button> </a>
                 </li>
                 <li style="display: inline;">
-                        <a routerLink="/" (click)="logout()"><button type="button" class="btn btn-primary">Logout</button></a>
+                        <a routerLink="/" (click)="logout()"><button type="button" class="btn btn-success">Logout</button></a>
                 </li>
                 <li style="display: inline;">
                         {{message2}}
