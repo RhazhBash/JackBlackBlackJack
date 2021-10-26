@@ -88,17 +88,15 @@ public class LoginController {
 	
 	public Handler getUserHandler = (ctx) -> {
 		
-		
-		
-			String jwt = gson.fromJson(ctx.body(), String.class);
-			
-			//String username = JWTUtil.decode(jwt);
-		
-			User user = ls.getUser(jwt);
-		
-			String JSONUser = gson.toJson(user);
-		
-			ctx.result(JSONUser);
+		String jwt = gson.fromJson(ctx.body(), String.class);
+
+        String username = JWTUtil.decode(jwt);
+
+        User user = ls.getUser(username);
+
+        String JSONUser = gson.toJson(user);
+
+        ctx.result(JSONUser);
 			
 	
 	};

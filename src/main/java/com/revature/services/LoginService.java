@@ -47,10 +47,10 @@ public class LoginService {
 	}
 	
 	public User getUser(String username) {
-		User user = udao.getUserByCredentials(username);
-		User userReturn = new User(user.getID(),user.getName(),user.getUsername(),user.getChipCount());
-		return userReturn;
-	}
+        User user = udao.getUserByCredentials(username);
+
+        return user;
+    }
 	
 	public void updateUser(User user) {
 		udao.updateUserInfo(user);
