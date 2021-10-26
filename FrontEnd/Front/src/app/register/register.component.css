@@ -15,3 +15,7 @@
 #registerSubmit:hover{
     background-color: #03be03
 }
+
+.form-signin{
+    width:600px;
+}
