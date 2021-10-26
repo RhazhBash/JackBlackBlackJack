@@ -5,15 +5,15 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.revature.models.Game;
 import com.revature.utils.HibernateUtil;
 
 public class GameDAO {
 	
-	//Logger log = LogManager.getLogger(GameDAO.class);
+	Logger log = LogManager.getLogger(GameDAO.class);
 
 	//This method can both add a new game to the database and update an existing game
 	//I'm keeping the name so I don't have to change it everywhere else
@@ -31,7 +31,7 @@ public class GameDAO {
 			tran.commit();
 
 			HibernateUtil.closeSession();
-		//	log.info("New game started");
+			log.info("New game started");
 		//}
 		//else
 		//	isSuccessful=false;
@@ -48,7 +48,7 @@ public class GameDAO {
 		Game game = ses.get(Game.class, id);
 		tran.commit();
 		HibernateUtil.closeSession();
-		//log.info("Game object retrieved from database");
+		log.info("Game object retrieved from database");
 		
 		return game;
 	}
@@ -70,6 +70,16 @@ public class GameDAO {
 			return false;
 		}
 		
+	}
+	
+	public void betterUpdateMethod(Game game) {
+		
+		Session ses = HibernateUtil.getSession();
+		Transaction tran = ses.beginTransaction();
+		
+		ses.merge(game);
+		tran.commit();
+		HibernateUtil.closeSession();
 	}
 	
 }

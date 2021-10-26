@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 
 import java.util.Date;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.revature.daos.QuoteDAO;
@@ -20,7 +20,7 @@ import io.javalin.http.Handler;
 
 public class LoginController {
 	
-	//Logger log = LogManager.getLogger(QuoteDAO.class);
+	Logger log = LogManager.getLogger(QuoteDAO.class);
 	LoginService ls = new LoginService();
 	Gson gson = new Gson();
 
@@ -43,14 +43,14 @@ public class LoginController {
 			ctx.req.getSession(); //req is a "Request Object", we establish sessions through it
 			
 			ctx.status(200).json(jwt);
-			///log.info("Successful login");
+			log.info("Successful login");
 			//ctx.result(jwt);
 			
 			
 		} else { //login fails...
 			ctx.status(401); //"unauthorized" status code
 			ctx.result("Login Failed! :(");
-			//log.info("Failed login attempt");
+			log.info("Failed login attempt");
 		}
 		
 		

@@ -3,8 +3,8 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -13,7 +13,7 @@ import com.revature.utils.HibernateUtil;
 
 public class userDAO{
 	
-	//Logger log = LogManager.getLogger(GameDAO.class);
+	Logger log = LogManager.getLogger(GameDAO.class);
 	
 	public User getUserByID(int id) { 
 		Session ses = HibernateUtil.getSession();
@@ -36,7 +36,7 @@ public class userDAO{
 		}
 		HibernateUtil.closeSession();
 		
-		//log.info("User retrieved from database");
+		log.info("User retrieved from database");
 		
 		return null;
 	}
@@ -61,7 +61,7 @@ public class userDAO{
 		tran.commit();
 		HibernateUtil.closeSession();
 		
-		//log.info("New user registered/Profile updated");
+		log.info("New user registered/Profile updated");
 		
 	}
 	
@@ -90,6 +90,6 @@ public class userDAO{
 		tran.commit();
 		HibernateUtil.closeSession();
 		
-		//log.info("User's chip count was updated");
+		log.info("User's chip count was updated");
 	}
 }

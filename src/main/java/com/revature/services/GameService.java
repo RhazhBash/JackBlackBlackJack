@@ -100,7 +100,7 @@ public class GameService {
 			game.setGameState(2);
 		}
 		
-		GDAO.newGame(game);
+		GDAO.betterUpdateMethod(game);
 		
 		return game;
 	}
@@ -148,7 +148,7 @@ public class GameService {
 			UDAO.addUser(user);
 		}
 		
-		GDAO.newGame(game);
+		GDAO.betterUpdateMethod(game);
 		
 		return game;
 	}
@@ -160,7 +160,7 @@ public class GameService {
 		game.setPlayerStanding(true);
 		game.setPlayersTurn(false);
 		
-		GDAO.newGame(game);
+		GDAO.betterUpdateMethod(game);
 		
 		return game;
 		
@@ -175,7 +175,7 @@ public class GameService {
 		game.setPlayerBet(bet);
 		game.setPlayerHasDoubledDown(true);
 		
-		GDAO.newGame(game);
+		GDAO.betterUpdateMethod(game);
 		
 		return game;
 		
