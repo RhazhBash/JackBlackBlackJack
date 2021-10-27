@@ -7,7 +7,7 @@ import { PlayingSectionComponent } from '../playing-section/playing-section.comp
 export class TransferService {
   constructor(){ }
 
-  public bet:any
+  public bet:number=0
   public temp:number = 0;
   public startDeal:boolean=false
   public bank:number=1000
@@ -23,7 +23,7 @@ export class TransferService {
   getBet(){
     let temp = this.bet;
     
-    this.clearBet();
+    
     return temp;
   }
   setBank(bank:number){

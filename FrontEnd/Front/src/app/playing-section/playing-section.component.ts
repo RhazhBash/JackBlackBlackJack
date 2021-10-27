@@ -8,6 +8,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { TransferService } from '../services/game-bet.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { HitService } from '../hit.service';
 
 //import { callbackify } from 'util';
 
@@ -75,7 +76,7 @@ export class PlayingSectionComponent implements OnInit {
 
  
 
-  constructor(public cardService:CardComponent, public pileService:PileService, public deckService:DeckService, public transferService:TransferService, private router: Router) {
+  constructor(public cardService:CardComponent, public pileService:PileService, public deckService:DeckService, public transferService:TransferService, private router: Router, private hitService:HitService) {
     this.iGame=<IGame>{};
    }
 
@@ -135,7 +136,7 @@ export class PlayingSectionComponent implements OnInit {
 
           console.log(playerCardValue)//code player card
           this.playerSingleCardImage = playerSingleCardValues[1]          //adding first player card img
-
+          
 
           /////////////////////////////////////////////////////player 1st card/////////////////////////////////////////////
 
@@ -186,7 +187,8 @@ export class PlayingSectionComponent implements OnInit {
           let dealerSingleCardValues2 = Object.values(dealerSingleCard2)  //value array of dealers second card
           let dealerCardValue2 = (Object.values(dealerSingleCardValues2))[0]///code of dealer 2nd card
           this.dealerSingleCardImage2 = dealerSingleCardValues2[1]          ////saving img of dealer card
-
+          this.cardImageArray = [this.playerSingleCardImage, this.playerSingleCardImage2]
+          console.log(this.cardImageArray)
           console.log("************************************************************")
           this.sendBackEndInfo()
           //this.updateView();
@@ -201,7 +203,8 @@ export class PlayingSectionComponent implements OnInit {
 
     //same with the dealer array
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    ///////////////////////////////////////.////////////////////////DO NOT DELETE THE FOLLOWING BLOCK///////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     let playerSingleCard: any = this.allCards[0]      //players first card OBJ
     console.log(playerSingleCard)
@@ -303,12 +306,12 @@ export class PlayingSectionComponent implements OnInit {
     }
 
     let backEndInfo = new fullObject(this.JWTToken, this.bet, this.deckID, this.playerHand, this.dealerHand)
-    
+    console.log(JSON.stringify(backEndInfo))
     fetch(`${this.serverURLbase}game/start`, { method: "POST", body: JSON.stringify(backEndInfo) })
       .then(response => response.json())
       .then(response => {
         console.log("success")
-
+        console.log(response)
         this.response = response
         console.log(this.response)
         this.gameState = this.response
@@ -323,18 +326,11 @@ export class PlayingSectionComponent implements OnInit {
           this.playState=3//player blackjack
           this.hitStayButtonCollapse = !this.hitStayButtonCollapse
           this.ddCollapse = !this.ddCollapse
-          this.transferService.bank = this.transferService.payout
         }
         if(this.gameState.dealerTotal >21){
           this.playState = 4 //dealer bust
           this.hitStayButtonCollapse = !this.hitStayButtonCollapse
           this.ddCollapse = !this.ddCollapse
-          this.transferService.bank = this.transferService.payout
-        }
-        if(this.playState != 0){
-          if (this.gameState.dealerTotal > this.gameState.playertotal){
-            this.transferService.bank = this.transferService.payout
-          }
         }
       })
       .catch(error => {
@@ -355,84 +351,79 @@ export class PlayingSectionComponent implements OnInit {
     }
   }*/
   }
-dealerHit(){
+async dealerHit(){
   this.hitStayButtonCollapse = !this.hitStayButtonCollapse
-  this.ddCollapse = !this.ddCollapse
-  this.playState =1
+  this.ddCollapse = true
+  
   console.log(this.gameState.dealerTotal)
   console.log(this.playState)
     if (this.gameState.dealerTotal<17){
-      this.dealerHand.push(this.allCards[this.mainCardPoolIndex])
-      
-      this.mainCardPoolIndex--
-      this.sendBackEndInfo()
-
-      
+      let dealerCard =await this.hitService.hitDealer(this.deckID)
+      console.log(dealerCard)
+      let tempCard =Object.values(dealerCard.cards)
+        let newCardAdd = tempCard[0]
+        this.dealerHand.push(newCardAdd as string)
+    }else{
+      this.gameState.gameState=1
     }
+        console.log(this.dealerHand)
+        console.log(this.JWTToken)
+        let newGameObject =await this.hitService.updateBackEndInfoDealer(this.JWTToken, this.bet, this.deckID, this.dealerHand, this.playerHand)
+        console.log(newGameObject)
+        this.gameState=newGameObject
+       // this.gameState=newGameObject
+        console.log(this.gameState)
+    
+      
+    
    
 
     
-      console.log(this.gameState.dealerTotal + "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+      console.log(this.gameState + "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
       console.log(this.playState)
     //this.dealerCardImageArray
       console.log(this.dealerHand)
       console.log(this.gameState.dealerTotal)
+      this.updateView()
     } 
       
     
   
 
 
-  hit() {
-    if (this.playState==0){
-    const Http = new XMLHttpRequest();
-    Http.open("GET", this.url + this.deckID + "/draw/" + "?count=1");        //
-    Http.send();                                                          //this function draws a new card from the deck api 
-    Http.onreadystatechange = (e) => {
-      if (Http.readyState == 4 && Http.status == 200) {
-        let newCard = Http.responseText                                  //
-        let parsed_NewCard = JSON.parse(newCard)
+  async hit() {
+    
+
+        console.log(this.playerHand)
+        console.log(this.deckID)
+        let newCard=await this.hitService.hitPlayer(this.deckID)
+        //let playerCardImg =playerCard[0]
+        let tempCard =Object.values(newCard.cards)
+        let newCardAdd = tempCard[0]
+        this.playerHand.push(newCardAdd as string)
+        //let temp = this.hitService.playerHand[0]
         console.log(newCard)
-        console.log(parsed_NewCard)                        //        this is to get the proper information
-        let deckID = parsed_NewCard.deck_id
-        console.log(deckID)
-        //        after hittng the deal button
-        this.allCardStats = parsed_NewCard.cards  //object of new card = all allCardStats
-        console.log(this.allCardStats)
-        this.cardValueArray = Object.values(this.allCardStats) //card by itself with cardValueArray
-        console.log(this.cardValueArray)
-
-        console.log(this.allCardStats[0])
-        let cardValueSplit = this.cardValueArray[0]
-        console.log(cardValueSplit)
-        this.cardValue = this.allCardStats[0].value
-        let cardImage = this.allCardStats[0].image
-        let cardCode = this.allCardStats[0].code
-        console.log(this.cardValue)
-        console.log(cardCode)
-        console.log(cardValueSplit)
-
-        this.cardImageArray.push(cardImage)
-        this.playerHand.push(cardValueSplit as unknown as string)
+        this.cardImageArray.push(this.hitService.newCardImg)
+       // console.log(Object.values(playerCard))
         
+        let newGameObject =await this.hitService.updateBackEndInfo(this.JWTToken, this.bet, this.deckID, this.dealerHand, this.playerHand)
+        console.log(newGameObject)
+        this.gameState=newGameObject
+        //this.cardImageArray.push(playerCard.image)
         console.log(this.cardImageArray)
-        // console.log(this.cardImage)
 
-        // console.log(this.cardValueArray) 
-        //  console.log(this.cardValueSplit)
-        //console.log(this.cardValue) 
-        this.sendBackEndInfo()
-        console.log(this.gameState.playerTotal)
-        this.updateView()
+        console.log(this.gameState)
+       // this.gameState=this.hitService.updateBackEndInfo(this.JWTToken, this.bet, this.deckID, newPlayerHand, this.dealerHand)
+       // console.log(this.gameState)
+      //  this.updateView()
         
-
+      this.updateView()
 
       }                                //using the deck_id from the original deck
-    }
-  }
-  }
+    
 
-
+     
+      
 
 
 
@@ -466,7 +457,10 @@ dealerHit(){
 
   }
 
-  dd() {
+  /*async dd() {
+    
+    this.ddCollapse = true
+    this.hitStayButtonCollapse = true
     console.log(this.transferService.bet)
     this.transferService.subtractBank(this.transferService.bet*=2)
     console.log(this.bank)
@@ -475,22 +469,16 @@ dealerHit(){
     this.transferService.bank = this.bank
     console.log(this.bank + "this is post sub")
     console.log(this.bank)
-    //this.transferService.setBet(this.transferService.bet *= 2);
-   /* let packageToSend: any = {};
-    packageToSend.JWT = localStorage.getItem("id_token");
-    packageToSend.deckID = this.deckID;
-    const http = new XMLHttpRequest();
-    http.open("POST", "http://localhost:8090/game/doubledown");
-    http.send(packageToSend);
-    http.onreadystatechange = (e) => {
-      if (http.readyState == 4 && http.status == 200) {
-        console.log("doubledown request successful");
-      } else {
-        console.log("doubledown request unsuccessful");
-      }
-    }*/
+   
+    
     this.hit();
-  }
+    this.dealerHit();
+    this.gameState = await this.hitService.updateBackEndInfo(this.JWTToken, this.bet, this.deckID, this.dealerHand, this.playerHand)
+    this.gameState.playerHa
+    console.log(this.gameState)
+    
+    this.updateView()
+  }*/
 
     exitGame():void{
       //send bank to back end?
@@ -542,7 +530,7 @@ dealerHit(){
 
 
 
-  updateView() {
+updateView() {
     /*playertotal
       dealertotal
       gameState(int)
@@ -565,72 +553,46 @@ dealerHit(){
    playercanDD = true (button shows)
    playerHasBlackJack = true (message displayed)
    dealerBust = true (bust message is shown)*/
+  
+ 
+  console.log(this.bank)
+  if (this.gameState.playerTotal == 21 && this.gameState.gameState==0){
+    this.ddCollapse = true
+    this.hitStayButtonCollapse = true
+    this.displayMessage="BlackJack"
+    let payout = (this.transferService.getBet()+this.transferService.getBet())
+    this.bank = this.bank + payout
+    this.transferService.bank = this.bank
+  }if(this.gameState.gameState!=0 && this.gameState.playerTotal<=this.gameState.dealertotal){
+    this.ddCollapse = true
+    this.hitStayButtonCollapse = true
+    this.displayMessage="You lost!"
+  }if(this.gameState.gameState!=0 && this.gameState.playertotal>this.gameState.playertotal){
+    this.ddCollapse = true
+    this.hitStayButtonCollapse = true
+    this.displayMessage="You won!"
+    let payout = (this.transferService.getBet()+this.transferService.getBet())
+    this.bank = this.bank + payout
+    this.transferService.bank = this.bank
+  }if(this.gameState.gameState==0 && this.gameState.dealerTotal==21){
+    this.ddCollapse = true
+    this.hitStayButtonCollapse = true
+    this.displayMessage="You lost!"
+  }if(this.gameState.playerTotal>21){
+    this.ddCollapse = true
+    this.hitStayButtonCollapse = true
+    this.displayMessage="You busted!"
+  }if(this.gameState.dealerTotal>21){
+    this.ddCollapse = true
+    this.hitStayButtonCollapse = true
+    let payout = (this.transferService.getBet()+this.transferService.getBet())
+    this.bank = this.bank + payout
+    this.transferService.bank = this.bank
+    this.displayMessage="You won!"
+  }
 
-
-    if (this.gameState.isPlayersTurn && this.gameState.gameState == 0) {
-      //where player can draw/ hit stand player buttons avail.
-      //update player hand values
-      this.hitStayButtonCollapse = false
-      if (this.playerHand.length < 3) {
-
-        if (this.gameState.playerHasDoubledDown) {  //dd button showtoggle
-          this.ddCollapse = true;
-        } else {
-          this.ddCollapse = false;
-        }
-
-      }
-      //seperate condition for DD
-    } else {
-
-      this.hitStayButtonCollapse = false
-      this.ddCollapse = false
-      switch (this.gameState.gameState) {
-        case 0: //dealer turn
-          //update dealer hand vlaues
-          this.displayMessage = "huosoaosoas"
-
-          this.hit();
-
-          //this is where dealer draws
-          // player buttons no longer visible
-          break;
-        case 1: //player wins
-          if (this.gameState.playerHasBlackJack) {
-            this.displayMessage = "You Won with BlackJack!"
-          } else {
-            this.displayMessage = "You Won!"
-          }
-          if (this.gameState.isDealerBust) {
-            this.dealermessage = "Dealer Bust"
-          }
-          //dealer stops drawing
-
-          break;
-        case 2:
-          this.displayMessage = "You Busted!"
-
-          //dealer stops drawing
-
-          break;
-
-        case 3:
-          this.displayMessage = "You Lost!"
-
-
-          if (this.gameState.dealerTotal = 21) {//if dealer total is 21, show dealer blackjack message
-            this.displayMessage = "You Lost! Dealer BlackJack!"
-          }
-
-          //dealer stops drawing 
-          break;
-
-        case 4:
-          this.displayMessage = "Push! " + this.pushMessage
-          //dealer stops drawing
-          break;
-      }
-    }
+    
+}
 
 
 
@@ -677,7 +639,7 @@ dealerHit(){
       //let tempNewCard =JSON.parse(this.deckService.allCardStats)
       console.log(this.deckService.cardValueSplit)
       */
-}
+
 
 function cardGen(): ((this: XMLHttpRequest, ev: Event) => any) | null {
   throw new Error('Function not implemented.');
